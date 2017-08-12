@@ -1,5 +1,7 @@
 # GitHub Notifications (same page pop-overs) | Chrome Extension
 
-> **WIP** :)
+#### WIP 
 
+![Image of Yaktocat](github-notification.gif)
+--------------------------
 > License: MIT
