@@ -2,6 +2,6 @@
 
 #### WIP 
 
-![Notification Preview Example](preview.gif)
+![Notification Preview Example](notification-preview-screenshot.PNG)
 --------------------------
 > License: MIT
