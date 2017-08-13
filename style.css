@@ -18,5 +18,5 @@
 }
 
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu .boxed-group {
-    margin-bottom: 0px;
+    margin-bottom: 20px;
 }
