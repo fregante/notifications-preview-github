@@ -2,6 +2,6 @@
 
 #### WIP 
 
-![Image of Yaktocat](github-notification.gif)
+![Notification Preview Example](preview.gif)
 --------------------------
 > License: MIT
