@@ -13,7 +13,7 @@
     	</div>
 		`);
 
-		$('#my-github-notification-list').load('/notifications .notifications-list')
+		// $('#my-github-notification-list').load('/notifications .notifications-list')
 	}
 
 	function createMutationOberserver(selector, callback) {
@@ -41,8 +41,11 @@
 	}
 
 	function handleCloseDropdown(classNames) {
-		if (classNames.indexOf("selected") === -1 && !unreadNotificationsAvailable) {
+		if (classNames.indexOf("selected") === -1) {
 			$('.notification-dropdown-ext-parent').remove();
+			if (unreadNotificationsAvailable) {
+				addNotificationsDropdown();
+			}
 		}
 	}
 
@@ -52,6 +55,11 @@
 			createMutationOberserver("a.notification-indicator span.mail-status", handleMarkAsRead);
 			createMutationOberserver("a.notification-indicator", handleCloseDropdown)
 		}
+
+		$(document).on('click', 'a.notification-indicator', function () {
+			$('#my-github-notification-list').append(`<div style="margin: 5px 0px">Loading notifications...</div>`)
+			$('#my-github-notification-list').load('/notifications .notifications-list')
+		});
 	});
 
 }(window.jQuery, window, document));
