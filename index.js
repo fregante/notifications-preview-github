@@ -57,8 +57,16 @@
 		}
 
 		$(document).on('click', 'a.notification-indicator', function () {
-			$('#my-github-notification-list').append(`<div style="margin: 5px 0px">Loading notifications...</div>`)
-			$('#my-github-notification-list').load('/notifications .notifications-list')
+
+			if ($('a.notification-indicator').has('span.mail-status.unread').length) {
+				if (!$('a.notification-indicator').hasClass('js-menu-target')) {
+					addNotificationsDropdown();
+				}
+				$('#my-github-notification-list').append(`<div class="loading-notification" style="margin: 3px 0px">Loading notifications...</div>`)
+				$('#my-github-notification-list').load('/notifications .notifications-list', function () {
+					$('#my-github-notification-list .loading-notification').remove();
+				})
+			}
 		});
 	});
 

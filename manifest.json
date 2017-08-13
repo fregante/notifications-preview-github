@@ -1,13 +1,14 @@
 {
   "update_url": "https://clients2.google.com/service/update2/crx",
   "name": "GitHub Notifications preview",
-  "version": "0.2.0",
+  "version": "0.2.7",
   "manifest_version": 2,
   "description": "GitHub Notifications preview with same page pop-over!",
   "icons": {},
   "content_scripts": [{
     "matches": ["http://*.github.com/*", "https://*.github.com/*"],
     "css": ["style.css"],
-    "js": ["jquery.js", "index.js"]
+    "js": ["jquery.js", "index.js"],
+    "run_at": "document_end"
   }]
 }
