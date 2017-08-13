@@ -1,4 +1,4 @@
-# GitHub Notifications (same page pop-overs) | Chrome Extension
+## GitHub Notifications Preview (same page pop-overs) | Chrome Extension
 
 #### WIP 
 
