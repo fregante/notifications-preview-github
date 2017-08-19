@@ -8,6 +8,11 @@
     color: inherit !important;
 }
 
+.user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu #my-github-notification-list {
+    padding: 2px 0;
+    max-height: 50%
+}
+
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu {
     color: rgb(36, 41, 46);
 }

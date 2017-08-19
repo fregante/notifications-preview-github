@@ -1,19 +1,21 @@
 (function ($, window, document) {
 	var unreadNotificationsAvailable = false;
+	var notificationHeight;
 
 	function addNotificationsDropdown() {
+		notificationHeight = $(window).height() * 2 / 3;
 		unreadNotificationsAvailable = true;
 		$('.notification-dropdown-ext-parent').remove();
-		$('a.notification-indicator').addClass('js-menu-target');
+		$('a.notification-indicator').addClass('js-menu-target-ext');
 		$('a.notification-indicator').parent().append(`
 		<div class="dropdown-menu-content js-menu-content notification-dropdown-ext-parent">
 			<ul class="dropdown-menu dropdown-menu-sw">
-				<div class="dropdown-item" id="my-github-notification-list"></div>	
+				<div class="dropdown-item" id="my-github-notification-list" 
+					 style="max-height: ${notificationHeight}px; overflow-y: auto">
+				</div>
 			</ul>
     	</div>
 		`);
-
-		// $('#my-github-notification-list').load('/notifications .notifications-list')
 	}
 
 	function createMutationOberserver(selector, callback) {
@@ -34,8 +36,8 @@
 	function handleMarkAsRead(classNames) {
 		if (classNames.indexOf("unread") === -1) {
 			unreadNotificationsAvailable = false;
-			$('a.notification-indicator').removeClass('js-menu-target');
-		} else if (!$('a.notification-indicator').hasClass('js-menu-target')) {
+			$('a.notification-indicator').removeClass('js-menu-target-ext');
+		} else if (!$('a.notification-indicator').hasClass('js-menu-target-ext')) {
 			addNotificationsDropdown();
 		}
 	}
@@ -49,23 +51,32 @@
 		}
 	}
 
-	$(function () {
+	$(() => {
 		if ($('a.notification-indicator').has('span.mail-status.unread').length) {
 			addNotificationsDropdown();
 			createMutationOberserver("a.notification-indicator span.mail-status", handleMarkAsRead);
 			createMutationOberserver("a.notification-indicator", handleCloseDropdown)
 		}
 
-		$(document).on('click', 'a.notification-indicator', function () {
+		$(document).on('mouseenter', 'a.notification-indicator', () => {
 
-			if ($('a.notification-indicator').has('span.mail-status.unread').length) {
-				if (!$('a.notification-indicator').hasClass('js-menu-target')) {
+			if ($('a.notification-indicator').has('span.mail-status.unread').length && !$('.notification-dropdown-ext-parent').is(':visible')) {
+				if (!$('a.notification-indicator').hasClass('js-menu-target-ext')) {
 					addNotificationsDropdown();
 				}
 				$('#my-github-notification-list').append(`<div class="loading-notification" style="margin: 3px 0px">Loading notifications...</div>`)
-				$('#my-github-notification-list').load('/notifications .notifications-list', function () {
+				$('#my-github-notification-list').load('/notifications .notifications-list', () => {
 					$('#my-github-notification-list .loading-notification').remove();
+					$('.notification-dropdown-ext-parent').show();
 				})
+			}
+		});
+
+		$(document).mouseup((e) => {
+			var container = $(".notification-dropdown-ext-parent");
+
+			if (!container.is(e.target) && container.has(e.target).length === 0) {
+				container.hide();
 			}
 		});
 	});

@@ -1,10 +1,13 @@
 {
   "update_url": "https://clients2.google.com/service/update2/crx",
-  "name": "GitHub Notifications preview",
-  "version": "0.2.8",
+  "name": "Notifications Preview for GitHub",
+  "homepage_url": "https://github.com/tanmayrajani/github-notifications-preview",
+  "version": "0.3.7",
   "manifest_version": 2,
-  "description": "GitHub Notifications preview with same page pop-over!",
-  "icons": {},
+  "description": "Notifications Preview for GitHub with same page pop-over!",
+  "icons": {
+    "128": "icons/128.png"
+  },
   "content_scripts": [{
     "matches": ["http://*.github.com/*", "https://*.github.com/*"],
     "css": ["style.css"],
