@@ -1,4 +1,4 @@
-## GitHub Notifications Preview (same page pop-overs) | Chrome Extension 
+## Notifications Preview for GitHub (same page pop-overs) | Chrome Extension 
 
 #### Install:
 - Install it from [Chrome Webstore](https://chrome.google.com/webstore/detail/github-notifications-prev/kgilejfahkjidpaclkepbdoeioeohfmj?hl=en&gl=IN)
