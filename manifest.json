@@ -2,7 +2,7 @@
   "update_url": "https://clients2.google.com/service/update2/crx",
   "name": "Notifications Preview for GitHub",
   "homepage_url": "https://github.com/tanmayrajani/github-notifications-preview",
-  "version": "0.3.7",
+  "version": "0.4.0",
   "manifest_version": 2,
   "description": "Notifications Preview for GitHub with same page pop-over!",
   "icons": {

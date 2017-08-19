@@ -19,10 +19,10 @@
 	}
 
 	function createMutationOberserver(selector, callback) {
-		var observer = new MutationObserver(function (mutations) {
+		let observer = new MutationObserver(function (mutations) {
 			mutations.forEach(function (mutation) {
 				if (mutation.attributeName === "class") {
-					var classNames = $(mutation.target).prop(mutation.attributeName).split(" ");
+					let classNames = $(mutation.target).prop(mutation.attributeName).split(" ");
 					callback(classNames);
 				}
 			});
@@ -59,21 +59,27 @@
 		}
 
 		$(document).on('mouseenter', 'a.notification-indicator', () => {
+			let notificationList = $('#my-github-notification-list');
 
 			if ($('a.notification-indicator').has('span.mail-status.unread').length && !$('.notification-dropdown-ext-parent').is(':visible')) {
+				notificationList.append(`<div class="loading-notification" style="margin: 3px 0px">Loading notifications...</div>`)
 				if (!$('a.notification-indicator').hasClass('js-menu-target-ext')) {
 					addNotificationsDropdown();
 				}
-				$('#my-github-notification-list').append(`<div class="loading-notification" style="margin: 3px 0px">Loading notifications...</div>`)
-				$('#my-github-notification-list').load('/notifications .notifications-list', () => {
+				notificationList.load('/notifications .notifications-list', () => {
 					$('#my-github-notification-list .loading-notification').remove();
 					$('.notification-dropdown-ext-parent').show();
+					if (notificationList[0].scrollHeight === notificationList[0].offsetHeight) {
+						notificationList.css("overflow-y", "hidden");
+					} else {
+						notificationList.css("overflow-y", "auto");
+					}
 				})
 			}
 		});
 
 		$(document).mouseup((e) => {
-			var container = $(".notification-dropdown-ext-parent");
+			let container = $(".notification-dropdown-ext-parent");
 
 			if (!container.is(e.target) && container.has(e.target).length === 0) {
 				container.hide();
