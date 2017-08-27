@@ -3,20 +3,11 @@ const select = (sel, el) => (el || document).querySelector(sel);
 select.all = (sel, el) => (el || document).querySelectorAll(sel);
 select.exists = (sel, el) => Boolean(select(sel, el));
 
-const fetchDocument = url => new Promise((resolve, reject) => {
-	const r = new XMLHttpRequest();
-	r.open('GET', url, true);
-	r.responseType = 'document';
-	r.onerror = reject;
-	r.onload = () => {
-		if (r.status >= 200 && r.status < 400) {
-			resolve(r.response);
-		} else {
-			reject(r.status);
-		}
-	};
-	r.send();
-});
+function domify(html) {
+	const temp = document.createElement('template');
+	temp.innerHTML = html;
+	return temp.content;
+}
 
 function empty(el) {
 	el.textContent = '';
@@ -58,7 +49,9 @@ async function openPopup() {
 	show(popup);
 
 	// Fetch the notifications
-	const notificationsPage = await fetchDocument('/notifications');
+	const notificationsPage = await fetch('/notifications', {
+		credentials: 'include'
+	}).then(r => r.text()).then(domify);
 	const notificationsList = select('.notifications-list', notificationsPage);
 	container.append(notificationsList);
 
