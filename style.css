@@ -1,3 +1,7 @@
+.notification-indicator {
+    position: relative;
+}
+
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu {
     width: 750px;
 }
