@@ -3,6 +3,23 @@ const select = (sel, el) => (el || document).querySelector(sel);
 select.all = (sel, el) => (el || document).querySelectorAll(sel);
 select.exists = (sel, el) => Boolean(select(sel, el));
 
+// Mini version of element-ready
+function elementReady(selector, fn) {
+	(function check() {
+		const el = document.querySelector(selector);
+
+		if (el) {
+			fn();
+		} else {
+			requestAnimationFrame(check);
+		}
+	})();
+}
+
+
+/**
+ * Utilities
+ */
 function domify(html) {
 	const temp = document.createElement('template');
 	temp.innerHTML = html;
@@ -22,6 +39,9 @@ function isHidden(el) {
 	return el.style.display !== 'block';
 }
 
+/**
+ * Extension
+ */
 function addNotificationsDropdown() {
 	if (select.exists('#NPG')) {
 		return;
@@ -78,7 +98,5 @@ function init() {
 
 // Init everywhere but on the notifications page
 if (!location.pathname.startsWith('/notifications')) {
-	// Automatically run at dom-ready thanks to run_at:document_idle in manifest.json
-	// https://developer.chrome.com/extensions/content_scripts#run_at
-	init();
+	elementReady('.notification-indicator', init);
 }
