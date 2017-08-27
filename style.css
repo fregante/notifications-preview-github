@@ -6,7 +6,7 @@
 }
 
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu {
-    right: -2px;
+    right: -1px;
 }
 
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu .dropdown-item:hover {
