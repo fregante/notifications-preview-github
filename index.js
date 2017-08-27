@@ -52,7 +52,7 @@
 	}
 
 	$(() => {
-		if($('.notification-indicator .unread').length === 0) {
+		if($('.notification-indicator .unread').length === 0 || location.pathname.startsWith('/notifications')) {
 			return;
 		}
 		
