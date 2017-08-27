@@ -1,27 +1,21 @@
-.user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu {
+#NPG-dropdown {
     width: 750px;
     border: none;
     padding: 2px 2px 3px;
-}
-
-.user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu {
+    color: rgb(36, 41, 46);
     right: -1px;
 }
 
-.user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu .dropdown-item:hover {
+#NPG-item:hover {
     background-color: inherit !important;
     text-decoration: none;
     color: inherit !important;
 }
 
-.user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu #my-github-notification-list {
+#NPG-item {
     padding: 0;
 }
 
-.user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu {
-    color: rgb(36, 41, 46);
-}
-
-.user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu .boxed-group {
+#NPG-item .boxed-group {
     margin-bottom: 0;
 }

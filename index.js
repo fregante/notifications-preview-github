@@ -5,12 +5,12 @@
 	function addNotificationsDropdown() {
 		notificationHeight = $(window).height() * 2 / 3;
 		unreadNotificationsAvailable = true;
-		$('.notification-dropdown-ext-parent').remove();
+		$('#NPG').remove();
 		$('a.notification-indicator').addClass('js-menu-target-ext');
 		$('a.notification-indicator').parent().append(`
-		<div class="dropdown-menu-content js-menu-content notification-dropdown-ext-parent">
-			<ul class="dropdown-menu dropdown-menu-sw">
-				<div class="dropdown-item" id="my-github-notification-list" 
+		<div id="NPG" class="dropdown-menu-content js-menu-content">
+			<ul id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw">
+				<div id="NPG-item" class="dropdown-item"
 					 style="max-height: ${notificationHeight}px; overflow-y: auto">
 				</div>
 			</ul>
@@ -59,16 +59,16 @@
 		}
 
 		$(document).on('mouseenter', 'a.notification-indicator', () => {
-			let notificationList = $('#my-github-notification-list');
+			let notificationList = $('#NPG-item');
 
-			if ($('a.notification-indicator').has('span.mail-status.unread').length && !$('.notification-dropdown-ext-parent').is(':visible')) {
+			if ($('a.notification-indicator').has('span.mail-status.unread').length && !$('#NPG').is(':visible')) {
 				notificationList.append(`<div class="loading-notification" style="margin: 3px 0px">Loading notifications...</div>`)
 				if (!$('a.notification-indicator').hasClass('js-menu-target-ext')) {
 					addNotificationsDropdown();
 				}
 				notificationList.load('/notifications .notifications-list', () => {
-					$('#my-github-notification-list .loading-notification').remove();
-					$('.notification-dropdown-ext-parent').show();
+					$('#NPG-item .loading-notification').remove();
+					$('#NPG').show();
 					notificationList.find('.paginate-container').remove();
 					if (notificationList[0].scrollHeight === notificationList[0].offsetHeight) {
 						notificationList.css("overflow-y", "hidden");
@@ -80,7 +80,7 @@
 		});
 
 		$(document).mouseup((e) => {
-			let container = $(".notification-dropdown-ext-parent");
+			let container = $("#NPG");
 
 			if (!container.is(e.target) && container.has(e.target).length === 0) {
 				container.hide();
