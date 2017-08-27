@@ -10,13 +10,6 @@
     overflow-y: auto;
     max-height: calc(100vh - 60px);
 }
-#NPG-item:empty:before {
-    content: "Loading notifications…";
-    padding: 10px;
-    display: block;
-    text-align: center;
-    animation: npg-pulse 1s infinite;
-}
 
 #NPG-item .boxed-group {
     margin-bottom: 20px;
@@ -26,9 +19,25 @@
     margin-bottom: 0;
 }
 
+.NPG-loading .octicon-bell {
+    transform-origin: top;
+    animation: npg-ding 0.5s infinite ease-out;
+}
+
 @keyframes npg-pulse {
     50% {
-        opacity : 0.5;
+        opacity: 0.5;
+    }
+}
+
+@keyframes npg-ding {
+    25% {
+        transform: rotate(10deg);
+        animation-timing-function: ease-in-out;
+    }
+    75% {
+        transform: rotate(-10deg);
+        animation-timing-function: ease-in;
     }
 }
 
