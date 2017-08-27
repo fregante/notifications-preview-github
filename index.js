@@ -52,7 +52,8 @@ function init() {
 	indicator.addEventListener('mouseenter', async () => {
 		const container = select('#NPG-item');
 
-		if (select.exists('.unread', indicator) && isHidden(select('#NPG'))) {
+		// The [data] attribute selector will not conflict with Refined GitHub
+		if (indicator.matches('[data-ga-click$=":unread"]') && isHidden(select('#NPG'))) {
 			empty(container);
 			show(select('#NPG'));
 
