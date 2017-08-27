@@ -2,6 +2,10 @@
     width: 750px;
 }
 
+.user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu {
+    right: -2px;
+}
+
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu .dropdown-item:hover {
     background-color: inherit !important;
     text-decoration: none;
