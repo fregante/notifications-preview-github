@@ -1,6 +1,3 @@
-.notification-indicator {
-    position: relative;
-}
 #NPG-dropdown {
     width: 750px;
     border: none;
@@ -17,6 +14,14 @@
 
 #NPG-item {
     padding: 0;
+    overflow-y: auto;
+}
+#NPG-item:empty:before {
+    content: "Loading notifications…";
+    padding: 10px;
+    display: block;
+    text-align: center;
+    animation: npg-pulse 1s infinite;
 }
 
 #NPG-item .boxed-group {
@@ -25,4 +30,15 @@
 
 #NPG-item .boxed-group:last-child {
     margin-bottom: 0;
+}
+
+@keyframes npg-pulse {
+    50% {
+        opacity : 0.5;
+    }
+}
+
+/* Disable native tooltip when it has unread notifications */
+.Header .notification-indicator[data-ga-click$=":unread"]:hover::after {
+    display: none;
 }

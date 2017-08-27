@@ -1,99 +1,116 @@
-(function ($, window, document) {
-	var unreadNotificationsAvailable = false;
-	var notificationHeight;
+// Mini version of select-dom
+const select = (sel, el) => (el || document).querySelector(sel);
+select.all = (sel, el) => (el || document).querySelectorAll(sel);
+select.exists = (sel, el) => Boolean(select(sel, el));
 
-	function addNotificationsDropdown() {
-		const $indicator = $('a.notification-indicator');
-		notificationHeight = $(window).height() * 2 / 3;
-		unreadNotificationsAvailable = true;
-		$('#NPG').remove();
-		$('a.notification-indicator').addClass('js-menu-target-ext');
-		$('a.notification-indicator').parent().append(`
+const fetchDocument = url => new Promise((resolve, reject) => {
+	const r = new XMLHttpRequest();
+	r.open('GET', url, true);
+	r.responseType = 'document';
+	r.onerror = reject;
+	r.onload = () => {
+		if (r.status >= 200 && r.status < 400) {
+			resolve(r.response);
+		} else {
+			reject(r.status);
+		}
+	};
+	r.send();
+});
+
+function hide(el) {
+	el.style.display = 'none';
+}
+function show(el) {
+	el.style.display = 'block';
+}
+function isHidden(el) {
+	return el.style.display !== 'block';
+}
+
+function addNotificationsDropdown() {
+	if (select.exists('#NPG')) {
+		return;
+	}
+	const indicator = select('a.notification-indicator');
+	const notificationHeight = window.innerHeight * 2 / 3;
+	indicator.parentNode.insertAdjacentHTML('beforeend', `
 		<div id="NPG" class="dropdown-menu-content js-menu-content">
 			<ul id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw">
-				<div id="NPG-item" class="dropdown-item"
-					 style="max-height: ${notificationHeight}px; overflow-y: auto">
-				</div>
+				<li id="NPG-item" class="dropdown-item" style="max-height: ${notificationHeight}px;"></li>
 			</ul>
-    	</div>
-		`);
-		
-		// Disable native tooltip
-		$indicator.attr('aria-label', '');
-		$indicator.removeClass('tooltipped tooltipped-s');
-	}
+		</div>
+	`);
+}
 
-	function createMutationOberserver(selector, callback) {
-		let observer = new MutationObserver(function (mutations) {
-			mutations.forEach(function (mutation) {
-				if (mutation.attributeName === "class") {
-					let classNames = $(mutation.target).prop(mutation.attributeName).split(" ");
-					callback(classNames);
-				}
-			});
-		});
-
-		observer.observe($(selector)[0], {
-			attributes: true
-		});
-	}
-
-	function handleMarkAsRead(classNames) {
-		if (classNames.indexOf("unread") === -1) {
-			unreadNotificationsAvailable = false;
-			$('a.notification-indicator').removeClass('js-menu-target-ext');
-		} else if (!$('a.notification-indicator').hasClass('js-menu-target-ext')) {
-			addNotificationsDropdown();
+function createMutationObserver(element, callback) {
+	const observer = new MutationObserver(mutations => {
+		for (const mutation of mutations) {
+			callback(mutation.target);
 		}
-	}
-
-	function handleCloseDropdown(classNames) {
-		if (classNames.indexOf("selected") === -1) {
-			$('.notification-dropdown-ext-parent').remove();
-			if (unreadNotificationsAvailable) {
-				addNotificationsDropdown();
-			}
-		}
-	}
-
-	$(() => {
-		if($('.notification-indicator .unread').length === 0 || location.pathname.startsWith('/notifications')) {
-			return;
-		}
-		
-		addNotificationsDropdown();
-		createMutationOberserver("a.notification-indicator span.mail-status", handleMarkAsRead);
-		createMutationOberserver("a.notification-indicator", handleCloseDropdown)
-
-		$(document).on('mouseenter', 'a.notification-indicator', () => {
-			let notificationList = $('#NPG-item');
-
-			if ($('a.notification-indicator').has('span.mail-status.unread').length && !$('#NPG').is(':visible')) {
-				notificationList.append(`<div class="loading-notification" style="margin: 3px 0px">Loading notifications...</div>`)
-				if (!$('a.notification-indicator').hasClass('js-menu-target-ext')) {
-					addNotificationsDropdown();
-				}
-				notificationList.load('/notifications .notifications-list', () => {
-					$('#NPG-item .loading-notification').remove();
-					$('#NPG').show();
-					notificationList.find('.paginate-container').remove();
-					notificationList.find('.tooltipped-s').removeClass('tooltipped-s').addClass('tooltipped-n');
-					if (notificationList[0].scrollHeight === notificationList[0].offsetHeight) {
-						notificationList.css("overflow-y", "hidden");
-					} else {
-						notificationList.css("overflow-y", "auto");
-					}
-				})
-			}
-		});
-
-		$(document).mouseup((e) => {
-			let container = $("#NPG");
-
-			if (!container.is(e.target) && container.has(e.target).length === 0) {
-				container.hide();
-			}
-		});
 	});
 
-}(window.jQuery, window, document));
+	observer.observe(element, {
+		attributes: true,
+		attributeFilter: ['class']
+	});
+
+	return observer;
+}
+
+function handleMarkAsRead(el) {
+	if (el.classList.contains('unread')) {
+		addNotificationsDropdown();
+	}
+}
+
+function handleCloseDropdown(el) {
+	if (!el.classList.contains('selected')) {
+		addNotificationsDropdown();
+	}
+}
+
+function init() {
+	const indicator = select('a.notification-indicator');
+	if (!select.exists('.unread', indicator) || location.pathname.startsWith('/notifications')) {
+		return;
+	}
+
+	addNotificationsDropdown();
+	createMutationObserver(select('span.mail-status', indicator), handleMarkAsRead);
+	createMutationObserver(indicator, handleCloseDropdown);
+
+	indicator.addEventListener('mouseenter', async () => {
+		const container = select('#NPG-item');
+
+		if (select.exists('.unread', indicator) && isHidden(select('#NPG'))) {
+			addNotificationsDropdown();
+			show(select('#NPG'));
+
+			const notificationsPage = await fetchDocument('/notifications');
+			const notificationsList = select('.notifications-list', notificationsPage);
+			container.append(notificationsList);
+
+			// Change tooltip direction
+			const classes = select('.tooltipped-s', container).classList;
+			classes.remove('tooltipped-s');
+			classes.add('tooltipped-n');
+
+			// Remove unused elements
+			for (const uselessEl of select.all('.paginate-container', container)) {
+				uselessEl.remove();
+			}
+		}
+	});
+
+	document.addEventListener('click', ({target}) => {
+		const container = select('#NPG');
+		if (!container.contains(target)) {
+			hide(container);
+		}
+	});
+}
+
+// Automatically run at dom-ready thanks to run_at:document_idle in manifest.json
+// https://developer.chrome.com/extensions/content_scripts#run_at
+init();
