@@ -73,12 +73,17 @@ async function openPopup() {
 		credentials: 'include'
 	}).then(r => r.text()).then(domify);
 	const notificationsList = select.all('.boxed-group', notificationsPage);
+	if (notificationsList.length === 0) {
+		hide(popup);
+		return;
+	}
 	container.append(...notificationsList);
 
 	// Change tooltip direction
-	const classes = select('.tooltipped-s', container).classList;
-	classes.remove('tooltipped-s');
-	classes.add('tooltipped-n');
+	for (const {classList} of select.all('.tooltipped-s', container)) {
+		classList.remove('tooltipped-s');
+		classList.add('tooltipped-n');
+	}
 }
 
 function closePopup({target}) {
