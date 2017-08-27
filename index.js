@@ -57,11 +57,13 @@
 	}
 
 	$(() => {
-		if ($('a.notification-indicator').has('span.mail-status.unread').length) {
-			addNotificationsDropdown();
-			createMutationOberserver("a.notification-indicator span.mail-status", handleMarkAsRead);
-			createMutationOberserver("a.notification-indicator", handleCloseDropdown)
+		if($('.notification-indicator .unread').length === 0 || location.pathname.startsWith('/notifications')) {
+			return;
 		}
+		
+		addNotificationsDropdown();
+		createMutationOberserver("a.notification-indicator span.mail-status", handleMarkAsRead);
+		createMutationOberserver("a.notification-indicator", handleCloseDropdown)
 
 		$(document).on('mouseenter', 'a.notification-indicator', () => {
 			let notificationList = $('#NPG-item');
