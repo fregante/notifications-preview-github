@@ -3,11 +3,12 @@
 	var notificationHeight;
 
 	function addNotificationsDropdown() {
+		const $indicator = $('a.notification-indicator');
 		notificationHeight = $(window).height() * 2 / 3;
 		unreadNotificationsAvailable = true;
 		$('.notification-dropdown-ext-parent').remove();
-		$('a.notification-indicator').addClass('js-menu-target-ext');
-		$('a.notification-indicator').parent().append(`
+		$indicator.addClass('js-menu-target-ext');
+		$indicator.parent().append(`
 		<div class="dropdown-menu-content js-menu-content notification-dropdown-ext-parent">
 			<ul class="dropdown-menu dropdown-menu-sw">
 				<div class="dropdown-item" id="my-github-notification-list" 
@@ -16,6 +17,10 @@
 			</ul>
     	</div>
 		`);
+		
+		// Disable native tooltip
+		$indicator.removeAttr('aria-label');
+		$indicator.removeClass('tooltipped tooltipped-s');
 	}
 
 	function createMutationOberserver(selector, callback) {
