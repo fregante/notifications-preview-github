@@ -4,6 +4,12 @@
 
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu {
     width: 750px;
+    border: none;
+    padding: 2px 2px 3px;
+}
+
+.user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu {
+    right: -1px;
 }
 
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu .dropdown-item:hover {
@@ -13,8 +19,7 @@
 }
 
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu #my-github-notification-list {
-    padding: 2px 0;
-    max-height: 50%
+    padding: 0;
 }
 
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu {
@@ -22,10 +27,9 @@
 }
 
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu .paginate-container {
-    margin: 0px;
     display: none;
 }
 
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu .boxed-group {
-    margin-bottom: 20px;
+    margin-bottom: 0;
 }
