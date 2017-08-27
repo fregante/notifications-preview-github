@@ -58,25 +58,27 @@ function addNotificationsDropdown() {
 
 async function openPopup() {
 	// The [data] attribute selector will not conflict with Refined GitHub
-	const hasUnread = select.exists('.notification-indicator[data-ga-click$=":unread"]');
+	const indicator = select('.notification-indicator[data-ga-click$=":unread"]');
 	const popup = select('#NPG');
-	if (!hasUnread || !isHidden(popup)) {
+	if (!indicator || !isHidden(popup)) {
+		return;
+	}
+
+	// Fetch the notifications
+	indicator.classList.add('NPG-loading');
+	const notificationsPage = await fetch('/notifications', {
+		credentials: 'include'
+	}).then(r => r.text()).then(domify);
+	indicator.classList.remove('NPG-loading');
+
+	const notificationsList = select.all('.boxed-group', notificationsPage);
+	if (notificationsList.length === 0) {
 		return;
 	}
 
 	const container = select('#NPG-item');
 	empty(container);
 	show(popup);
-
-	// Fetch the notifications
-	const notificationsPage = await fetch('/notifications', {
-		credentials: 'include'
-	}).then(r => r.text()).then(domify);
-	const notificationsList = select.all('.boxed-group', notificationsPage);
-	if (notificationsList.length === 0) {
-		hide(popup);
-		return;
-	}
 	container.append(...notificationsList);
 
 	// Change tooltip direction
