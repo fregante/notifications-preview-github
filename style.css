@@ -4,6 +4,10 @@
     padding: 2px 2px 3px;
 }
 
+.user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu {
+    right: -1px;
+}
+
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu .dropdown-item:hover {
     background-color: inherit !important;
     text-decoration: none;
