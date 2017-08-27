@@ -17,7 +17,7 @@ I'm new to making open-source contributions so feel free to suggest me how to do
 
 ## Screenshot
 
-![Notification Preview Example](notification-preview-screenshot.PNG)
+![Notification Preview Example](media/screenshot.png)
 
 
 ## License
