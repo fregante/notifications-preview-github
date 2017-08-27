@@ -30,7 +30,7 @@ function addNotificationsDropdown() {
 	indicator.parentNode.insertAdjacentHTML('beforeend', `
 		<div id="NPG" class="dropdown-menu-content js-menu-content">
 			<ul id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw">
-				<li id="NPG-item" class="dropdown-item notifications-list"></li>
+				<li id="NPG-item" class="notifications-list"></li>
 			</ul>
 		</div>
 	`);
