@@ -3,6 +3,7 @@
 	var notificationHeight;
 
 	function addNotificationsDropdown() {
+		const $indicator = $('a.notification-indicator');
 		notificationHeight = $(window).height() * 2 / 3;
 		unreadNotificationsAvailable = true;
 		$('#NPG').remove();
@@ -16,6 +17,10 @@
 			</ul>
     	</div>
 		`);
+		
+		// Disable native tooltip
+		$indicator.removeAttr('aria-label');
+		$indicator.removeClass('tooltipped tooltipped-s');
 	}
 
 	function createMutationOberserver(selector, callback) {
