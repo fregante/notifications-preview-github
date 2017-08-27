@@ -1,3 +1,6 @@
+.notification-indicator {
+    position: relative;
+}
 #NPG-dropdown {
     width: 750px;
     border: none;
