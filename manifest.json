@@ -1,5 +1,4 @@
 {
-  "update_url": "https://clients2.google.com/service/update2/crx",
   "name": "Notifications Preview for GitHub",
   "homepage_url": "https://github.com/tanmayrajani/github-notifications-preview",
   "version": "0.4.0",
@@ -9,9 +8,15 @@
     "128": "icons/128.png"
   },
   "content_scripts": [{
-    "matches": ["http://*.github.com/*", "https://*.github.com/*"],
-    "css": ["style.css"],
-    "js": ["vendor/jquery.js", "index.js"],
-    "run_at": "document_end"
+    "matches": [
+      "https://github.com/*"
+    ],
+    "css": [
+      "style.css"
+    ],
+    "js": [
+      "vendor/jquery.js",
+      "index.js"
+    ]
   }]
 }
