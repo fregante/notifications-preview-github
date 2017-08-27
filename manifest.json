@@ -15,7 +15,6 @@
       "style.css"
     ],
     "js": [
-      "vendor/jquery.js",
       "index.js"
     ]
   }]
