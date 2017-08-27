@@ -18,6 +18,9 @@ const fetchDocument = url => new Promise((resolve, reject) => {
 	r.send();
 });
 
+function empty(el) {
+	el.textContent = '';
+}
 function hide(el) {
 	el.style.display = 'none';
 }
@@ -43,48 +46,15 @@ function addNotificationsDropdown() {
 	`);
 }
 
-function createMutationObserver(element, callback) {
-	const observer = new MutationObserver(mutations => {
-		for (const mutation of mutations) {
-			callback(mutation.target);
-		}
-	});
-
-	observer.observe(element, {
-		attributes: true,
-		attributeFilter: ['class']
-	});
-
-	return observer;
-}
-
-function handleMarkAsRead(el) {
-	if (el.classList.contains('unread')) {
-		addNotificationsDropdown();
-	}
-}
-
-function handleCloseDropdown(el) {
-	if (!el.classList.contains('selected')) {
-		addNotificationsDropdown();
-	}
-}
-
 function init() {
 	const indicator = select('a.notification-indicator');
-	if (!select.exists('.unread', indicator) || location.pathname.startsWith('/notifications')) {
-		return;
-	}
-
 	addNotificationsDropdown();
-	createMutationObserver(select('span.mail-status', indicator), handleMarkAsRead);
-	createMutationObserver(indicator, handleCloseDropdown);
 
 	indicator.addEventListener('mouseenter', async () => {
 		const container = select('#NPG-item');
 
 		if (select.exists('.unread', indicator) && isHidden(select('#NPG'))) {
-			addNotificationsDropdown();
+			empty(container);
 			show(select('#NPG'));
 
 			const notificationsPage = await fetchDocument('/notifications');
@@ -111,6 +81,9 @@ function init() {
 	});
 }
 
-// Automatically run at dom-ready thanks to run_at:document_idle in manifest.json
-// https://developer.chrome.com/extensions/content_scripts#run_at
-init();
+// Init everywhere but on the notifications page
+if (!location.pathname.startsWith('/notifications')) {
+	// Automatically run at dom-ready thanks to run_at:document_idle in manifest.json
+	// https://developer.chrome.com/extensions/content_scripts#run_at
+	init();
+}
