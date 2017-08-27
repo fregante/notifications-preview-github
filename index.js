@@ -36,11 +36,10 @@ function addNotificationsDropdown() {
 		return;
 	}
 	const indicator = select('a.notification-indicator');
-	const notificationHeight = window.innerHeight * 2 / 3;
 	indicator.parentNode.insertAdjacentHTML('beforeend', `
 		<div id="NPG" class="dropdown-menu-content js-menu-content">
 			<ul id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw">
-				<li id="NPG-item" class="dropdown-item" style="max-height: ${notificationHeight}px;"></li>
+				<li id="NPG-item" class="dropdown-item"></li>
 			</ul>
 		</div>
 	`);
