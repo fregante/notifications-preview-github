@@ -22,10 +22,6 @@
     color: rgb(36, 41, 46);
 }
 
-.user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu .paginate-container {
-    display: none;
-}
-
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu .boxed-group {
     margin-bottom: 0;
 }

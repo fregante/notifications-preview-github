@@ -69,6 +69,7 @@
 				notificationList.load('/notifications .notifications-list', () => {
 					$('#my-github-notification-list .loading-notification').remove();
 					$('.notification-dropdown-ext-parent').show();
+					notificationList.find('.paginate-container').remove();
 					if (notificationList[0].scrollHeight === notificationList[0].offsetHeight) {
 						notificationList.css("overflow-y", "hidden");
 					} else {
