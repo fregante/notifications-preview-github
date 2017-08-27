@@ -17,5 +17,9 @@
 }
 
 #NPG-item .boxed-group {
+    margin-bottom: 20px;
+}
+
+#NDE-item .boxed-group:last-child {
     margin-bottom: 0;
 }

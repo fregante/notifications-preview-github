@@ -70,6 +70,7 @@
 					$('#NPG-item .loading-notification').remove();
 					$('#NPG').show();
 					notificationList.find('.paginate-container').remove();
+					notificationList.find('.tooltipped-s').removeClass('tooltipped-s').addClass('tooltipped-n');
 					if (notificationList[0].scrollHeight === notificationList[0].offsetHeight) {
 						notificationList.css("overflow-y", "hidden");
 					} else {
