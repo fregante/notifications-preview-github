@@ -30,7 +30,7 @@ function addNotificationsDropdown() {
 	indicator.parentNode.insertAdjacentHTML('beforeend', `
 		<div id="NPG" class="dropdown-menu-content js-menu-content">
 			<ul id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw">
-				<li id="NPG-item" class="dropdown-item"></li>
+				<li id="NPG-item" class="dropdown-item notifications-list"></li>
 			</ul>
 		</div>
 	`);
@@ -52,18 +52,13 @@ async function openPopup() {
 	const notificationsPage = await fetch('/notifications', {
 		credentials: 'include'
 	}).then(r => r.text()).then(domify);
-	const notificationsList = select('.notifications-list', notificationsPage);
-	container.append(notificationsList);
+	const notificationsList = select.all('.boxed-group', notificationsPage);
+	container.append(...notificationsList);
 
 	// Change tooltip direction
 	const classes = select('.tooltipped-s', container).classList;
 	classes.remove('tooltipped-s');
 	classes.add('tooltipped-n');
-
-	// Remove unused elements
-	for (const uselessEl of select.all('.paginate-container', container)) {
-		uselessEl.remove();
-	}
 }
 
 function closePopup({target}) {
