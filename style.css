@@ -2,7 +2,6 @@
     width: 750px;
     border: none;
     padding: 2px 2px 3px;
-    overflow: hidden;
 }
 
 .user-nav a.notification-indicator~.dropdown-menu-content .dropdown-menu .dropdown-item:hover {
