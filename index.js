@@ -19,7 +19,7 @@
 		`);
 		
 		// Disable native tooltip
-		$indicator.removeAttr('aria-label');
+		$indicator.attr('aria-label', '');
 		$indicator.removeClass('tooltipped tooltipped-s');
 	}
 
