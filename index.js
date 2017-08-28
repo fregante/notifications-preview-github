@@ -16,7 +16,6 @@ function elementReady(selector, fn) {
 	})();
 }
 
-
 /**
  * Utilities
  */
