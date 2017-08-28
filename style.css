@@ -6,16 +6,11 @@
     right: -1px;
 }
 
-#NPG-item {
-    overflow-y: auto;
-    max-height: calc(100vh - 60px);
-}
-
-#NPG-item .boxed-group {
+#NPG-dropdown .boxed-group {
     margin-bottom: 20px;
 }
 
-#NPG-item .boxed-group:last-child {
+#NPG-dropdown .boxed-group:last-child {
     margin-bottom: 0;
 }
 

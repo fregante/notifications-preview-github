@@ -49,9 +49,8 @@ function addNotificationsDropdown() {
 	const indicator = select('a.notification-indicator');
 	indicator.parentNode.insertAdjacentHTML('beforeend', `
 		<div id="NPG" class="dropdown-menu-content js-menu-content">
-			<ul id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw">
-				<li id="NPG-item" class="notifications-list"></li>
-			</ul>
+			<div id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw notifications-list">
+			</div>
 		</div>
 	`);
 }
@@ -76,7 +75,7 @@ async function openPopup() {
 		return;
 	}
 
-	const container = select('#NPG-item');
+	const container = select('#NPG-dropdown');
 	empty(container);
 	show(popup);
 	container.append(...notificationsList);
