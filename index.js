@@ -16,7 +16,6 @@ function elementReady(selector, fn) {
 	})();
 }
 
-
 /**
  * Utilities
  */
@@ -29,14 +28,9 @@ function domify(html) {
 function empty(el) {
 	el.textContent = '';
 }
-function hide(el) {
-	el.style.display = 'none';
-}
-function show(el) {
-	el.style.display = 'block';
-}
-function isHidden(el) {
-	return el.style.display !== 'block';
+
+function isOpen() {
+	return select.exists('#NPG-opener[aria-expanded="true"]');
 }
 
 /**
@@ -48,6 +42,7 @@ function addNotificationsDropdown() {
 	}
 	const indicator = select('a.notification-indicator');
 	indicator.parentNode.insertAdjacentHTML('beforeend', `
+		<div id="NPG-opener" class="js-menu-target"></div>
 		<div id="NPG" class="dropdown-menu-content js-menu-content">
 			<ul id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw">
 				<li id="NPG-item" class="notifications-list"></li>
@@ -60,7 +55,7 @@ async function openPopup() {
 	// The [data] attribute selector will not conflict with Refined GitHub
 	const indicator = select('.notification-indicator[data-ga-click$=":unread"]');
 	const popup = select('#NPG');
-	if (!indicator || !isHidden(popup)) {
+	if (!indicator || isOpen(popup)) {
 		return;
 	}
 
@@ -78,8 +73,10 @@ async function openPopup() {
 
 	const container = select('#NPG-item');
 	empty(container);
-	show(popup);
 	container.append(...notificationsList);
+
+	// Open
+	select('#NPG-opener').click();
 
 	// Change tooltip direction
 	for (const {classList} of select.all('.tooltipped-s', container)) {
@@ -88,19 +85,16 @@ async function openPopup() {
 	}
 }
 
-function closePopup({target}) {
-	const container = select('#NPG');
-	if (!container.contains(target)) {
-		hide(container);
-	}
-}
-
 function init() {
 	const indicator = select('a.notification-indicator');
 	addNotificationsDropdown();
 
+	// Restore link after it's disabled by the modal
+	indicator.addEventListener('click', function () {
+		window.location = this.href;
+	});
+
 	indicator.addEventListener('mouseenter', openPopup);
-	document.addEventListener('click', closePopup);
 }
 
 // Init everywhere but on the notifications page

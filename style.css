@@ -41,7 +41,12 @@
     }
 }
 
+/* Keep icon clickable when modal is open */
+.notification-indicator {
+    z-index: 101;
+}
+
 /* Disable native tooltip when it has unread notifications */
-.Header .notification-indicator[data-ga-click$=":unread"]:hover::after {
+.Header .notification-indicator[data-ga-click$=":unread"]::after {
     display: none;
 }
