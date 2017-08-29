@@ -29,8 +29,9 @@ function empty(el) {
 	el.textContent = '';
 }
 
+// Is the popup open? Is it opening?
 function isOpen() {
-	return select.exists('#NPG-opener[aria-expanded="true"]');
+	return select.exists('#NPG-opener[aria-expanded="true"], .NPG-loading');
 }
 
 /**
@@ -54,8 +55,7 @@ function addNotificationsDropdown() {
 async function openPopup() {
 	// The [data] attribute selector will not conflict with Refined GitHub
 	const indicator = select('.notification-indicator[data-ga-click$=":unread"]');
-	const popup = select('#NPG');
-	if (!indicator || isOpen(popup)) {
+	if (!indicator || isOpen()) {
 		return;
 	}
 
