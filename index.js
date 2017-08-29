@@ -76,7 +76,7 @@ async function openPopup() {
 		if (notificationsList.length === 0) {
 			return;
 		}
-	} catch (e) {
+	} catch (err) {
 		return;
 	} finally {
 		indicator.classList.remove('NPG-loading');
