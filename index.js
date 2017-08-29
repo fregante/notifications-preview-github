@@ -65,15 +65,21 @@ async function openPopup() {
 	}
 
 	// Fetch the notifications
+	let notificationsList;
 	indicator.classList.add('NPG-loading');
-	const notificationsPage = await fetch('/notifications', {
-		credentials: 'include'
-	}).then(r => r.text()).then(domify);
-	indicator.classList.remove('NPG-loading');
+	try {
+		const notificationsPage = await fetch('/notifications', {
+			credentials: 'include'
+		}).then(r => r.text()).then(domify);
 
-	const notificationsList = select.all('.boxed-group', notificationsPage);
-	if (notificationsList.length === 0) {
+		notificationsList = select.all('.boxed-group', notificationsPage);
+		if (notificationsList.length === 0) {
+			return;
+		}
+	} catch (e) {
 		return;
+	} finally {
+		indicator.classList.remove('NPG-loading');
 	}
 
 	const container = select('#NPG-item');
