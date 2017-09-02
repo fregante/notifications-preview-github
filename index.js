@@ -40,7 +40,7 @@ function isOpen() {
 function restoreUnreadIndicator() {
 	const indicator = select('.notification-indicator');
 	const status = select('.mail-status', indicator);
-	if (!status.classList.contains('.unread')) {
+	if (!status.classList.contains('unread')) {
 		status.classList.add('unread');
 		indicator.dataset.gaClick = indicator.dataset.gaClick.replace(':read', ':unread');
 	}
