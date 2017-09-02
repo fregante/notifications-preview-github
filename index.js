@@ -37,6 +37,15 @@ function isOpen() {
 /**
  * Extension
  */
+function restoreUnreadIndicator() {
+	const indicator = select('.notification-indicator');
+	const status = select('.mail-status', indicator);
+	if (!status.classList.contains('unread')) {
+		status.classList.add('unread');
+		indicator.dataset.gaClick = indicator.dataset.gaClick.replace(':read', ':unread');
+	}
+}
+
 function addNotificationsDropdown() {
 	if (select.exists('#NPG')) {
 		return;
@@ -52,9 +61,8 @@ function addNotificationsDropdown() {
 }
 
 async function openPopup() {
-	// The [data] attribute selector will not conflict with Refined GitHub
-	const indicator = select('.notification-indicator[data-ga-click$=":unread"]');
-	if (!indicator || isOpen()) {
+	const indicator = select('.notification-indicator');
+	if (isOpen()) {
 		return;
 	}
 
@@ -76,6 +84,7 @@ async function openPopup() {
 		indicator.classList.remove('NPG-loading');
 	}
 
+	restoreUnreadIndicator();
 	const container = select('#NPG-dropdown');
 	empty(container);
 	container.append(...notificationsList);
