@@ -52,9 +52,8 @@ function addNotificationsDropdown() {
 }
 
 async function openPopup() {
-	// The [data] attribute selector will not conflict with Refined GitHub
-	const indicator = select('.notification-indicator[data-ga-click$=":unread"]');
-	if (!indicator || isOpen()) {
+	const indicator = select('.notification-indicator');
+	if (isOpen()) {
 		return;
 	}
 
@@ -69,6 +68,13 @@ async function openPopup() {
 		notificationsList = select.all('.boxed-group', notificationsPage);
 		if (notificationsList.length === 0) {
 			return;
+		} else if (!select('.notification-indicator .mail-status').classList.contains('unread')) {
+			const newDom = await fetch(document.URL, {
+				credentials: 'include'
+			}).then(r => r.text()).then(domify);
+
+			indicator.parentNode.replaceChild(select('.notification-indicator', newDom), indicator);
+			init();
 		}
 	} catch (err) {
 		return;
