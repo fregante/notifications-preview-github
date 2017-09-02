@@ -37,6 +37,15 @@ function isOpen() {
 /**
  * Extension
  */
+function restoreUnreadIndicator() {
+	const indicator = select('.notification-indicator');
+	const status = select('.mail-status', indicator);
+	if (!status.classList.contains('.unread')) {
+		status.classList.add('unread');
+		indicator.dataset.gaClick = indicator.dataset.gaClick.replace(':read', ':unread');
+	}
+}
+
 function addNotificationsDropdown() {
 	if (select.exists('#NPG')) {
 		return;
@@ -68,13 +77,6 @@ async function openPopup() {
 		notificationsList = select.all('.boxed-group', notificationsPage);
 		if (notificationsList.length === 0) {
 			return;
-		} else if (!select('.notification-indicator .mail-status').classList.contains('unread')) {
-			const newDom = await fetch(document.URL, {
-				credentials: 'include'
-			}).then(r => r.text()).then(domify);
-
-			indicator.parentNode.replaceChild(select('.notification-indicator', newDom), indicator);
-			init();
 		}
 	} catch (err) {
 		return;
@@ -82,6 +84,7 @@ async function openPopup() {
 		indicator.classList.remove('NPG-loading');
 	}
 
+	restoreUnreadIndicator();
 	const container = select('#NPG-dropdown');
 	empty(container);
 	container.append(...notificationsList);
