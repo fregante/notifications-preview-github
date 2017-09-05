@@ -100,15 +100,14 @@ async function openPopup() {
 }
 
 function init() {
-	const indicator = select('a.notification-indicator');
 	addNotificationsDropdown();
+	const indicator = select('a.notification-indicator');
+	indicator.addEventListener('mouseenter', openPopup);
 
 	// Restore link after it's disabled by the modal
-	indicator.addEventListener('click', function () {
-		window.location = this.href;
+	indicator.addEventListener('click', () => {
+		location.href = indicator.href;
 	});
-
-	indicator.addEventListener('mouseenter', openPopup);
 }
 
 // Init everywhere but on the notifications page
