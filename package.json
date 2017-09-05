@@ -1,0 +1,18 @@
+{
+  "name": "notifications-preview-github",
+  "version": "0.0.0",
+  "description": "Chrome extension",
+  "scripts": {
+    "test": "xo"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "xo": "^0.18.2"
+  },
+  "xo": {
+    "envs": [
+      "browser",
+      "webextensions"
+    ]
+  }
+}
