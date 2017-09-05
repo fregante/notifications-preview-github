@@ -29,6 +29,10 @@ function empty(el) {
 	el.textContent = '';
 }
 
+function setTimeoutUntilVisible(cb, ms) {
+	return setTimeout(() => requestAnimationFrame(cb), ms);
+}
+
 // Is the popup open? Is it opening?
 function isOpen() {
 	return select.exists('#NPG-opener[aria-expanded="true"], .NPG-loading');
@@ -37,6 +41,9 @@ function isOpen() {
 /**
  * Extension
  */
+
+let rawNotifications; // Unparsed notification page request
+
 function restoreUnreadIndicator() {
 	const indicator = select('.notification-indicator');
 	const status = select('.mail-status', indicator);
@@ -70,9 +77,7 @@ async function openPopup() {
 	let notificationsList;
 	indicator.classList.add('NPG-loading');
 	try {
-		const notificationsPage = await fetch('/notifications', {
-			credentials: 'include'
-		}).then(r => r.text()).then(domify);
+		const notificationsPage = await rawNotifications.then(r => r.text()).then(domify);
 
 		notificationsList = select.all('.boxed-group', notificationsPage);
 		if (notificationsList.length === 0) {
@@ -99,8 +104,25 @@ async function openPopup() {
 	}
 }
 
+async function fetchNotifications() {
+	// Don't fetch while it's open
+	if (!isOpen()) {
+		rawNotifications = fetch('/notifications', {
+			credentials: 'include'
+		});
+	}
+
+	// Wait for request to be done first, so they don't overlap
+	await rawNotifications;
+
+	// Wait three seconds, but don't run if tab is not visible
+	setTimeoutUntilVisible(fetchNotifications, 3000);
+}
+
 function init() {
 	addNotificationsDropdown();
+	fetchNotifications();
+
 	const indicator = select('a.notification-indicator');
 	indicator.addEventListener('mouseenter', openPopup);
 
