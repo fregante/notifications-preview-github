@@ -1,7 +1,7 @@
-# Notifications Preview for GitHub | Chrome Extension 
+# Notifications Preview for GitHub | Chrome Extension  [![Build Status](https://travis-ci.org/tanmayrajani/notifications-preview-github.svg?branch=master)](https://travis-ci.org/tanmayrajani/notifications-preview-github)
 
 - Allows to preview the unread notifications using pop-overs looking exactly like the ones on the right (profile and new-repo)
-- Allows to perform actions like marking as read and unsubscribing on the notifications 
+- Allows to perform actions like marking as read and unsubscribing on the notifications
 
 
 ## Install
