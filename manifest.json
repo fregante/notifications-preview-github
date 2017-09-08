@@ -1,7 +1,7 @@
 {
   "name": "Notifications Preview for GitHub",
   "homepage_url": "https://github.com/tanmayrajani/notifications-preview-github",
-  "version": "0.7.1",
+  "version": "0.0.0",
   "manifest_version": 2,
   "description": "Notifications Preview for GitHub with same page pop-over!",
   "icons": {
