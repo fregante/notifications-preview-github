@@ -3,10 +3,15 @@
   "version": "0.0.0",
   "description": "Chrome extension",
   "scripts": {
-    "test": "xo"
+    "test": "xo",
+    "release": "npm run update-version && npm run upload",
+    "upload": "webstore upload --auto-publish",
+    "update-version": "dot-json manifest.json version $TRAVIS_TAG"
   },
   "license": "MIT",
   "devDependencies": {
+    "chrome-webstore-upload-cli": "^1.1.1",
+    "dot-json": "^1.0.3",
     "xo": "^0.18.2"
   },
   "xo": {
