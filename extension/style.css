@@ -1,28 +1,38 @@
 #NPG-dropdown {
-    width: 750px;
+    width: auto;
+    max-width: 750px;
     border: none;
-    padding: 2px 2px 3px;
+    padding: 5px;
     color: rgb(36, 41, 46);
     right: -1px;
 }
 
+#NPG-dropdown .list-group-item-name {
+    padding-right: 15px;
+}
+
 #NPG-dropdown .boxed-group {
-    margin-bottom: 20px;
+    margin-bottom: 6px;
 }
 
 #NPG-dropdown .boxed-group:last-child {
     margin-bottom: 0;
 }
 
+#NPG-dropdown .boxed-group h3 {
+    padding-right: 45px; /* Avoids wrap with long repo names */
+}
+
+/* Hide extra content */
+#NPG-dropdown .age,
+#NPG-dropdown .avatar-stack {
+    display: none;
+}
+
+/* Loading animation */
 .NPG-loading .octicon-bell {
     transform-origin: top;
     animation: npg-ding 0.5s infinite ease-out;
-}
-
-@keyframes npg-pulse {
-    50% {
-        opacity: 0.5;
-    }
 }
 
 @keyframes npg-ding {
