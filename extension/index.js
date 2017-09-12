@@ -77,7 +77,7 @@ async function openPopup() {
 	let notificationsList;
 	indicator.classList.add('NPG-loading');
 	try {
-		const notificationsPage = await rawNotifications.then(r => r.text()).then(domify);
+		const notificationsPage = await rawNotifications.then(domify);
 
 		notificationsList = select.all('.boxed-group', notificationsPage);
 		if (notificationsList.length === 0) {
@@ -109,7 +109,7 @@ async function fetchNotifications() {
 	if (!isOpen()) {
 		rawNotifications = fetch('/notifications', {
 			credentials: 'include'
-		});
+		}).then(r => r.text());
 	}
 
 	// Wait for request to be done first, so they don't overlap
