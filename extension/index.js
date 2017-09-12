@@ -105,7 +105,9 @@ async function openPopup() {
 async function fetchNotifications() {
 	// Don't fetch while it's open
 	if (!isOpen()) {
-		rawNotifications = fetch('/notifications', {
+		// Firefox bug requires location.origin
+		// https://github.com/sindresorhus/refined-github/issues/489
+		rawNotifications = fetch(location.origin + '/notifications', {
 			credentials: 'include'
 		}).then(r => r.text());
 	}
