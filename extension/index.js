@@ -30,7 +30,7 @@ function empty(el) {
 }
 
 function setTimeoutUntilVisible(cb, ms) {
-	return setTimeout(() => requestAnimationFrame(cb), ms);
+	return setTimeout(requestAnimationFrame, ms, cb);
 }
 
 // Is the popup open? Is it opening?
