@@ -4,14 +4,17 @@
   "description": "Chrome extension",
   "scripts": {
     "test": "xo",
-    "release": "npm run update-version && npm run upload",
-    "upload": "cd extension && webstore upload --auto-publish",
+    "release": "npm-run-all update-version --parallel upload:*",
+    "upload:amo": "cd extension && webext submit",
+    "upload:cws": "cd extension && webstore upload --auto-publish",
     "update-version": "dot-json extension/manifest.json version $TRAVIS_TAG"
   },
   "license": "MIT",
   "devDependencies": {
     "chrome-webstore-upload-cli": "^1.1.1",
     "dot-json": "^1.0.3",
+    "npm-run-all": "^4.0.2",
+    "webext": "^1.9.1-with-submit.1",
     "xo": "^0.18.2"
   },
   "xo": {
