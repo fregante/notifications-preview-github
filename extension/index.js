@@ -20,9 +20,7 @@ function elementReady(selector, fn) {
  * Utilities
  */
 function domify(html) {
-	const temp = document.createElement('template');
-	temp.innerHTML = html;
-	return temp.content;
+	return new DOMParser().parseFromString(html, 'text/html');
 }
 
 function empty(el) {
