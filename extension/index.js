@@ -42,7 +42,7 @@ function isOpen() {
  * Extension
  */
 
-let notifications = {};
+let notifications;
 
 function copyAttributes(elFrom, elTo) {
 	for (const attr of elFrom.getAttributeNames()) {
@@ -54,11 +54,11 @@ function copyAttributes(elFrom, elTo) {
 
 function updateUnreadIndicator() {
 	copyAttributes(
-		select('.notification-indicator', notifications.full),
+		select('.notification-indicator', notifications),
 		select('.notification-indicator')
 	);
 	copyAttributes(
-		select('.notification-indicator .mail-status', notifications.full),
+		select('.notification-indicator .mail-status', notifications),
 		select('.notification-indicator .mail-status')
 	);
 }
@@ -78,13 +78,14 @@ function addNotificationsDropdown() {
 }
 
 async function openPopup() {
-	if (isOpen() || notifications.list.length === 0) {
+	const boxes = select.all('.boxed-group', notifications);
+	if (isOpen() || boxes.length === 0) {
 		return;
 	}
 
 	const container = select('#NPG-dropdown');
 	empty(container);
-	container.append(...notifications.list);
+	container.append(...boxes);
 
 	// Open
 	select('#NPG-opener').click();
@@ -101,14 +102,9 @@ async function fetchNotifications() {
 	if (!isOpen()) {
 		// Firefox bug requires location.origin
 		// https://github.com/sindresorhus/refined-github/issues/489
-		const dom = await fetch(location.origin + '/notifications', {
+		notifications = await fetch(location.origin + '/notifications', {
 			credentials: 'include'
 		}).then(r => r.text()).then(domify);
-
-		notifications = {
-			full: dom,
-			list: select.all('.boxed-group', dom)
-		};
 
 		updateUnreadIndicator();
 	}
