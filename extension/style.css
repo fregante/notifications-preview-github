@@ -14,28 +14,6 @@
     margin-bottom: 0;
 }
 
-.NPG-loading .octicon-bell {
-    transform-origin: top;
-    animation: npg-ding 0.5s infinite ease-out;
-}
-
-@keyframes npg-pulse {
-    50% {
-        opacity: 0.5;
-    }
-}
-
-@keyframes npg-ding {
-    25% {
-        transform: rotate(10deg);
-        animation-timing-function: ease-in-out;
-    }
-    75% {
-        transform: rotate(-10deg);
-        animation-timing-function: ease-in;
-    }
-}
-
 /* Keep icon clickable when modal is open */
 .notification-indicator {
     z-index: 101;
@@ -44,4 +22,22 @@
 /* Disable native tooltip when it has unread notifications */
 .Header .notification-indicator[data-ga-click$=":unread"]::after {
     display: none;
+}
+
+/* Make the unread count more visible */
+/* Needs high specificity */
+.notification-indicator .mail-status.unread:not(:empty) {
+    width: auto;
+    top: -5px;
+    left: 11px;
+
+    font-size: 13px;
+    line-height: 0.8;
+    color: transparent;
+    font-weight: bold;
+    -webkit-background-clip: text;
+
+    border: none;
+    border-radius: 0;
+    white-space: nowrap;
 }
