@@ -86,6 +86,21 @@ function addNotificationsDropdown() {
 	`);
 }
 
+function fillNotificationsDropdown() {
+	const boxes = select.all('.notifications-list .boxed-group', notifications);
+	if (boxes.length > 0) {
+		const container = select('#NPG-dropdown');
+		empty(container);
+		container.append(...boxes);
+
+		// Change tooltip direction
+		for (const {classList} of select.all('.tooltipped-s', container)) {
+			classList.remove('tooltipped-s');
+			classList.add('tooltipped-n');
+		}
+	}
+}
+
 async function openPopup() {
 	// Make sure that the first load has been completed
 	const indicator = select('a.notification-indicator');
@@ -93,22 +108,9 @@ async function openPopup() {
 	await firstFetch;
 	indicator.classList.remove('NPG-loading');
 
-	const boxes = select.all('.notifications-list .boxed-group', notifications);
-	if (isOpen() || boxes.length === 0) {
-		return;
-	}
-
-	const container = select('#NPG-dropdown');
-	empty(container);
-	container.append(...boxes);
-
-	// Open
-	select('#NPG-opener').click();
-
-	// Change tooltip direction
-	for (const {classList} of select.all('.tooltipped-s', container)) {
-		classList.remove('tooltipped-s');
-		classList.add('tooltipped-n');
+	if (!isOpen() && select.exists('.mail-status.unread')) {
+		fillNotificationsDropdown();
+		select('#NPG-opener').click(); // Open modal
 	}
 }
 
