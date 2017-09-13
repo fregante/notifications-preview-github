@@ -29,6 +29,23 @@
     display: none;
 }
 
+/* Loading animation */
+.NPG-loading .octicon-bell {
+    transform-origin: top;
+    animation: npg-ding 0.5s infinite ease-out;
+}
+
+@keyframes npg-ding {
+    25% {
+        transform: rotate(10deg);
+        animation-timing-function: ease-in-out;
+    }
+    75% {
+        transform: rotate(-10deg);
+        animation-timing-function: ease-in;
+    }
+}
+
 /* Keep icon clickable when modal is open */
 .notification-indicator {
     z-index: 101;
@@ -39,20 +56,16 @@
     display: none;
 }
 
-/* Make the unread count more visible */
+/* Style the unread count */
 /* Needs high specificity */
 .notification-indicator .mail-status.unread:not(:empty) {
     width: auto;
-    top: -5px;
-    left: 11px;
+    height: auto;
+    padding: 2px;
 
-    font-size: 13px;
-    line-height: 0.8;
-    color: transparent;
+    font-size: 10px;
     font-weight: bold;
-    -webkit-background-clip: text;
-
-    border: none;
-    border-radius: 0;
-    white-space: nowrap;
+    line-height: 0.7;
+    border-radius: 1em;
+    color: #24292f;
 }
