@@ -1,5 +1,5 @@
 # Notifications Preview for GitHub  [![Build Status](https://travis-ci.org/tanmayrajani/notifications-preview-github.svg?branch=master)](https://travis-ci.org/tanmayrajani/notifications-preview-github)
-> Chrome extension - Quickly see your notifications in a popup without leaving the current page
+> Browser extension - Quickly see your notifications in a popup without leaving the current page
 
 ## Install
 
