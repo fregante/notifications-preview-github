@@ -42,6 +42,9 @@ function isOpen() {
  * Extension
  */
 
+let options = {
+	previewCount: true // Default value
+};
 let notifications;
 
 function copyAttributes(elFrom, elTo) {
@@ -62,10 +65,12 @@ function updateUnreadIndicator() {
 		select('.notification-indicator .mail-status')
 	);
 
-	const status = select('.notification-indicator .mail-status');
-	const statusText = select.all('.js-notification', notifications).length || '';
-	if (status.textContent !== statusText) {
-		status.textContent = statusText;
+	if (options.previewCount) {
+		const status = select('.notification-indicator .mail-status');
+		const statusText = select.all('.js-notification', notifications).length || '';
+		if (status.textContent !== statusText) {
+			status.textContent = statusText;
+		}
 	}
 }
 
@@ -129,6 +134,11 @@ function init() {
 	// Restore link after it's disabled by the modal
 	indicator.addEventListener('click', () => {
 		location.href = indicator.href;
+	});
+
+	// Get options
+	chrome.storage.sync.get({options}, response => {
+		options = response.options;
 	});
 }
 

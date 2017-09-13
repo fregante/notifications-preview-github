@@ -9,6 +9,9 @@
       "strict_min_version": "55.0"
     }
   },
+  "permissions": [
+    "storage"
+  ],
   "description": "Quickly see your notifications in a popup without leaving the current page",
   "icons": {
     "128": "icons/128.png"
@@ -24,5 +27,9 @@
       "index.js"
     ],
     "run_at": "document_start"
-  }]
+  }],
+  "options_ui": {
+    "chrome_style": true,
+    "page": "options.html"
+  }
 }
