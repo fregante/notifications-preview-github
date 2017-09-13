@@ -76,7 +76,7 @@ function addNotificationsDropdown() {
 	if (select.exists('#NPG')) {
 		return;
 	}
-	const indicator = select('a.notification-indicator');
+	const indicator = select('.notification-indicator');
 	indicator.parentNode.insertAdjacentHTML('beforeend', `
 		<div id="NPG-opener" class="js-menu-target"></div>
 		<div id="NPG" class="dropdown-menu-content js-menu-content">
@@ -103,7 +103,7 @@ function fillNotificationsDropdown() {
 
 async function openPopup() {
 	// Make sure that the first load has been completed
-	const indicator = select('a.notification-indicator');
+	const indicator = select('.notification-indicator');
 	indicator.classList.add('NPG-loading');
 	await firstFetch;
 	indicator.classList.remove('NPG-loading');
@@ -134,7 +134,7 @@ function init() {
 	addNotificationsDropdown();
 	firstFetch = fetchNotifications();
 
-	const indicator = select('a.notification-indicator');
+	const indicator = select('.notification-indicator');
 	indicator.addEventListener('mouseenter', openPopup);
 
 	// Restore link after it's disabled by the modal
