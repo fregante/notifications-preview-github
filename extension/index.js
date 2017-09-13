@@ -39,11 +39,11 @@ function isOpen() {
 /**
  * Extension
  */
-
+let notifications;
+let firstFetch;
 let options = {
 	previewCount: true // Default value
 };
-let notifications;
 
 function copyAttributes(elFrom, elTo) {
 	for (const attr of elFrom.getAttributeNames()) {
@@ -87,7 +87,13 @@ function addNotificationsDropdown() {
 }
 
 async function openPopup() {
-	const boxes = select.all('.boxed-group', notifications);
+	// Make sure that the first load has been completed
+	const indicator = select('a.notification-indicator');
+	indicator.classList.add('NPG-loading');
+	await firstFetch;
+	indicator.classList.remove('NPG-loading');
+
+	const boxes = select.all('.notifications-list .boxed-group', notifications);
 	if (isOpen() || boxes.length === 0) {
 		return;
 	}
@@ -124,7 +130,7 @@ async function fetchNotifications() {
 
 function init() {
 	addNotificationsDropdown();
-	fetchNotifications();
+	firstFetch = fetchNotifications();
 
 	const indicator = select('a.notification-indicator');
 	indicator.addEventListener('mouseenter', openPopup);
