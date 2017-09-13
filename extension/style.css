@@ -23,3 +23,21 @@
 .Header .notification-indicator[data-ga-click$=":unread"]::after {
     display: none;
 }
+
+/* Make the unread count more visible */
+/* Needs high specificity */
+.notification-indicator .mail-status.unread:not(:empty) {
+    width: auto;
+    top: -5px;
+    left: 11px;
+
+    font-size: 13px;
+    line-height: 0.8;
+    color: transparent;
+    font-weight: bold;
+    -webkit-background-clip: text;
+
+    border: none;
+    border-radius: 0;
+    white-space: nowrap;
+}

@@ -61,6 +61,12 @@ function updateUnreadIndicator() {
 		select('.notification-indicator .mail-status', notifications),
 		select('.notification-indicator .mail-status')
 	);
+
+	const status = select('.notification-indicator .mail-status');
+	const statusText = select.all('.js-notification', notifications).length || '';
+	if (status.textContent !== statusText) {
+		status.textContent = statusText;
+	}
 }
 
 function addNotificationsDropdown() {
