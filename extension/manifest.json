@@ -3,7 +3,16 @@
   "homepage_url": "https://github.com/tanmayrajani/notifications-preview-github",
   "version": "0.0.0",
   "manifest_version": 2,
-  "description": "Notifications Preview for GitHub with same page pop-over!",
+  "applications": {
+    "gecko": {
+      "id": "notifications-preview-github@tanmayrajani.github.io",
+      "strict_min_version": "55.0"
+    }
+  },
+  "permissions": [
+    "storage"
+  ],
+  "description": "Quickly see your notifications in a popup without leaving the current page",
   "icons": {
     "128": "icons/128.png"
   },
@@ -18,5 +27,9 @@
       "index.js"
     ],
     "run_at": "document_start"
-  }]
+  }],
+  "options_ui": {
+    "chrome_style": true,
+    "page": "options.html"
+  }
 }

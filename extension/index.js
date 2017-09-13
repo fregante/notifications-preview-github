@@ -20,9 +20,7 @@ function elementReady(selector, fn) {
  * Utilities
  */
 function domify(html) {
-	const temp = document.createElement('template');
-	temp.innerHTML = html;
-	return temp.content;
+	return new DOMParser().parseFromString(html, 'text/html');
 }
 
 function empty(el) {
@@ -30,7 +28,7 @@ function empty(el) {
 }
 
 function setTimeoutUntilVisible(cb, ms) {
-	return setTimeout(() => requestAnimationFrame(cb), ms);
+	return setTimeout(requestAnimationFrame, ms, cb);
 }
 
 // Is the popup open? Is it opening?
@@ -42,14 +40,35 @@ function isOpen() {
  * Extension
  */
 
-let rawNotifications; // Unparsed notification page request
+let options = {
+	previewCount: true // Default value
+};
+let notifications;
 
-function restoreUnreadIndicator() {
-	const indicator = select('.notification-indicator');
-	const status = select('.mail-status', indicator);
-	if (!status.classList.contains('unread')) {
-		status.classList.add('unread');
-		indicator.dataset.gaClick = indicator.dataset.gaClick.replace(':read', ':unread');
+function copyAttributes(elFrom, elTo) {
+	for (const attr of elFrom.getAttributeNames()) {
+		if (elTo.getAttribute(attr) !== elFrom.getAttribute(attr)) {
+			elTo.setAttribute(attr, elFrom.getAttribute(attr));
+		}
+	}
+}
+
+function updateUnreadIndicator() {
+	copyAttributes(
+		select('.notification-indicator', notifications),
+		select('.notification-indicator')
+	);
+	copyAttributes(
+		select('.notification-indicator .mail-status', notifications),
+		select('.notification-indicator .mail-status')
+	);
+
+	if (options.previewCount) {
+		const status = select('.notification-indicator .mail-status');
+		const statusText = select.all('.js-notification', notifications).length || '';
+		if (status.textContent !== statusText) {
+			status.textContent = statusText;
+		}
 	}
 }
 
@@ -68,31 +87,14 @@ function addNotificationsDropdown() {
 }
 
 async function openPopup() {
-	const indicator = select('.notification-indicator');
-	if (isOpen()) {
+	const boxes = select.all('.boxed-group', notifications);
+	if (isOpen() || boxes.length === 0) {
 		return;
 	}
 
-	// Fetch the notifications
-	let notificationsList;
-	indicator.classList.add('NPG-loading');
-	try {
-		const notificationsPage = await rawNotifications.then(r => r.text()).then(domify);
-
-		notificationsList = select.all('.boxed-group', notificationsPage);
-		if (notificationsList.length === 0) {
-			return;
-		}
-	} catch (err) {
-		return;
-	} finally {
-		indicator.classList.remove('NPG-loading');
-	}
-
-	restoreUnreadIndicator();
 	const container = select('#NPG-dropdown');
 	empty(container);
-	container.append(...notificationsList);
+	container.append(...boxes);
 
 	// Open
 	select('#NPG-opener').click();
@@ -107,13 +109,14 @@ async function openPopup() {
 async function fetchNotifications() {
 	// Don't fetch while it's open
 	if (!isOpen()) {
-		rawNotifications = fetch('/notifications', {
+		// Firefox bug requires location.origin
+		// https://github.com/sindresorhus/refined-github/issues/489
+		notifications = await fetch(location.origin + '/notifications', {
 			credentials: 'include'
-		});
-	}
+		}).then(r => r.text()).then(domify);
 
-	// Wait for request to be done first, so they don't overlap
-	await rawNotifications;
+		updateUnreadIndicator();
+	}
 
 	// Wait three seconds, but don't run if tab is not visible
 	setTimeoutUntilVisible(fetchNotifications, 3000);
@@ -129,6 +132,11 @@ function init() {
 	// Restore link after it's disabled by the modal
 	indicator.addEventListener('click', () => {
 		location.href = indicator.href;
+	});
+
+	// Get options
+	chrome.storage.sync.get({options}, response => {
+		options = response.options;
 	});
 }
 
