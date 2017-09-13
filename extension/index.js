@@ -39,11 +39,10 @@ function isOpen() {
 /**
  * Extension
  */
-
+let notificationsPromise;
 let options = {
 	previewCount: true // Default value
 };
-let notifications;
 
 function copyAttributes(elFrom, elTo) {
 	for (const attr of elFrom.getAttributeNames()) {
@@ -53,7 +52,7 @@ function copyAttributes(elFrom, elTo) {
 	}
 }
 
-function updateUnreadIndicator() {
+function updateUnreadIndicator(notifications) {
 	copyAttributes(
 		select('.notification-indicator', notifications),
 		select('.notification-indicator')
@@ -87,8 +86,18 @@ function addNotificationsDropdown() {
 }
 
 async function openPopup() {
-	const boxes = select.all('.boxed-group', notifications);
-	if (isOpen() || boxes.length === 0) {
+	if (isOpen()) {
+		return;
+	}
+
+	const indicator = select('.notification-indicator');
+	indicator.classList.add('NPG-loading');
+	const boxes = select.all(
+		'.notifications-list .boxed-group',
+		await notificationsPromise
+	);
+	indicator.classList.remove('NPG-loading');
+	if (boxes.length === 0) {
 		return;
 	}
 
@@ -111,11 +120,11 @@ async function fetchNotifications() {
 	if (!isOpen()) {
 		// Firefox bug requires location.origin
 		// https://github.com/sindresorhus/refined-github/issues/489
-		notifications = await fetch(location.origin + '/notifications', {
+		notificationsPromise = fetch(location.origin + '/notifications', {
 			credentials: 'include'
 		}).then(r => r.text()).then(domify);
 
-		updateUnreadIndicator();
+		notificationsPromise.then(updateUnreadIndicator);
 	}
 
 	// Wait three seconds, but don't run if tab is not visible

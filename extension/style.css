@@ -14,6 +14,24 @@
     margin-bottom: 0;
 }
 
+/* Loading animation */
+.NPG-loading .octicon-bell {
+    transform-origin: top;
+    animation: npg-ding 0.5s infinite ease-out;
+}
+
+@keyframes npg-ding {
+    25% {
+        transform: rotate(10deg);
+        animation-timing-function: ease-in-out;
+    }
+    75% {
+        transform: rotate(-10deg);
+        animation-timing-function: ease-in;
+    }
+}
+
+
 /* Keep icon clickable when modal is open */
 .notification-indicator {
     z-index: 101;
