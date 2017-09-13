@@ -39,7 +39,8 @@ function isOpen() {
 /**
  * Extension
  */
-let notificationsPromise;
+let notifications;
+let firstFetch;
 let options = {
 	previewCount: true // Default value
 };
@@ -52,7 +53,7 @@ function copyAttributes(elFrom, elTo) {
 	}
 }
 
-function updateUnreadIndicator(notifications) {
+function updateUnreadIndicator() {
 	copyAttributes(
 		select('.notification-indicator', notifications),
 		select('.notification-indicator')
@@ -86,18 +87,14 @@ function addNotificationsDropdown() {
 }
 
 async function openPopup() {
-	if (isOpen()) {
-		return;
-	}
-
-	const indicator = select('.notification-indicator');
+	// Make sure that the first load has been completed
+	const indicator = select('a.notification-indicator');
 	indicator.classList.add('NPG-loading');
-	const boxes = select.all(
-		'.notifications-list .boxed-group',
-		await notificationsPromise
-	);
+	await firstFetch;
 	indicator.classList.remove('NPG-loading');
-	if (boxes.length === 0) {
+
+	const boxes = select.all('.notifications-list .boxed-group', notifications);
+	if (isOpen() || boxes.length === 0) {
 		return;
 	}
 
@@ -120,11 +117,11 @@ async function fetchNotifications() {
 	if (!isOpen()) {
 		// Firefox bug requires location.origin
 		// https://github.com/sindresorhus/refined-github/issues/489
-		notificationsPromise = fetch(location.origin + '/notifications', {
+		notifications = await fetch(location.origin + '/notifications', {
 			credentials: 'include'
 		}).then(r => r.text()).then(domify);
 
-		notificationsPromise.then(updateUnreadIndicator);
+		updateUnreadIndicator();
 	}
 
 	// Wait three seconds, but don't run if tab is not visible
@@ -133,7 +130,7 @@ async function fetchNotifications() {
 
 function init() {
 	addNotificationsDropdown();
-	fetchNotifications();
+	firstFetch = fetchNotifications();
 
 	const indicator = select('a.notification-indicator');
 	indicator.addEventListener('mouseenter', openPopup);
