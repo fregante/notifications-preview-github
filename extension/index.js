@@ -44,13 +44,23 @@ function isOpen() {
 
 let notifications = {};
 
-function restoreUnreadIndicator() {
-	const indicator = select('.notification-indicator');
-	const status = select('.mail-status', indicator);
-	if (!status.classList.contains('unread')) {
-		status.classList.add('unread');
-		indicator.dataset.gaClick = indicator.dataset.gaClick.replace(':read', ':unread');
+function copyAttributes(elFrom, elTo) {
+	for (const attr of elFrom.getAttributeNames()) {
+		if (elTo.getAttribute(attr) !== elFrom.getAttribute(attr)) {
+			elTo.setAttribute(attr, elFrom.getAttribute(attr));
+		}
 	}
+}
+
+function updateUnreadIndicator() {
+	copyAttributes(
+		select('.notification-indicator', notifications.full),
+		select('.notification-indicator')
+	);
+	copyAttributes(
+		select('.notification-indicator .mail-status', notifications.full),
+		select('.notification-indicator .mail-status')
+	);
 }
 
 function addNotificationsDropdown() {
@@ -72,7 +82,6 @@ async function openPopup() {
 		return;
 	}
 
-	restoreUnreadIndicator();
 	const container = select('#NPG-dropdown');
 	empty(container);
 	container.append(...notifications.list);
@@ -101,6 +110,7 @@ async function fetchNotifications() {
 			list: select.all('.boxed-group', dom)
 		};
 
+		updateUnreadIndicator();
 	}
 
 	// Wait three seconds, but don't run if tab is not visible
