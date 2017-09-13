@@ -46,9 +46,11 @@ let options = {
 };
 
 function copyAttributes(elFrom, elTo) {
-	for (const attr of elFrom.getAttributeNames()) {
-		if (elTo.getAttribute(attr) !== elFrom.getAttribute(attr)) {
-			elTo.setAttribute(attr, elFrom.getAttribute(attr));
+	if (elFrom && elTo) {
+		for (const attr of elFrom.getAttributeNames()) {
+			if (elTo.getAttribute(attr) !== elFrom.getAttribute(attr)) {
+				elTo.setAttribute(attr, elFrom.getAttribute(attr));
+			}
 		}
 	}
 }
@@ -104,9 +106,12 @@ function fillNotificationsDropdown() {
 async function openPopup() {
 	// Make sure that the first load has been completed
 	const indicator = select('.notification-indicator');
-	indicator.classList.add('NPG-loading');
-	await firstFetch;
-	indicator.classList.remove('NPG-loading');
+	try {
+		indicator.classList.add('NPG-loading');
+		await firstFetch;
+	} finally {
+		indicator.classList.remove('NPG-loading');
+	}
 
 	if (!isOpen() && select.exists('.mail-status.unread')) {
 		fillNotificationsDropdown();
