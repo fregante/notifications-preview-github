@@ -8,11 +8,6 @@
 - Opera - Use [this Opera extension](https://addons.opera.com/en/extensions/details/download-chrome-extension-9/) to install the Chrome version.
 
 
-## Few things to know
-
-I'm new to making open-source contributions so feel free to suggest me how to do things better :)
-
-
 ## Screenshot
 
 ![Notification Preview Example](media/screenshot.png)
