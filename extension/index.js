@@ -67,7 +67,8 @@ function updateUnreadIndicator() {
 
 	if (options.previewCount) {
 		const status = select('.notification-indicator .mail-status');
-		const statusText = select.all('.js-notification', notifications).length || '';
+		const countEl = select('.notification-center .count', notifications);
+		const statusText = countEl.textContent || '';
 		if (status.textContent !== statusText) {
 			status.textContent = statusText;
 		}
