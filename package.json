@@ -1,7 +1,5 @@
 {
-  "name": "notifications-preview-github",
-  "version": "0.0.0",
-  "description": "Chrome extension",
+  "repository": "tanmayrajani/notifications-preview-github",
   "scripts": {
     "test": "xo",
     "release": "npm run update-version && npm run upload",
