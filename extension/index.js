@@ -82,7 +82,9 @@ function updateUnreadIndicator() {
 		select('.notification-indicator .mail-status', notifications),
 		select('.notification-indicator .mail-status')
 	);
+}
 
+function updateUnreadCount() {
 	if (options.previewCount) {
 		const status = select('.notification-indicator .mail-status');
 		const countEl = select('.notification-center .count', notifications);
@@ -148,6 +150,7 @@ async function fetchNotifications() {
 		}).then(r => r.text()).then(domify);
 
 		updateUnreadIndicator();
+		updateUnreadCount();
 	}
 
 	// Wait three seconds, but don't run if tab is not visible
@@ -171,7 +174,9 @@ Promise.all([
 	elementReady('.notification-indicator'),
 	getOptions()
 ]).then(() => {
-	if (!location.pathname.startsWith('/notifications')) {
+	if (location.pathname.startsWith('/notifications')) {
+		updateUnreadCount();
+	} else {
 		init();
 	}
 });
