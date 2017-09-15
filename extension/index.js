@@ -41,8 +41,11 @@ function isOpen() {
  */
 let notifications;
 let firstFetch;
+
+// Default value
 let options = {
-	previewCount: true // Default value
+	previewCount: true,
+	compactUI: true
 };
 
 function copyAttributes(elFrom, elTo) {
@@ -145,6 +148,9 @@ function init() {
 	// Get options
 	chrome.storage.sync.get({options}, response => {
 		options = response.options;
+		if (options.compactUI) {
+			select('#NPG-dropdown').classList.add('compact');
+		}
 	});
 }
 
