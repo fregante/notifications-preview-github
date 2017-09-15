@@ -27,22 +27,10 @@ function empty(el) {
 	el.textContent = '';
 }
 
+// Wait for the timeout, but don't run if tab is not visible
 function setTimeoutUntilVisible(cb, ms) {
 	return setTimeout(requestAnimationFrame, ms, cb);
 }
-
-// Is the popup open? Is it opening?
-function isOpen() {
-	return select.exists('#NPG-opener[aria-expanded="true"], .NPG-loading');
-}
-
-/**
- * Extension
- */
-let notifications;
-let firstFetch;
-let options;
-
 // Chrome 60- polyfill
 function getAttributeNames(el) {
 	if (el.getAttributeNames) {
@@ -60,6 +48,13 @@ function copyAttributes(elFrom, elTo) {
 		}
 	}
 }
+
+/**
+ * Extension
+ */
+let notifications;
+let firstUpdate;
+let options;
 function getOptions() {
 	const defaults = {
 		previewCount: true // Default value
@@ -72,6 +67,10 @@ function getOptions() {
 	});
 }
 
+// Is the popup open? Is it opening?
+function isOpen() {
+	return select.exists('#NPG-opener[aria-expanded="true"], .NPG-loading');
+}
 
 function updateUnreadIndicator() {
 	copyAttributes(
@@ -129,7 +128,7 @@ async function openPopup() {
 	const indicator = select('.notification-indicator');
 	try {
 		indicator.classList.add('NPG-loading');
-		await firstFetch;
+		await firstUpdate;
 	} finally {
 		indicator.classList.remove('NPG-loading');
 	}
@@ -140,7 +139,7 @@ async function openPopup() {
 	}
 }
 
-async function fetchNotifications() {
+async function updateLoop() {
 	// Don't fetch while it's open
 	if (!isOpen()) {
 		// Firefox bug requires location.origin
@@ -153,19 +152,18 @@ async function fetchNotifications() {
 		updateUnreadCount();
 	}
 
-	// Wait three seconds, but don't run if tab is not visible
-	setTimeoutUntilVisible(fetchNotifications, 3000);
+	setTimeoutUntilVisible(updateLoop, 3000);
 }
 
 function init() {
 	addNotificationsDropdown();
-	firstFetch = fetchNotifications();
+	firstUpdate = updateLoop();
 
 	const indicator = select('.notification-indicator');
 	indicator.addEventListener('mouseenter', openPopup);
-
-	// Restore link after it's disabled by the modal
 	indicator.addEventListener('click', () => {
+		// GitHub's modal blocks all links outside the popup
+		// so this way we let the user visit /notifications
 		location.href = indicator.href;
 	});
 }
