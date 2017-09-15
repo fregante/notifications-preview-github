@@ -45,9 +45,17 @@ let options = {
 	previewCount: true // Default value
 };
 
+// Chrome 60- polyfill
+function getAttributeNames(el) {
+	if (el.getAttributeNames) {
+		return el.getAttributeNames();
+	}
+	return [...el.attributes].map(attr => attr.name);
+}
+
 function copyAttributes(elFrom, elTo) {
 	if (elFrom && elTo) {
-		for (const attr of elFrom.getAttributeNames()) {
+		for (const attr of getAttributeNames(elFrom)) {
 			if (elTo.getAttribute(attr) !== elFrom.getAttribute(attr)) {
 				elTo.setAttribute(attr, elFrom.getAttribute(attr));
 			}
