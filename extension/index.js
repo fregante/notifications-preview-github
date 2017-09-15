@@ -58,14 +58,11 @@ let options;
 function getOptions() {
 	const defaults = {
 		previewCount: true,
-	  compactUI: true
+		compactUI: true
 	};
 	return new Promise(resolve => {
 		chrome.storage.sync.get({options: defaults}, response => {
 			options = response.options;
-      if (options.compactUI) {
-		  	select('#NPG-dropdown').classList.add('compact');
-		  }
 			resolve(options);
 		});
 	});
@@ -167,6 +164,10 @@ function init() {
 		// so this way we let the user visit /notifications
 		location.href = indicator.href;
 	});
+
+	if (options.compactUI) {
+		select('#NPG-dropdown').classList.add('compact');
+	}
 }
 
 Promise.all([
