@@ -47,12 +47,14 @@
     width: auto;
     height: auto;
     padding: 2px;
+    min-width: 1.5em;
 
     font-size: 10px;
     font-weight: bold;
     line-height: 0.7;
     border-radius: 1em;
     color: #24292f;
+    text-align: center;
 }
 
 #NPG-dropdown.compact {

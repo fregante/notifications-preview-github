@@ -4,16 +4,16 @@ select.all = (sel, el) => (el || document).querySelectorAll(sel);
 select.exists = (sel, el) => Boolean(select(sel, el));
 
 // Mini version of element-ready
-function elementReady(selector, fn) {
-	(function check() {
-		const el = document.querySelector(selector);
-
-		if (el) {
-			fn();
-		} else {
-			requestAnimationFrame(check);
-		}
-	})();
+function elementReady(selector) {
+	return new Promise(resolve => {
+		(function check() {
+			if (select.exists(selector)) {
+				resolve();
+			} else {
+				requestAnimationFrame(check);
+			}
+		})();
+	});
 }
 
 /**
@@ -27,33 +27,53 @@ function empty(el) {
 	el.textContent = '';
 }
 
+// Wait for the timeout, but don't run if tab is not visible
 function setTimeoutUntilVisible(cb, ms) {
 	return setTimeout(requestAnimationFrame, ms, cb);
 }
+// Chrome 60- polyfill
+function getAttributeNames(el) {
+	if (el.getAttributeNames) {
+		return el.getAttributeNames();
+	}
+	return [...el.attributes].map(attr => attr.name);
+}
 
-// Is the popup open? Is it opening?
-function isOpen() {
-	return select.exists('#NPG-opener[aria-expanded="true"], .NPG-loading');
+function copyAttributes(elFrom, elTo) {
+	if (elFrom && elTo) {
+		for (const attr of getAttributeNames(elFrom)) {
+			if (elTo.getAttribute(attr) !== elFrom.getAttribute(attr)) {
+				elTo.setAttribute(attr, elFrom.getAttribute(attr));
+			}
+		}
+	}
 }
 
 /**
  * Extension
  */
 let notifications;
-let firstFetch;
+let firstUpdate;
+let options;
+function getOptions() {
+	const defaults = {
+		previewCount: true,
+	  compactUI: true
+	};
+	return new Promise(resolve => {
+		chrome.storage.sync.get({options: defaults}, response => {
+			options = response.options;
+      if (options.compactUI) {
+		  	select('#NPG-dropdown').classList.add('compact');
+		  }
+			resolve(options);
+		});
+	});
+}
 
-// Default value
-let options = {
-	previewCount: true,
-	compactUI: true
-};
-
-function copyAttributes(elFrom, elTo) {
-	for (const attr of elFrom.getAttributeNames()) {
-		if (elTo.getAttribute(attr) !== elFrom.getAttribute(attr)) {
-			elTo.setAttribute(attr, elFrom.getAttribute(attr));
-		}
-	}
+// Is the popup open? Is it opening?
+function isOpen() {
+	return select.exists('#NPG-opener[aria-expanded="true"], .NPG-loading');
 }
 
 function updateUnreadIndicator() {
@@ -65,10 +85,13 @@ function updateUnreadIndicator() {
 		select('.notification-indicator .mail-status', notifications),
 		select('.notification-indicator .mail-status')
 	);
+}
 
+function updateUnreadCount() {
 	if (options.previewCount) {
 		const status = select('.notification-indicator .mail-status');
-		const statusText = select.all('.js-notification', notifications).length || '';
+		const countEl = select('.notification-center .count', notifications);
+		const statusText = countEl.textContent || '';
 		if (status.textContent !== statusText) {
 			status.textContent = statusText;
 		}
@@ -76,9 +99,6 @@ function updateUnreadIndicator() {
 }
 
 function addNotificationsDropdown() {
-	if (select.exists('#NPG')) {
-		return;
-	}
 	const indicator = select('.notification-indicator');
 	indicator.parentNode.insertAdjacentHTML('beforeend', `
 		<div id="NPG-opener" class="js-menu-target"></div>
@@ -107,9 +127,12 @@ function fillNotificationsDropdown() {
 async function openPopup() {
 	// Make sure that the first load has been completed
 	const indicator = select('.notification-indicator');
-	indicator.classList.add('NPG-loading');
-	await firstFetch;
-	indicator.classList.remove('NPG-loading');
+	try {
+		indicator.classList.add('NPG-loading');
+		await firstUpdate;
+	} finally {
+		indicator.classList.remove('NPG-loading');
+	}
 
 	if (!isOpen() && select.exists('.mail-status.unread')) {
 		fillNotificationsDropdown();
@@ -117,7 +140,7 @@ async function openPopup() {
 	}
 }
 
-async function fetchNotifications() {
+async function updateLoop() {
 	// Don't fetch while it's open
 	if (!isOpen()) {
 		// Firefox bug requires location.origin
@@ -127,34 +150,32 @@ async function fetchNotifications() {
 		}).then(r => r.text()).then(domify);
 
 		updateUnreadIndicator();
+		updateUnreadCount();
 	}
 
-	// Wait three seconds, but don't run if tab is not visible
-	setTimeoutUntilVisible(fetchNotifications, 3000);
+	setTimeoutUntilVisible(updateLoop, 3000);
 }
 
 function init() {
 	addNotificationsDropdown();
-	firstFetch = fetchNotifications();
+	firstUpdate = updateLoop();
 
 	const indicator = select('.notification-indicator');
 	indicator.addEventListener('mouseenter', openPopup);
-
-	// Restore link after it's disabled by the modal
 	indicator.addEventListener('click', () => {
+		// GitHub's modal blocks all links outside the popup
+		// so this way we let the user visit /notifications
 		location.href = indicator.href;
 	});
-
-	// Get options
-	chrome.storage.sync.get({options}, response => {
-		options = response.options;
-		if (options.compactUI) {
-			select('#NPG-dropdown').classList.add('compact');
-		}
-	});
 }
 
-// Init everywhere but on the notifications page
-if (!location.pathname.startsWith('/notifications')) {
-	elementReady('.notification-indicator', init);
-}
+Promise.all([
+	elementReady('.notification-indicator'),
+	getOptions()
+]).then(() => {
+	if (location.pathname.startsWith('/notifications')) {
+		updateUnreadCount();
+	} else {
+		init();
+	}
+});
