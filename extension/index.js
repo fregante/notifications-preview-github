@@ -95,9 +95,6 @@ function updateUnreadCount() {
 }
 
 function addNotificationsDropdown() {
-	if (select.exists('#NPG')) {
-		return;
-	}
 	const indicator = select('.notification-indicator');
 	indicator.parentNode.insertAdjacentHTML('beforeend', `
 		<div id="NPG-opener" class="js-menu-target"></div>
