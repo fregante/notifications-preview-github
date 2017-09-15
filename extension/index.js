@@ -4,16 +4,16 @@ select.all = (sel, el) => (el || document).querySelectorAll(sel);
 select.exists = (sel, el) => Boolean(select(sel, el));
 
 // Mini version of element-ready
-function elementReady(selector, fn) {
-	(function check() {
-		const el = document.querySelector(selector);
-
-		if (el) {
-			fn();
-		} else {
-			requestAnimationFrame(check);
-		}
-	})();
+function elementReady(selector) {
+	return new Promise(resolve => {
+		(function check() {
+			if (select.exists(selector)) {
+				resolve();
+			} else {
+				requestAnimationFrame(check);
+			}
+		})();
+	});
 }
 
 /**
@@ -41,9 +41,7 @@ function isOpen() {
  */
 let notifications;
 let firstFetch;
-let options = {
-	previewCount: true // Default value
-};
+let options;
 
 // Chrome 60- polyfill
 function getAttributeNames(el) {
@@ -62,6 +60,18 @@ function copyAttributes(elFrom, elTo) {
 		}
 	}
 }
+function getOptions() {
+	const defaults = {
+		previewCount: true // Default value
+	};
+	return new Promise(resolve => {
+		chrome.storage.sync.get({options: defaults}, response => {
+			options = response.options;
+			resolve(options);
+		});
+	});
+}
+
 
 function updateUnreadIndicator() {
 	copyAttributes(
@@ -155,14 +165,13 @@ function init() {
 	indicator.addEventListener('click', () => {
 		location.href = indicator.href;
 	});
-
-	// Get options
-	chrome.storage.sync.get({options}, response => {
-		options = response.options;
-	});
 }
 
-// Init everywhere but on the notifications page
-if (!location.pathname.startsWith('/notifications')) {
-	elementReady('.notification-indicator', init);
-}
+Promise.all([
+	elementReady('.notification-indicator'),
+	getOptions()
+]).then(() => {
+	if (!location.pathname.startsWith('/notifications')) {
+		init();
+	}
+});
