@@ -97,10 +97,12 @@ function updateUnreadCount() {
 
 function addNotificationsDropdown() {
 	const indicator = select('.notification-indicator');
+	const compact = options.compactUI ? 'compact' : '';
+
 	indicator.parentNode.insertAdjacentHTML('beforeend', `
 		<div id="NPG-opener" class="js-menu-target"></div>
 		<div id="NPG" class="dropdown-menu-content js-menu-content">
-			<div id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw notifications-list">
+			<div id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw notifications-list ${compact}">
 			</div>
 		</div>
 	`);
@@ -164,10 +166,6 @@ function init() {
 		// so this way we let the user visit /notifications
 		location.href = indicator.href;
 	});
-
-	if (options.compactUI) {
-		select('#NPG-dropdown').classList.add('compact');
-	}
 }
 
 Promise.all([

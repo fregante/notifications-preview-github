@@ -5,7 +5,7 @@ const options = {
 };
 
 chrome.storage.sync.get({options}, ({options}) => {
-	Object.keys(options).forEach((option, value) => {
+	for (const [option, value] of Object.entries(options)) {
 		const field = document.querySelector(`[name=${option}]`);
 		field.checked = value;
 		field.addEventListener('change', () => {
@@ -15,5 +15,5 @@ chrome.storage.sync.get({options}, ({options}) => {
 				})
 			});
 		});
-	});
+	}
 });
