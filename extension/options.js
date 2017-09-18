@@ -1,18 +1,19 @@
 // Default values
 const options = {
-	previewCount: true
+	previewCount: true,
+	compactUI: true
 };
 
 chrome.storage.sync.get({options}, ({options}) => {
-	const field = document.querySelector('[name=previewCount]');
-	if (options.previewCount) {
-		field.checked = true;
-	}
-	field.addEventListener('change', () => {
-		chrome.storage.sync.set({
-			options: {
-				previewCount: field.checked
-			}
+	for (const [option, value] of Object.entries(options)) {
+		const field = document.querySelector(`[name=${option}]`);
+		field.checked = value;
+		field.addEventListener('change', () => {
+			chrome.storage.sync.set({
+				options: Object.assign(options, {
+					[option]: field.checked
+				})
+			});
 		});
-	});
+	}
 });
