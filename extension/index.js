@@ -20,7 +20,8 @@ function elementReady(selector) {
  * Utilities
  */
 function domify(html) {
-	return new DOMParser().parseFromString(html, 'text/html');
+	const dom = new DOMParser().parseFromString(html, 'text/html');
+	return sanitizeDOM(dom);
 }
 
 function empty(el) {
@@ -47,6 +48,20 @@ function copyAttributes(elFrom, elTo) {
 			}
 		}
 	}
+}
+
+function sanitizeDOM(dom) {
+	for (const el of dom.querySelectorAll('script,[href^=data:],[href^=javascript:]')) {
+		el.remove();
+	}
+	for (const el of dom.querySelectorAll('*')) {
+		for (const attr of getAttributeNames(el)) {
+			if (attr.startsWith('on')) {
+				el.removeAttribute(attr);
+			}
+		}
+	}
+	return dom;
 }
 
 /**
