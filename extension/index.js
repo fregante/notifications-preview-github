@@ -51,7 +51,7 @@ function copyAttributes(elFrom, elTo) {
 }
 
 function sanitizeDOM(dom) {
-	for (const el of dom.querySelectorAll('script,[href^=data:],[href^=javascript:]')) {
+	for (const el of dom.querySelectorAll('script,[href^="data:"],[href^="javascript:"]')) {
 		el.remove();
 	}
 	for (const el of dom.querySelectorAll('*')) {
