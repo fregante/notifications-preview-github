@@ -14,15 +14,10 @@
     margin-bottom: 0;
 }
 
+/* Loading animation */
 .NPG-loading .octicon-bell {
     transform-origin: top;
     animation: npg-ding 0.5s infinite ease-out;
-}
-
-@keyframes npg-pulse {
-    50% {
-        opacity: 0.5;
-    }
 }
 
 @keyframes npg-ding {
@@ -43,5 +38,49 @@
 
 /* Disable native tooltip when it has unread notifications */
 .Header .notification-indicator[data-ga-click$=":unread"]::after {
+    display: none;
+}
+
+/* Style the unread count */
+/* Needs high specificity */
+.notification-indicator .mail-status.unread:not(:empty) {
+    width: auto;
+    height: auto;
+    padding: 2px;
+    min-width: 1.5em;
+    
+    /* Position it so multiple digits don't go too far right */
+    left: 11px;
+    transform: translateX(-30%);
+
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 0.7;
+    border-radius: 1em;
+    color: #24292f;
+    text-align: center;
+}
+
+#NPG-dropdown.compact {
+    width: auto;
+    max-width: 750px;
+    padding: 5px;
+}
+
+#NPG-dropdown.compact .list-group-item-name {
+    padding-right: 15px;
+}
+
+#NPG-dropdown.compact .boxed-group {
+    margin-bottom: 6px;
+}
+
+#NPG-dropdown.compact .boxed-group h3 {
+    padding-right: 45px; /* Avoids wrap with long repo names */
+}
+
+/* Hide extra content */
+#NPG-dropdown.compact .age,
+#NPG-dropdown.compact .avatar-stack {
     display: none;
 }
