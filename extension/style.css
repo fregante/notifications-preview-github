@@ -32,7 +32,7 @@
 }
 
 /* Keep icon clickable when modal is open */
-.notification-indicator {
+.active .notification-indicator {
     z-index: 101;
 }
 
@@ -48,7 +48,7 @@
     height: auto;
     padding: 2px;
     min-width: 1.5em;
-    
+
     /* Position it so multiple digits don't go too far right */
     left: 11px;
     transform: translateX(-30%);
