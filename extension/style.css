@@ -81,6 +81,6 @@
 
 /* Hide extra content */
 #NPG-dropdown.compact .age,
-#NPG-dropdown.compact .avatar-stack {
-    display: none;
+#NPG-dropdown.compact .AvatarStack {
+    display: none !important;
 }
