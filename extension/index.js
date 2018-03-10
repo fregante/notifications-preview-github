@@ -73,7 +73,8 @@ let options;
 function getOptions() {
 	const defaults = {
 		previewCount: true,
-		compactUI: true
+		compactUI: true,
+		participating: false
 	};
 	return new Promise(resolve => {
 		chrome.storage.sync.get({options: defaults}, response => {
@@ -102,7 +103,7 @@ function updateUnreadIndicator() {
 function updateUnreadCount() {
 	if (options.previewCount) {
 		const status = select('.notification-indicator .mail-status');
-		const countEl = select('.notification-center .count', notifications);
+		const countEl = select('.notification-center .selected .count', notifications);
 		const statusText = countEl.textContent || '';
 		if (status.textContent !== statusText) {
 			status.textContent = statusText;
@@ -113,11 +114,12 @@ function updateUnreadCount() {
 function addNotificationsDropdown() {
 	const indicator = select('.notification-indicator');
 	const compact = options.compactUI ? 'compact' : '';
+	const participating = options.participating ? 'participating' : '';
 
 	indicator.parentNode.insertAdjacentHTML('beforeend', `
 		<div id="NPG-opener" class="js-menu-target"></div>
 		<div id="NPG" class="dropdown-menu-content js-menu-content">
-			<div id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw notifications-list ${compact}">
+			<div id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw notifications-list ${participating} ${compact}">
 			</div>
 		</div>
 	`);
@@ -157,9 +159,11 @@ async function openPopup() {
 async function updateLoop() {
 	// Don't fetch while it's open
 	if (!isOpen()) {
+		const url = options.participating ? '/notifications/participating' : '/notifications';
+
 		// Firefox bug requires location.origin
 		// https://github.com/sindresorhus/refined-github/issues/489
-		notifications = await fetch(location.origin + '/notifications', {
+		notifications = await fetch(location.origin + url, {
 			credentials: 'include'
 		}).then(r => r.text()).then(domify);
 

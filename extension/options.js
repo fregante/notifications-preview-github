@@ -1,7 +1,8 @@
 // Default values
 const options = {
 	previewCount: true,
-	compactUI: true
+	compactUI: true,
+	participating: false
 };
 
 chrome.storage.sync.get({options}, ({options}) => {

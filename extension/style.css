@@ -1,7 +1,7 @@
 #NPG-dropdown {
     width: 750px;
     border: none;
-    padding: 2px 2px 3px;
+    padding: 5px;
     color: rgb(36, 41, 46);
     right: -1px;
 }
@@ -61,10 +61,21 @@
     text-align: center;
 }
 
+.participating .js-notifications-browser::before {
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    left: 20px;
+    z-index: -1;
+    display: block;
+    width: 2px;
+    content: "";
+    background-color: #e6ebf1;
+}
+
 #NPG-dropdown.compact {
     width: auto;
     max-width: 750px;
-    padding: 5px;
 }
 
 #NPG-dropdown.compact .list-group-item-name {
