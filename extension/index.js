@@ -117,9 +117,11 @@ function addNotificationsDropdown() {
 	const participating = options.participating ? 'participating' : '';
 
 	indicator.parentNode.insertAdjacentHTML('beforeend', `
-		<div id="NPG-opener" class="js-menu-target"></div>
-		<div id="NPG" class="dropdown-menu-content js-menu-content">
-			<div id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw notifications-list ${participating} ${compact}">
+		<div id="NPG-container" class="js-menu-container">
+			<div id="NPG-opener" class="js-menu-target"></div>
+			<div id="NPG" class="dropdown-menu-content js-menu-content">
+				<div id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw notifications-list ${participating} ${compact}">
+				</div>
 			</div>
 		</div>
 	`);

@@ -95,3 +95,7 @@
 #NPG-dropdown.compact .AvatarStack {
     display: none !important;
 }
+
+#NPG-container.active .dropdown-menu-content {
+    display: block;
+}
