@@ -32,7 +32,7 @@
 }
 
 /* Keep icon clickable when modal is open */
-.active .notification-indicator {
+#NPG-container.active + .notification-indicator {
     z-index: 101;
 }
 

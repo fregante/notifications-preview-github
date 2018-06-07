@@ -116,7 +116,7 @@ function addNotificationsDropdown() {
 	const compact = options.compactUI ? 'compact' : '';
 	const participating = options.participating ? 'participating' : '';
 
-	indicator.parentNode.insertAdjacentHTML('beforeend', `
+	indicator.parentNode.insertAdjacentHTML('afterbegin', `
 		<div id="NPG-container" class="js-menu-container">
 			<div id="NPG-opener" class="js-menu-target"></div>
 			<div id="NPG" class="dropdown-menu-content js-menu-content">
