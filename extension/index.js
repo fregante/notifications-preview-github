@@ -85,76 +85,87 @@ function getOptions() {
 }
 
 // Is the popup open? Is it opening?
-function isOpen() {
-	return select.exists('#NPG-opener[aria-expanded="true"], .NPG-loading');
+function isOpen(el) {
+	return select.exists('#NPG-opener[aria-expanded="true"], .NPG-loading', el);
 }
 
 function updateUnreadIndicator() {
-	copyAttributes(
-		select('.notification-indicator', notifications),
-		select('.notification-indicator')
-	);
-	copyAttributes(
-		select('.notification-indicator .mail-status', notifications),
-		select('.notification-indicator .mail-status')
-	);
+	for (const indicator of select.all('a.notification-indicator')) {
+		copyAttributes(
+			select('.notification-indicator', notifications),
+			indicator
+		);
+	}
+
+	for (const indicatorMailStatus of select.all('.notification-indicator .mail-status')) {
+		copyAttributes(
+			select('.notification-indicator .mail-status', notifications),
+			indicatorMailStatus
+		);
+	}
 }
 
 function updateUnreadCount() {
 	if (options.previewCount) {
-		const status = select('.notification-indicator .mail-status');
 		const countEl = select('.notification-center .selected .count', notifications);
-		const statusText = countEl.textContent || '';
-		if (status.textContent !== statusText) {
-			status.textContent = statusText;
+
+		for (const status of select.all('.notification-indicator .mail-status')) {
+			const statusText = countEl.textContent || '';
+			if (status.textContent !== statusText) {
+				status.textContent = statusText;
+			}
 		}
 	}
 }
 
 function addNotificationsDropdown() {
-	const indicator = select('.notification-indicator');
+	const indicators = select.all('a.notification-indicator');
 	const compact = options.compactUI ? 'compact' : '';
 	const participating = options.participating ? 'participating' : '';
 
-	indicator.parentNode.insertAdjacentHTML('afterbegin', `
-		<div id="NPG-container" class="js-menu-container">
-			<div id="NPG-opener" class="js-menu-target"></div>
-			<div id="NPG" class="dropdown-menu-content js-menu-content">
-				<div id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw notifications-list ${participating} ${compact}">
+	for (const indicator of indicators) {
+		indicator.parentNode.insertAdjacentHTML('afterbegin', `
+			<div id="NPG-container" class="js-menu-container">
+				<div id="NPG-opener" class="js-menu-target"></div>
+				<div id="NPG" class="dropdown-menu-content js-menu-content">
+					<div id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw notifications-list ${participating} ${compact}">
+					</div>
 				</div>
 			</div>
-		</div>
-	`);
+		`);
+	}
 }
 
 function fillNotificationsDropdown() {
 	const boxes = select.all('.notifications-list .boxed-group', notifications);
 	if (boxes.length > 0) {
-		const container = select('#NPG-dropdown');
-		empty(container);
-		container.append(...boxes);
+		for (const container of select.all('#NPG-dropdown')) {
+			empty(container);
+			container.append(...boxes);
 
-		// Change tooltip direction
-		for (const {classList} of select.all('.tooltipped-s', container)) {
-			classList.remove('tooltipped-s');
-			classList.add('tooltipped-n');
+			// Change tooltip direction
+			for (const {classList} of select.all('.tooltipped-s', container)) {
+				classList.remove('tooltipped-s');
+				classList.add('tooltipped-n');
+			}
 		}
 	}
 }
 
 async function openPopup() {
-	// Make sure that the first load has been completed
-	const indicator = select('.notification-indicator');
-	try {
-		indicator.classList.add('NPG-loading');
-		await firstUpdate;
-	} finally {
-		indicator.classList.remove('NPG-loading');
-	}
+	for (const indicator of select.all('a.notification-indicator')) {
+		// Make sure that the first load has been completed
+		try {
+			indicator.classList.add('NPG-loading');
+			await firstUpdate;
+		} finally {
+			indicator.classList.remove('NPG-loading');
+		}
 
-	if (!isOpen() && select.exists('.mail-status.unread')) {
-		fillNotificationsDropdown();
-		select('#NPG-opener').click(); // Open modal
+		if (!isOpen(indicator.parentNode) && select.exists('.mail-status.unread')) {
+			fillNotificationsDropdown();
+			select('#NPG-opener', indicator.parentNode).click(); // Open modal
+		}
 	}
 }
 
@@ -180,13 +191,14 @@ function init() {
 	addNotificationsDropdown();
 	firstUpdate = updateLoop();
 
-	const indicator = select('.notification-indicator');
-	indicator.addEventListener('mouseenter', openPopup);
-	indicator.addEventListener('click', () => {
-		// GitHub's modal blocks all links outside the popup
-		// so this way we let the user visit /notifications
-		location.href = indicator.href;
-	});
+	for (const indicator of select.all('a.notification-indicator')) {
+		indicator.addEventListener('mouseenter', openPopup);
+		indicator.addEventListener('click', () => {
+			// GitHub's modal blocks all links outside the popup
+			// so this way we let the user visit /notifications
+			location.href = indicator.href;
+		});
+	}
 }
 
 Promise.all([
