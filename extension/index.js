@@ -136,36 +136,32 @@ function addNotificationsDropdown() {
 	}
 }
 
-function fillNotificationsDropdown() {
+function fillNotificationsDropdown(parentNode) {
 	const boxes = select.all('.notifications-list .boxed-group', notifications);
 	if (boxes.length > 0) {
-		for (const container of select.all('#NPG-dropdown')) {
-			empty(container);
-			container.append(...boxes);
-
-			// Change tooltip direction
-			for (const {classList} of select.all('.tooltipped-s', container)) {
-				classList.remove('tooltipped-s');
-				classList.add('tooltipped-n');
-			}
+		const container = select('#NPG-dropdown', parentNode);
+		empty(container);
+		container.append(...boxes);
+		// Change tooltip direction
+		for (const {classList} of select.all('.tooltipped-s', container)) {
+			classList.remove('tooltipped-s');
+			classList.add('tooltipped-n');
 		}
 	}
 }
 
-async function openPopup() {
-	for (const indicator of select.all('a.notification-indicator')) {
-		// Make sure that the first load has been completed
-		try {
-			indicator.classList.add('NPG-loading');
-			await firstUpdate;
-		} finally {
-			indicator.classList.remove('NPG-loading');
-		}
+async function openPopup(indicator) {
+	// Make sure that the first load has been completed
+	try {
+		indicator.classList.add('NPG-loading');
+		await firstUpdate;
+	} finally {
+		indicator.classList.remove('NPG-loading');
+	}
 
-		if (!isOpen(indicator.parentNode) && select.exists('.mail-status.unread')) {
-			fillNotificationsDropdown();
-			select('#NPG-opener', indicator.parentNode).click(); // Open modal
-		}
+	if (!isOpen(indicator.parentNode) && select.exists('.mail-status.unread')) {
+		fillNotificationsDropdown(indicator.parentNode);
+		select('#NPG-opener', indicator.parentNode).click(); // Open modal
 	}
 }
 
@@ -192,7 +188,7 @@ function init() {
 	firstUpdate = updateLoop();
 
 	for (const indicator of select.all('a.notification-indicator')) {
-		indicator.addEventListener('mouseenter', openPopup);
+		indicator.addEventListener('mouseenter', () => openPopup(indicator));
 		indicator.addEventListener('click', () => {
 			// GitHub's modal blocks all links outside the popup
 			// so this way we let the user visit /notifications
