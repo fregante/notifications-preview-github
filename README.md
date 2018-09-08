@@ -1,4 +1,10 @@
-# Notifications Preview for GitHub [![Build Status](https://travis-ci.org/tanmayrajani/notifications-preview-github.svg?branch=master)](https://travis-ci.org/tanmayrajani/notifications-preview-github)
+# Notifications Preview for GitHub 
+[![Build Status](https://travis-ci.org/tanmayrajani/notifications-preview-github.svg?branch=master)](https://travis-ci.org/tanmayrajani/notifications-preview-github) [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/kgilejfahkjidpaclkepbdoeioeohfmj.svg)](https://chrome.google.com/webstore/detail/notifications-preview-for/kgilejfahkjidpaclkepbdoeioeohfmj?hl=en&gl=IN) [![Chrome Web Store](https://img.shields.io/chrome-web-store/rating/kgilejfahkjidpaclkepbdoeioeohfmj.svg)](https://chrome.google.com/webstore/detail/notifications-preview-for/kgilejfahkjidpaclkepbdoeioeohfmj?hl=en&gl=IN) [![Mozilla Add-on](https://img.shields.io/amo/v/notifications-preview-github.svg)](https://addons.mozilla.org/en-US/firefox/addon/notifications-preview-github/)
+
+
+
+
+
 
 > Browser extension - Quickly see your notifications in a popup without leaving the current page
 
