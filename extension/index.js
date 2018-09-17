@@ -112,7 +112,7 @@ async function updateLoop() {
 
 			updateUnreadIndicator();
 			updateUnreadCount();
-		} catch (error) {/* Ignore network failures */}
+		} catch (err) {/* Ignore network failures */}
 	}
 
 	setTimeoutUntilVisible(updateLoop, 3000);
