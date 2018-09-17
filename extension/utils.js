@@ -18,9 +18,15 @@ function elementReady(selector) {
 	});
 }
 
-function domify(html) {
+function parseHTML(html) {
 	const dom = new DOMParser().parseFromString(html, 'text/html');
 	return sanitizeDOM(dom);
+}
+
+function domify(html) {
+	const template = document.createElement('template');
+	template.innerHTML = html;
+	return template.content;
 }
 
 function empty(el) {

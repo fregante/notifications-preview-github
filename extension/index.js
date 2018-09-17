@@ -1,4 +1,4 @@
-/* globals select, empty, domify, setTimeoutUntilVisible, elementReady */
+/* globals select, empty, domify, parseHTML, setTimeoutUntilVisible, elementReady */
 
 let notifications;
 let firstUpdate;
@@ -51,7 +51,7 @@ function addNotificationsDropdown() {
 	const participating = options.participating ? 'participating' : '';
 
 	for (const indicator of indicators) {
-		indicator.parentNode.insertAdjacentHTML('afterbegin', `
+		const dropdown = domify(`
 			<div class="NPG-container js-menu-container">
 				<div class="NPG-opener js-menu-target"></div>
 				<div class="NPG dropdown-menu-content js-menu-content">
@@ -60,6 +60,15 @@ function addNotificationsDropdown() {
 				</div>
 			</div>
 		`);
+		indicator.parentNode.prepend(dropdown);
+
+		// Close dropdown if a link is clicked
+		// https://github.com/tanmayrajani/notifications-preview-github/issues/50
+		dropdown.addEventListener('click', event => {
+			if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.target.closest('a[href]')) {
+				select('.modal-backdrop').click();
+			}
+		});
 	}
 }
 
@@ -102,10 +111,13 @@ async function updateLoop() {
 			// https://github.com/sindresorhus/refined-github/issues/489
 			notifications = await fetch(location.origin + url, {
 				credentials: 'include'
-			}).then(r => r.text()).then(domify);
+			}).then(r => r.text()).then(parseHTML);
 
 			updateUnreadCount();
-		} catch (err) {/* Ignore network failures */}
+		} catch (err) {
+			/* Ignore network failures */
+			console.error(err);
+		}
 	}
 
 	setTimeoutUntilVisible(updateLoop, 3000);
