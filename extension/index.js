@@ -27,7 +27,7 @@ function getRefinedGitHubUnreadCount() {
 
 // Is the popup open? Is it opening?
 function isOpen(el) {
-	return select.exists('#NPG-opener[aria-expanded="true"], .NPG-loading', el);
+	return select.exists('.NPG-opener[aria-expanded="true"], .NPG-loading', el);
 }
 
 function updateUnreadCount() {
@@ -52,10 +52,10 @@ function addNotificationsDropdown() {
 
 	for (const indicator of indicators) {
 		indicator.parentNode.insertAdjacentHTML('afterbegin', `
-			<div id="NPG-container" class="js-menu-container">
-				<div id="NPG-opener" class="js-menu-target"></div>
-				<div id="NPG" class="dropdown-menu-content js-menu-content">
-					<div id="NPG-dropdown" class="dropdown-menu dropdown-menu-sw notifications-list ${participating} ${compact}">
+			<div class="NPG-container js-menu-container">
+				<div class="NPG-opener js-menu-target"></div>
+				<div class="NPG dropdown-menu-content js-menu-content">
+					<div class="NPG-dropdown dropdown-menu dropdown-menu-sw notifications-list ${participating} ${compact}">
 					</div>
 				</div>
 			</div>
@@ -66,7 +66,7 @@ function addNotificationsDropdown() {
 function fillNotificationsDropdown(parentNode) {
 	const boxes = select.all('.notifications-list .boxed-group', notifications);
 	if (boxes.length > 0) {
-		const container = select('#NPG-dropdown', parentNode);
+		const container = select('.NPG-dropdown', parentNode);
 		empty(container);
 		container.append(...boxes);
 		// Change tooltip direction
@@ -88,7 +88,7 @@ async function openPopup(indicator) {
 	}
 
 	if (!isOpen(indicator.parentNode) && fillNotificationsDropdown(indicator.parentNode)) {
-		select('#NPG-opener', indicator.parentNode).click(); // Open modal
+		select('.NPG-opener', indicator.parentNode).click(); // Open modal
 	}
 }
 

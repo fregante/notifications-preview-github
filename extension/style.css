@@ -1,4 +1,4 @@
-#NPG-dropdown {
+:root .NPG-dropdown {
     width: 750px;
     border: none;
     padding: 5px;
@@ -6,11 +6,11 @@
     right: -1px;
 }
 
-#NPG-dropdown .boxed-group {
+.NPG-dropdown .boxed-group {
     margin-bottom: 20px;
 }
 
-#NPG-dropdown .boxed-group:last-child {
+.NPG-dropdown .boxed-group:last-child {
     margin-bottom: 0 !important;
 }
 
@@ -32,7 +32,7 @@
 }
 
 /* Keep icon clickable when modal is open */
-#NPG-container.active + .notification-indicator {
+.NPG-container.active + .notification-indicator {
     z-index: 101;
 }
 
@@ -73,29 +73,29 @@
     background-color: #e6ebf1;
 }
 
-#NPG-dropdown.compact {
+:root .NPG-dropdown.compact {
     width: auto;
     max-width: 750px;
 }
 
-#NPG-dropdown.compact .list-group-item-name {
+.NPG-dropdown.compact .list-group-item-name {
     padding-right: 15px;
 }
 
-#NPG-dropdown.compact .boxed-group {
+.NPG-dropdown.compact .boxed-group {
     margin-bottom: 6px;
 }
 
-#NPG-dropdown.compact .boxed-group h3 {
+.NPG-dropdown.compact .boxed-group h3 {
     padding-right: 45px; /* Avoids wrap with long repo names */
 }
 
 /* Hide extra content */
-#NPG-dropdown.compact .age,
-#NPG-dropdown.compact .AvatarStack {
+.NPG-dropdown.compact .age,
+.NPG-dropdown.compact .AvatarStack {
     display: none !important;
 }
 
-#NPG-container.active .dropdown-menu-content {
+.NPG-container.active .dropdown-menu-content {
     display: block;
 }
