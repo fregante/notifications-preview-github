@@ -75,6 +75,7 @@ function fillNotificationsDropdown(parentNode) {
 			classList.add('tooltipped-n');
 		}
 	}
+	return Boolean(boxes.length);
 }
 
 async function openPopup(indicator) {
@@ -86,8 +87,7 @@ async function openPopup(indicator) {
 		indicator.classList.remove('NPG-loading');
 	}
 
-	if (!isOpen(indicator.parentNode) && select.exists('.mail-status.unread')) {
-		fillNotificationsDropdown(indicator.parentNode);
+	if (!isOpen(indicator.parentNode) && fillNotificationsDropdown(indicator.parentNode)) {
 		select('#NPG-opener', indicator.parentNode).click(); // Open modal
 	}
 }
