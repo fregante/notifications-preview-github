@@ -32,16 +32,6 @@ function setTimeoutUntilVisible(cb, ms) {
 	return setTimeout(requestAnimationFrame, ms, cb);
 }
 
-function copyAttributes(elFrom, elTo) {
-	if (elFrom && elTo) {
-		for (const attr of elFrom.getAttributeNames()) {
-			if (elTo.getAttribute(attr) !== elFrom.getAttribute(attr)) {
-				elTo.setAttribute(attr, elFrom.getAttribute(attr));
-			}
-		}
-	}
-}
-
 function sanitizeDOM(dom) {
 	for (const el of dom.querySelectorAll('script,[href^="data:"],[href^="javascript:"]')) {
 		el.remove();
