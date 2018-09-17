@@ -116,10 +116,16 @@ async function updateLoop() {
 	setTimeoutUntilVisible(updateLoop, 3000);
 }
 
-function init() {
+async function init() {
+	await getOptions();
+	await elementReady('.notification-indicator');
 	addNotificationsDropdown();
 	firstUpdate = updateLoop();
 
+	// Don’t show the popup on the notifications page
+	if (location.pathname.startsWith('/notifications')) {
+		return;
+	}
 	for (const indicator of select.all('a.notification-indicator')) {
 		indicator.addEventListener('mouseenter', () => openPopup(indicator));
 		indicator.addEventListener('click', event => {
@@ -132,13 +138,4 @@ function init() {
 	}
 }
 
-Promise.all([
-	elementReady('.notification-indicator'),
-	getOptions()
-]).then(() => {
-	if (location.pathname.startsWith('/notifications')) {
-		updateUnreadCount();
-	} else {
-		init();
-	}
-});
+init();
