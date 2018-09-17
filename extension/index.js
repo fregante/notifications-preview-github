@@ -122,10 +122,12 @@ function init() {
 
 	for (const indicator of select.all('a.notification-indicator')) {
 		indicator.addEventListener('mouseenter', () => openPopup(indicator));
-		indicator.addEventListener('click', () => {
-			// GitHub's modal blocks all links outside the popup
-			// so this way we let the user visit /notifications
-			location.href = indicator.href;
+		indicator.addEventListener('click', event => {
+			// When the popup is open, GitHub's modal blocks all links outside the popup.
+			// This handler lets the user visit /notifications while retaining any cmd/ctrl click modifier
+			if (isOpen() && event.isTrusted) {
+				indicator.dispatchEvent(new MouseEvent('click', event));
+			}
 		});
 	}
 }
