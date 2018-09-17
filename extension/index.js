@@ -101,16 +101,18 @@ async function openPopup(indicator) {
 async function updateLoop() {
 	// Don't fetch while it's open
 	if (!isOpen()) {
-		const url = options.participating ? '/notifications/participating' : '/notifications';
+		try {
+			const url = options.participating ? '/notifications/participating' : '/notifications';
 
-		// Firefox bug requires location.origin
-		// https://github.com/sindresorhus/refined-github/issues/489
-		notifications = await fetch(location.origin + url, {
-			credentials: 'include'
-		}).then(r => r.text()).then(domify);
+			// Firefox bug requires location.origin
+			// https://github.com/sindresorhus/refined-github/issues/489
+			notifications = await fetch(location.origin + url, {
+				credentials: 'include'
+			}).then(r => r.text()).then(domify);
 
-		updateUnreadIndicator();
-		updateUnreadCount();
+			updateUnreadIndicator();
+			updateUnreadCount();
+		} catch (error) {/* Ignore network failures */}
 	}
 
 	setTimeoutUntilVisible(updateLoop, 3000);
