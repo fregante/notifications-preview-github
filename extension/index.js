@@ -32,17 +32,10 @@ function empty(el) {
 function setTimeoutUntilVisible(cb, ms) {
 	return setTimeout(requestAnimationFrame, ms, cb);
 }
-// Chrome 60- polyfill
-function getAttributeNames(el) {
-	if (el.getAttributeNames) {
-		return el.getAttributeNames();
-	}
-	return [...el.attributes].map(attr => attr.name);
-}
 
 function copyAttributes(elFrom, elTo) {
 	if (elFrom && elTo) {
-		for (const attr of getAttributeNames(elFrom)) {
+		for (const attr of elFrom.getAttributeNames()) {
 			if (elTo.getAttribute(attr) !== elFrom.getAttribute(attr)) {
 				elTo.setAttribute(attr, elFrom.getAttribute(attr));
 			}
@@ -55,7 +48,7 @@ function sanitizeDOM(dom) {
 		el.remove();
 	}
 	for (const el of dom.querySelectorAll('*')) {
-		for (const attr of getAttributeNames(el)) {
+		for (const attr of el.getAttributeNames()) {
 			if (attr.startsWith('on')) {
 				el.removeAttribute(attr);
 			}
