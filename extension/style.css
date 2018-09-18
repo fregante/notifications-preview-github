@@ -1,4 +1,4 @@
-:root .NPG-dropdown {
+:root:root .NPG-dropdown {
     width: 750px;
     border: none;
     padding: 5px;
@@ -73,7 +73,7 @@
     background-color: #e6ebf1;
 }
 
-:root .NPG-dropdown.compact {
+:root:root .NPG-dropdown.compact {
     width: auto;
     max-width: 750px;
 }

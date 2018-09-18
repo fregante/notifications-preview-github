@@ -1,20 +1,32 @@
-/* globals select, empty, domify, parseHTML, setTimeoutUntilVisible, elementReady */
+/* globals select, empty, domify, parseHTML, getOptions, setTimeoutUntilVisible, elementReady */
 
-let notifications;
-let firstUpdate;
 let options;
-function getOptions() {
-	const defaults = {
-		previewCount: true,
-		compactUI: true,
-		participating: false
-	};
-	return new Promise(resolve => {
-		chrome.storage.sync.get({options: defaults}, response => {
-			options = response.options;
-			resolve(options);
-		});
-	});
+let notifications;
+
+class Notifications {
+	constructor() {
+		try {
+			// Firefox bug requires location.origin
+			// https://github.com/sindresorhus/refined-github/issues/489
+			const url = options.participating ? '/notifications/participating' : '/notifications';
+			this.dom = fetch(location.origin + url, {
+				credentials: 'include'
+			}).then(r => r.text()).then(parseHTML);
+		} catch (err) {/* Ignore network failures */}
+	}
+	async getList() {
+		if (!this.list) {
+			this.list = select.all('.notifications-list .boxed-group', await this.dom);
+
+			// Change tooltip direction
+			for (const group of this.list) {
+				for (const {classList} of select.all('.tooltipped-s', group)) {
+					classList.replace('tooltipped-s', 'tooltipped-n');
+				}
+			}
+		}
+		return this.list;
+	}
 }
 
 function getRefinedGitHubUnreadCount() {
@@ -25,14 +37,14 @@ function getRefinedGitHubUnreadCount() {
 	return Number(element.dataset.rghUnread);
 }
 
-// Is the popup open? Is it opening?
+// Is the dropdown open? Is it opening?
 function isOpen(el) {
 	return select.exists('.NPG-opener[aria-expanded="true"], .NPG-loading', el);
 }
 
-function updateUnreadCount() {
-	const latestStatusEl = select('.notification-indicator .mail-status', notifications);
-	const latestCount = select('.notification-center .selected .count', notifications).textContent;
+async function updateUnreadCount() {
+	const latestStatusEl = select('.notification-indicator .mail-status', await notifications.dom);
+	const latestCount = select('.notification-center .selected .count', await notifications.dom).textContent;
 	const rghCount = getRefinedGitHubUnreadCount();
 
 	for (const statusEl of select.all('.notification-indicator .mail-status')) {
@@ -45,7 +57,7 @@ function updateUnreadCount() {
 	}
 }
 
-function addNotificationsDropdown() {
+function createNotificationsDropdown() {
 	const indicators = select.all('a.notification-indicator');
 	const compact = options.compactUI ? 'compact' : '';
 	const participating = options.participating ? 'participating' : '';
@@ -69,79 +81,59 @@ function addNotificationsDropdown() {
 				select('.modal-backdrop').click();
 			}
 		});
+		indicator.addEventListener('mouseenter', openDropdown);
+		indicator.addEventListener('click', visitNotificationsPage);
 	}
 }
 
-function fillNotificationsDropdown(parentNode) {
-	const boxes = select.all('.notifications-list .boxed-group', notifications);
-	if (boxes.length > 0) {
-		const container = select('.NPG-dropdown', parentNode);
+async function openDropdown({currentTarget: indicator}) {
+	const dropdown = indicator.parentNode;
+	indicator.classList.add('NPG-loading');
+	const list = await notifications.getList();
+	indicator.classList.remove('NPG-loading');
+
+	if (!isOpen(dropdown) && list.length > 0) {
+		const container = select('.NPG-dropdown', dropdown);
 		empty(container);
-		container.append(...boxes);
-		// Change tooltip direction
-		for (const {classList} of select.all('.tooltipped-s', container)) {
-			classList.remove('tooltipped-s');
-			classList.add('tooltipped-n');
-		}
+		container.append(...list);
+		select('.NPG-opener', dropdown).click(); // Open modal
 	}
-	return Boolean(boxes.length);
 }
 
-async function openPopup(indicator) {
-	// Make sure that the first load has been completed
-	try {
-		indicator.classList.add('NPG-loading');
-		await firstUpdate;
-	} finally {
-		indicator.classList.remove('NPG-loading');
-	}
-
-	if (!isOpen(indicator.parentNode) && fillNotificationsDropdown(indicator.parentNode)) {
-		select('.NPG-opener', indicator.parentNode).click(); // Open modal
+// When the dropdown is open, GitHub's modal blocks all links outside the dropdown.
+// This handler lets the user visit /notifications while retaining any cmd/ctrl click modifier
+function visitNotificationsPage(event) {
+	if (isOpen() && event.isTrusted) {
+		event.currentTarget.dispatchEvent(new MouseEvent('click', event));
 	}
 }
 
 async function updateLoop() {
-	// Don't fetch while it's open
 	if (!isOpen()) {
-		try {
-			const url = options.participating ? '/notifications/participating' : '/notifications';
-
-			// Firefox bug requires location.origin
-			// https://github.com/sindresorhus/refined-github/issues/489
-			notifications = await fetch(location.origin + url, {
-				credentials: 'include'
-			}).then(r => r.text()).then(parseHTML);
-
-			updateUnreadCount();
-		} catch (err) {
-			/* Ignore network failures */
-			console.error(err);
+		const latest = new Notifications();
+		// On the first run, set it asap so they can be awaited
+		if (!notifications) {
+			notifications = latest;
 		}
+		await latest.dom;
+		notifications = latest;
+		updateUnreadCount();
 	}
 
 	setTimeoutUntilVisible(updateLoop, 3000);
 }
 
 async function init() {
-	await getOptions();
+	options = await getOptions({
+		previewCount: true,
+		compactUI: true,
+		participating: false
+	});
 	await elementReady('.notification-indicator');
-	addNotificationsDropdown();
-	firstUpdate = updateLoop();
+	updateLoop();
 
-	// Don’t show the popup on the notifications page
-	if (location.pathname.startsWith('/notifications')) {
-		return;
-	}
-	for (const indicator of select.all('a.notification-indicator')) {
-		indicator.addEventListener('mouseenter', () => openPopup(indicator));
-		indicator.addEventListener('click', event => {
-			// When the popup is open, GitHub's modal blocks all links outside the popup.
-			// This handler lets the user visit /notifications while retaining any cmd/ctrl click modifier
-			if (isOpen() && event.isTrusted) {
-				indicator.dispatchEvent(new MouseEvent('click', event));
-			}
-		});
+	if (!location.pathname.startsWith('/notifications')) {
+		createNotificationsDropdown();
 	}
 }
 

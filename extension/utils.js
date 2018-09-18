@@ -18,6 +18,14 @@ function elementReady(selector) {
 	});
 }
 
+function getOptions(defaults) {
+	return new Promise(resolve => {
+		chrome.storage.sync.get({options: defaults}, response => {
+			resolve(response.options);
+		});
+	});
+}
+
 function parseHTML(html) {
 	const dom = new DOMParser().parseFromString(html, 'text/html');
 	return sanitizeDOM(dom);
