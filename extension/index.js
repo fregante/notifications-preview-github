@@ -59,7 +59,6 @@ async function updateUnreadCount() {
 
 function createNotificationsDropdown() {
 	const indicators = select.all('a.notification-indicator');
-	const compact = options.compactUI ? 'compact' : '';
 	const participating = options.participating ? 'participating' : '';
 
 	for (const indicator of indicators) {
@@ -67,7 +66,7 @@ function createNotificationsDropdown() {
 			<div class="NPG-container js-menu-container">
 				<div class="NPG-opener js-menu-target"></div>
 				<div class="NPG dropdown-menu-content js-menu-content">
-					<div class="NPG-dropdown dropdown-menu dropdown-menu-sw notifications-list ${participating} ${compact}">
+					<div class="NPG-dropdown dropdown-menu dropdown-menu-sw notifications-list ${participating} type-${options.dropdown}">
 					</div>
 				</div>
 			</div>
@@ -128,7 +127,7 @@ async function init() {
 	await elementReady('.notification-indicator');
 	updateLoop();
 
-	if (!location.pathname.startsWith('/notifications')) {
+	if (!location.pathname.startsWith('/notifications') && options.dropdown !== 'no') {
 		createNotificationsDropdown();
 	}
 }

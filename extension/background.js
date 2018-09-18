@@ -2,7 +2,7 @@
 new OptionsSync().define({
 	defaults: {
 		previewCount: true,
-		compactUI: true,
+		dropdown: 'compact',
 		participating: false
 	}
 });

@@ -11,25 +11,25 @@
 		margin-top: 2em;
 	}
 </style>
-<form id="options-form">
+<form>
 	<p>
 		<label>
 			<input type="checkbox" name="previewCount">
-			Preview notifications count
+			Show notification number in blue bubble
 		</label>
 	</p>
 	<p>
 		<label>
-			<input type="checkbox" name="compactUI">
-			Show compact notifications list
+			<input type="checkbox" name="participating">
+			Show only participating notifications
 		</label>
 	</p>
-    <p>
-        <label>
-            <input type="checkbox" name="participating">
-            Show only participating notifications
-        </label>
-    </p>
+	<p>
+		Show notifications list on hover: <br>
+		<label><input type="radio" name="dropdown" value="yes"> Yes</label><br>
+		<label><input type="radio" name="dropdown" value="compact"> Yes, compact (default)</label><br>
+		<label><input type="radio" name="dropdown" value="no"> No</label>
+	</p>
 </form>
 <script src="webext-options-sync.js"></script>
 <script src="options.js"></script>
