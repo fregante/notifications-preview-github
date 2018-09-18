@@ -1,4 +1,4 @@
-/* globals select, empty, domify, parseHTML, getOptions, setTimeoutUntilVisible, elementReady */
+/* globals select, empty, domify, parseHTML, OptionsSync, setTimeoutUntilVisible, elementReady */
 
 let options;
 let notifications;
@@ -124,11 +124,7 @@ async function updateLoop() {
 }
 
 async function init() {
-	options = await getOptions({
-		previewCount: true,
-		compactUI: true,
-		participating: false
-	});
+	options = await new OptionsSync().getAll();
 	await elementReady('.notification-indicator');
 	updateLoop();
 

@@ -26,10 +26,17 @@
     ],
     "js": [
       "utils.js",
+      "webext-options-sync.js",
       "index.js"
     ],
     "run_at": "document_start"
   }],
+  "background": {
+    "scripts": [
+      "webext-options-sync.js",
+      "background.js"
+    ]
+  },
   "options_ui": {
     "chrome_style": true,
     "page": "options.html"

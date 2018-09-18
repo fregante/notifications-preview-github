@@ -16,6 +16,9 @@
     "xo": "^0.18.2"
   },
   "xo": {
+    "ignores": [
+      "extension/webext-options-sync.js"
+    ],
     "envs": [
       "browser",
       "webextensions"
