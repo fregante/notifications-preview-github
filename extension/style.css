@@ -14,6 +14,11 @@
     margin-bottom: 0 !important;
 }
 
+/* Removes text outline */
+.NPG-dropdown .boxed-group .text-green {
+    outline: none;
+}
+
 /* Loading animation */
 .NPG-loading .octicon-bell {
     transform-origin: top;
