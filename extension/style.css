@@ -92,7 +92,7 @@
 }
 
 .NPG-dropdown.type-compact .boxed-group h3 {
-    padding-right: 45px; /* Avoids wrap with long repo names */
+    padding-right: 50px; /* Avoids wrap with long repo names */
 }
 
 /* Hide extra content */
