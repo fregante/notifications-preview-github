@@ -71,7 +71,8 @@ function createNotificationsDropdown() {
 				</div>
 			</div>
 		`);
-		indicator.parentNode.prepend(dropdown);
+		indicator.parentElement.classList.add('position-relative');
+		indicator.parentElement.prepend(dropdown);
 
 		// Close dropdown if a link is clicked
 		// https://github.com/tanmayrajani/notifications-preview-github/issues/50

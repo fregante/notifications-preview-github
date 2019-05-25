@@ -3,7 +3,8 @@
     border: none;
     padding: 5px;
     color: rgb(36, 41, 46);
-    right: -1px;
+    right: -10px;
+    margin-top: 5px;
 }
 
 .NPG-dropdown .boxed-group {
