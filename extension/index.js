@@ -12,8 +12,10 @@ class Notifications {
 			this.dom = fetch(location.origin + url, {
 				credentials: 'include'
 			}).then(r => r.text()).then(parseHTML);
-		} catch (err) {/* Ignore network failures */}
+		} catch (err) {/* Ignore network failures */
+		}
 	}
+
 	async getList() {
 		if (!this.list) {
 			this.list = select.all('.notifications-list .boxed-group', await this.dom);
@@ -96,6 +98,29 @@ async function openDropdown({currentTarget: indicator}) {
 		const container = select('.NPG-dropdown', dropdown);
 		empty(container);
 		container.append(...list);
+
+		const forms = select.all(('.NPG-dropdown form'));
+		for (const form of forms) {
+			const action = form.getAttribute('action');
+			const method = form.getAttribute('method');
+
+			form.addEventListener('submit', async () => {
+				const formData = new FormData();
+				formData.append('utf8', '✓');
+				formData.append('authenticity_token', select('input[name="authenticity_token"]', form).value);
+
+				// This fails
+				await fetch(location.origin + action, {
+					method,
+					redirect: 'error',
+					body: new URLSearchParams(formData)
+				});
+				updateLoop();
+			});
+
+			form.removeAttribute('action');
+		}
+
 		select('.NPG-opener', dropdown).click(); // Open modal
 	}
 }
