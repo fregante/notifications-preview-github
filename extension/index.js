@@ -1,4 +1,4 @@
-/* globals select, empty, domify, parseHTML, OptionsSync, setTimeoutUntilVisible, elementReady */
+/* globals select, empty, domify, parseHTML, OptionsSync, setTimeoutUntilVisible, elementReady, postForm, delegate */
 
 let options;
 let notifications;
@@ -101,24 +101,23 @@ async function openDropdown({currentTarget: indicator}) {
 
 		const forms = select.all(('.NPG-dropdown form'));
 		for (const form of forms) {
-			const action = form.getAttribute('action');
-			const method = form.getAttribute('method');
+			delegate(form, 'button', 'click', async event => {
+				event.preventDefault();
+				await postForm(event.delegateTarget.form);
+				const svgIconClassList = select('svg', event.delegateTarget).classList;
+				const issueNotificationParent = event.delegateTarget.closest('.issue-notification');
 
-			form.addEventListener('submit', async () => {
-				const formData = new FormData();
-				formData.append('utf8', '✓');
-				formData.append('authenticity_token', select('input[name="authenticity_token"]', form).value);
-
-				// This fails
-				await fetch(location.origin + action, {
-					method,
-					redirect: 'error',
-					body: new URLSearchParams(formData)
-				});
-				updateLoop();
+				if (svgIconClassList.contains('octicon-primitive-dot')) {
+					issueNotificationParent.classList.replace('read', 'unread');
+				} else if (svgIconClassList.contains('octicon-check')) {
+					issueNotificationParent.classList.replace('unread', 'read');
+				} else if (svgIconClassList.contains('octicon-mute')) {
+					issueNotificationParent.classList.remove('unread');
+					issueNotificationParent.classList.add('muted', 'read');
+				} else if (svgIconClassList.contains('octicon-unmute')) {
+					issueNotificationParent.classList.remove('muted');
+				}
 			});
-
-			form.removeAttribute('action');
 		}
 
 		select('.NPG-opener', dropdown).click(); // Open modal
