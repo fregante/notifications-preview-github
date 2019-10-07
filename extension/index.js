@@ -12,8 +12,7 @@ class Notifications {
 			this.dom = fetch(location.origin + url, {
 				credentials: 'include'
 			}).then(r => r.text()).then(parseHTML);
-		} catch (err) {/* Ignore network failures */
-		}
+		} catch (err) {/* Ignore network failures */}
 	}
 
 	async getList() {
@@ -99,26 +98,24 @@ async function openDropdown({currentTarget: indicator}) {
 		empty(container);
 		container.append(...list);
 
-		const forms = select.all(('.NPG-dropdown form'));
-		for (const form of forms) {
-			delegate(form, 'button', 'click', async event => {
-				event.preventDefault();
-				await postForm(event.delegateTarget.form);
-				const svgIconClassList = select('svg', event.delegateTarget).classList;
-				const issueNotificationParent = event.delegateTarget.closest('.issue-notification');
+		delegate('.NPG-dropdown button', 'click', async event => {
+			event.preventDefault();
+			const {form} = event.delegateTarget;
+			await postForm(form);
 
-				if (svgIconClassList.contains('octicon-primitive-dot')) {
-					issueNotificationParent.classList.replace('read', 'unread');
-				} else if (svgIconClassList.contains('octicon-check')) {
-					issueNotificationParent.classList.replace('unread', 'read');
-				} else if (svgIconClassList.contains('octicon-mute')) {
-					issueNotificationParent.classList.remove('unread');
-					issueNotificationParent.classList.add('muted', 'read');
-				} else if (svgIconClassList.contains('octicon-unmute')) {
-					issueNotificationParent.classList.remove('muted');
-				}
-			});
-		}
+			const notification = form.closest('.issue-notification');
+			if (form.matches('.js-mark-notification-as-read, .js-mute-notification')) {
+				notification.classList.replace('unread', 'read');
+			} else if (form.matches('.js-mark-notification-as-unread')) {
+				notification.classList.replace('read', 'unread');
+			}
+
+			if (form.matches('.js-mute-notification')) {
+				notification.classList.add('muted', 'read');
+			} else if (form.matches('.js-unmute-notification')) {
+				notification.classList.remove('muted');
+			}
+		});
 
 		select('.NPG-opener', dropdown).click(); // Open modal
 	}
