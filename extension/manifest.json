@@ -26,6 +26,8 @@
     ],
     "js": [
       "utils.js",
+      "post-form.js",
+      "delegate-it.js",
       "webext-options-sync.js",
       "index.js"
     ],

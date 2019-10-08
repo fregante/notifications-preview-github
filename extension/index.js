@@ -1,4 +1,4 @@
-/* globals select, empty, domify, parseHTML, OptionsSync, setTimeoutUntilVisible, elementReady */
+/* globals select, empty, domify, parseHTML, OptionsSync, setTimeoutUntilVisible, elementReady, postForm, delegate */
 
 let options;
 let notifications;
@@ -14,6 +14,7 @@ class Notifications {
 			}).then(r => r.text()).then(parseHTML);
 		} catch (err) {/* Ignore network failures */}
 	}
+
 	async getList() {
 		if (!this.list) {
 			this.list = select.all('.notifications-list .boxed-group', await this.dom);
@@ -96,6 +97,26 @@ async function openDropdown({currentTarget: indicator}) {
 		const container = select('.NPG-dropdown', dropdown);
 		empty(container);
 		container.append(...list);
+
+		delegate('.NPG-dropdown button', 'click', async event => {
+			event.preventDefault();
+			const {form} = event.delegateTarget;
+			await postForm(form);
+
+			const notification = form.closest('.issue-notification');
+			if (form.matches('.js-mark-notification-as-read, .js-mute-notification')) {
+				notification.classList.replace('unread', 'read');
+			} else if (form.matches('.js-mark-notification-as-unread')) {
+				notification.classList.replace('read', 'unread');
+			}
+
+			if (form.matches('.js-mute-notification')) {
+				notification.classList.add('muted', 'read');
+			} else if (form.matches('.js-unmute-notification')) {
+				notification.classList.remove('muted');
+			}
+		});
+
 		select('.NPG-opener', dropdown).click(); // Open modal
 	}
 }
