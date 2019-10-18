@@ -102,8 +102,7 @@ async function openDropdown({currentTarget: indicator}) {
 			event.preventDefault();
 			const {form} = event.delegateTarget;
 			await postForm(form);
-
-			const notification = form.closest('.issue-notification');
+			const notification = form.closest('.js-notification');
 			if (form.matches('.js-mark-notification-as-read, .js-mute-notification')) {
 				notification.classList.replace('unread', 'read');
 			} else if (form.matches('.js-mark-notification-as-unread')) {
