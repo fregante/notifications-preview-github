@@ -103,16 +103,20 @@ async function openDropdown({currentTarget: indicator}) {
 			const {form} = event.delegateTarget;
 			await postForm(form);
 			const notification = form.closest('.js-notification');
-			if (form.matches('.js-mark-notification-as-read, .js-mute-notification')) {
-				notification.classList.replace('unread', 'read');
-			} else if (form.matches('.js-mark-notification-as-unread')) {
-				notification.classList.replace('read', 'unread');
-			}
+			if (notification) {
+				if (form.matches('.js-mark-notification-as-read, .js-mute-notification')) {
+					notification.classList.replace('unread', 'read');
+				} else if (form.matches('.js-mark-notification-as-unread')) {
+					notification.classList.replace('read', 'unread');
+				}
 
-			if (form.matches('.js-mute-notification')) {
-				notification.classList.add('muted', 'read');
-			} else if (form.matches('.js-unmute-notification')) {
-				notification.classList.remove('muted');
+				if (form.matches('.js-mute-notification')) {
+					notification.classList.add('muted', 'read');
+				} else if (form.matches('.js-unmute-notification')) {
+					notification.classList.remove('muted');
+				}
+			} else {
+				form.classList.add('mark-all-as-read-confirmed');
 			}
 		});
 
