@@ -109,7 +109,7 @@ async function openDropdown({currentTarget: indicator}) {
 				} else if (form.matches('.js-mark-notification-as-unread')) {
 					notification.classList.replace('read', 'unread');
 				}
-	
+
 				if (form.matches('.js-mute-notification')) {
 					notification.classList.add('muted', 'read');
 				} else if (form.matches('.js-unmute-notification')) {
