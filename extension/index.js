@@ -69,10 +69,10 @@ function createNotificationsDropdown() {
 		const dropdown = domify(`
 			<details class="NPG-container details-overlay details-reset">
 				<summary>
-          <div class="NPG-opener js-menu-target"></div>
-        </summary>
+					<div class="NPG-opener js-menu-target"></div>
+				</summary>
 				<details-menu class="NPG-dropdown dropdown-menu dropdown-menu-sw notifications-list ${participating} type-${options.dropdown}">
-        </details-menu>
+				</details-menu>
 			</details>
 		`);
 		indicator.parentElement.classList.add('position-relative');
