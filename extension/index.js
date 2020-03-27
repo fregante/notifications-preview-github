@@ -47,10 +47,8 @@ async function updateUnreadCount() {
 	const latestStatusEl = select('.notification-indicator .mail-status', await notifications.dom);
 	const latestCount = select([
 		'.notification-center .selected .count', // Classic
-		'.js-notifications-list-paginator-counts' // Beta
-	], await notifications.dom)
-		.textContent // Classic
-		.trim().split(/\s+/).pop(); // Beta
+		'.js-notification-inboxes .selected .count' // Beta
+	], await notifications.dom).textContent;
 	const rghCount = getRefinedGitHubUnreadCount();
 
 	for (const statusEl of select.all('.notification-indicator .mail-status')) {
