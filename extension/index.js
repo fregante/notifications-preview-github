@@ -17,7 +17,7 @@ class Notifications {
 
 	async getList() {
 		if (!this.list) {
-			this.list = select.all('.notifications-list .boxed-group', await this.dom);
+			this.list = select.all('.notifications-list .boxed-group, .js-active-navigation-container', await this.dom);
 
 			// Change tooltip direction
 			for (const group of this.list) {
@@ -45,7 +45,12 @@ function isOpen(el) {
 
 async function updateUnreadCount() {
 	const latestStatusEl = select('.notification-indicator .mail-status', await notifications.dom);
-	const latestCount = select('.notification-center .selected .count', await notifications.dom).textContent;
+	const latestCount = select([
+		'.notification-center .selected .count', // Classic
+		'.js-notifications-list-paginator-counts' // Beta
+	], await notifications.dom)
+		.textContent // Classic
+		.trim().split(/\s+/).pop(); // Beta
 	const rghCount = getRefinedGitHubUnreadCount();
 
 	for (const statusEl of select.all('.notification-indicator .mail-status')) {
@@ -66,7 +71,7 @@ function createNotificationsDropdown() {
 		const dropdown = domify(`
 			<details class="NPG-container details-overlay details-reset">
 				<summary>
-          <div class="NPG-opener js-menu-target"></div>				
+          <div class="NPG-opener js-menu-target"></div>
         </summary>
 				<details-menu class="NPG-dropdown dropdown-menu dropdown-menu-sw notifications-list ${participating} type-${options.dropdown}">
         </details-menu>

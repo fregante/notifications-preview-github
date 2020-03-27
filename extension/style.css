@@ -99,6 +99,34 @@
 
 /* Hide extra content */
 .NPG-dropdown.type-compact .age,
-.NPG-dropdown.type-compact .AvatarStack {
+.NPG-dropdown.type-compact .AvatarStack,
+.NPG-dropdown.type-compact .flex-md-row-reverse { /* Beta */
     display: none !important;
+}
+
+/**
+ * Beta
+ */
+:root:root .NPG-dropdown.type-compact .js-active-navigation-container {
+    width: max-content;
+}
+
+.NPG-dropdown .notifications-list-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between;
+}
+
+.NPG-dropdown .d-flex.flex-column.flex-sm-row.flex-self-start.flex-items-center {
+    /* Unread indicator and checkbox */
+    display: none !important;
+}
+
+.NPG-dropdown .js-notification-action:not(.notification-action-mark-archived) {
+    display: none !important;
+}
+
+.NPG-dropdown .notification-list-item-actions {
+    display: block !important;
+    position: relative !important;
 }
