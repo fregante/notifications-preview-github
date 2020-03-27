@@ -39,7 +39,7 @@
 }
 
 /* Keep icon clickable when modal is open */
-.NPG-container.active + .notification-indicator {
+.NPG-container[open] + .notification-indicator {
     z-index: 101;
 }
 
@@ -101,8 +101,4 @@
 .NPG-dropdown.type-compact .age,
 .NPG-dropdown.type-compact .AvatarStack {
     display: none !important;
-}
-
-.NPG-container.active .dropdown-menu-content {
-    display: block;
 }
