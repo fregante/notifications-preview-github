@@ -2,7 +2,7 @@
   "repository": "tanmayrajani/notifications-preview-github",
   "scripts": {
     "test": "xo",
-    "release": "npm-run-all update-version --parallel upload:*",
+    "release": "npm-run-all update-version upload:*",
     "upload:amo": "cd extension && webext submit",
     "upload:cws": "cd extension && webstore upload --auto-publish",
     "update-version": "dot-json extension/manifest.json version $TRAVIS_TAG"
