@@ -25,6 +25,6 @@
     ]
   },
   "dependencies": {
-    "webext-base-css": "0.0.1"
+    "webext-base-css": "^1.0.0"
   }
 }
