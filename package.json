@@ -23,5 +23,8 @@
       "browser",
       "webextensions"
     ]
+  },
+  "dependencies": {
+    "webext-base-css": "^1.0.0"
   }
 }
