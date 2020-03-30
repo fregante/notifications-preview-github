@@ -22,14 +22,14 @@
       "https://github.com/*"
     ],
     "css": [
-      "style.css"
+      "github-notifications-preview.css"
     ],
     "js": [
       "utils.js",
       "post-form.js",
       "delegate-it.js",
       "webext-options-sync.js",
-      "index.js"
+      "github-notifications-preview.js"
     ],
     "run_at": "document_start"
   }],
