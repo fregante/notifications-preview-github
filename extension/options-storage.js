@@ -1,5 +1,6 @@
-/* globals OptionsSync */
-new OptionsSync().define({
+import OptionsSync from 'webext-options-sync';
+
+export default new OptionsSync({
 	defaults: {
 		previewCount: true,
 		dropdown: 'compact',

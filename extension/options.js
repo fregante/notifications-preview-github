@@ -1,2 +1,3 @@
-/* globals OptionsSync */
-new OptionsSync().syncForm(document.querySelector('form'));
+import optionsStorage from './options-storage';
+
+optionsStorage.syncForm('form');

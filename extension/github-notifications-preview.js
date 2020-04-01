@@ -1,4 +1,10 @@
-/* globals select, empty, domify, parseHTML, OptionsSync, setTimeoutUntilVisible, elementReady, postForm, delegate */
+import doma from 'doma';
+import delegate from 'delegate-it';
+import select from 'select-dom';
+import elementReady from 'element-ready';
+import postForm from './libs/post-form';
+import optionsStorage from './options-storage';
+import {empty, setTimeoutUntilVisible} from './libs/utils';
 
 let options;
 let notifications;
@@ -11,7 +17,7 @@ class Notifications {
 			const url = options.participating ? '/notifications/participating' : '/notifications';
 			this.dom = fetch(location.origin + url, {
 				credentials: 'include'
-			}).then(r => r.text()).then(parseHTML);
+			}).then(r => r.text()).then(doma);
 		} catch (err) {/* Ignore network failures */}
 	}
 
@@ -66,7 +72,7 @@ function createNotificationsDropdown() {
 	const participating = options.participating ? 'participating' : '';
 
 	for (const indicator of indicators) {
-		const dropdown = domify(`
+		const dropdown = doma(`
 			<details class="NPG-container details-overlay details-reset">
 				<summary>
 					<div class="NPG-opener js-menu-target"></div>
@@ -151,7 +157,7 @@ async function updateLoop() {
 }
 
 async function init() {
-	options = await new OptionsSync().getAll();
+	options = await optionsStorage.getAll();
 	await elementReady('.notification-indicator');
 	updateLoop();
 

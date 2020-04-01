@@ -2,10 +2,10 @@
   "repository": "tanmayrajani/notifications-preview-github",
   "scripts": {
     "test": "xo",
-    "release": "npm-run-all update-version upload:*",
-    "upload:amo": "cd extension && webext submit",
-    "upload:cws": "cd extension && webstore upload --auto-publish",
-    "update-version": "dot-json extension/manifest.json version $TRAVIS_TAG"
+    "release": "run-s build update-version upload:*",
+    "upload:amo": "cd distribution && webext submit",
+    "upload:cws": "cd distribution && webstore upload --auto-publish",
+    "update-version": "dot-json distribution/manifest.json version $TRAVIS_TAG"
   },
   "license": "MIT",
   "devDependencies": {
@@ -25,6 +25,11 @@
     ]
   },
   "dependencies": {
-    "webext-base-css": "^1.0.0"
+    "delegate-it": "^1.1.0",
+    "doma": "^1.0.3",
+    "element-ready": "^4.1.1",
+    "select-dom": "^6.0.0",
+    "webext-base-css": "^1.0.0",
+    "webext-options-sync": "^1.2.2"
   }
 }

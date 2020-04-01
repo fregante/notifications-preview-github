@@ -15,7 +15,7 @@
   ],
   "description": "Quickly see your notifications in a popup without leaving the current page",
   "icons": {
-    "128": "icons/128.png"
+    "128": "icon-128.png"
   },
   "content_scripts": [{
     "matches": [
@@ -25,18 +25,13 @@
       "github-notifications-preview.css"
     ],
     "js": [
-      "utils.js",
-      "post-form.js",
-      "delegate-it.js",
-      "webext-options-sync.js",
       "github-notifications-preview.js"
     ],
     "run_at": "document_start"
   }],
   "background": {
     "scripts": [
-      "webext-options-sync.js",
-      "background.js"
+      "options-storage.js"
     ]
   },
   "options_ui": {
