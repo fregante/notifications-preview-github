@@ -2,17 +2,16 @@
   "repository": "tanmayrajani/notifications-preview-github",
   "scripts": {
     "test": "xo",
-    "release": "npm-run-all update-version upload:*",
-    "upload:amo": "cd extension && webext submit",
-    "upload:cws": "cd extension && webstore upload --auto-publish",
-    "update-version": "dot-json extension/manifest.json version $TRAVIS_TAG"
+    "version": "dot-json distribution/manifest.json version",
+    "release:cws": "webstore upload --source=distribution --auto-publish",
+    "release:amo": "web-ext-submit --source-dir distribution"
   },
   "license": "MIT",
   "devDependencies": {
-    "chrome-webstore-upload-cli": "^1.1.1",
-    "dot-json": "^1.0.3",
-    "npm-run-all": "^4.0.2",
-    "webext": "^1.9.1-with-submit.1",
+    "chrome-webstore-upload-cli": "^1.2.0",
+    "dot-json": "^1.2.0",
+    "npm-run-all": "^4.1.5",
+    "web-ext-submit": "^4.1.0",
     "xo": "^0.18.2"
   },
   "xo": {
