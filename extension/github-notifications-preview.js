@@ -8,10 +8,14 @@ class Notifications {
 		try {
 			// Firefox bug requires location.origin
 			// https://github.com/sindresorhus/refined-github/issues/489
-			const url = options.participating ? '/notifications/participating' : '/notifications';
-			this.dom = fetch(location.origin + url, {
-				credentials: 'include'
-			}).then(r => r.text()).then(parseHTML);
+			const url = new URL('notifications/beta', location.origin);
+			if (options.participating) {
+				url.searchParams.set('query', 'is:unread reason:participating');
+			} else {
+				url.searchParams.set('query', 'is:unread');
+			}
+
+			this.dom = fetch(url).then(r => r.text()).then(parseHTML);
 		} catch (err) {/* Ignore network failures */}
 	}
 
@@ -45,10 +49,7 @@ function isOpen(el) {
 
 async function updateUnreadCount() {
 	const latestStatusEl = select('.notification-indicator .mail-status', await notifications.dom);
-	const latestCount = select([
-		'.notification-center .selected .count', // Classic
-		'.js-notification-inboxes .selected .count' // Beta
-	], await notifications.dom).textContent;
+	const latestCount = select('.js-notification-inboxes .selected .count', await notifications.dom).textContent;
 	const rghCount = getRefinedGitHubUnreadCount();
 
 	for (const statusEl of select.all('.notification-indicator .mail-status')) {
