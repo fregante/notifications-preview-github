@@ -1,4 +1,9 @@
-/* globals select, empty, domify, parseHTML, OptionsSync, setTimeoutUntilVisible, elementReady, postForm, delegate */
+import doma from 'doma';
+import delegate from 'delegate-it';
+import select from 'select-dom';
+import elementReady from 'element-ready';
+import postForm from './libs/post-form';
+import {empty, setTimeoutUntilVisible} from './libs/utils';
 
 let options;
 let notifications;
@@ -8,10 +13,14 @@ class Notifications {
 		try {
 			// Firefox bug requires location.origin
 			// https://github.com/sindresorhus/refined-github/issues/489
-			const url = options.participating ? '/notifications/participating' : '/notifications';
-			this.dom = fetch(location.origin + url, {
-				credentials: 'include'
-			}).then(r => r.text()).then(parseHTML);
+			const url = new URL('notifications/beta', location.origin);
+			if (options.participating) {
+				url.searchParams.set('query', 'is:unread reason:participating');
+			} else {
+				url.searchParams.set('query', 'is:unread');
+			}
+
+			this.dom = fetch(url).then(r => r.text()).then(doma);
 		} catch (err) {/* Ignore network failures */}
 	}
 
@@ -45,10 +54,7 @@ function isOpen(el) {
 
 async function updateUnreadCount() {
 	const latestStatusEl = select('.notification-indicator .mail-status', await notifications.dom);
-	const latestCount = select([
-		'.notification-center .selected .count', // Classic
-		'.js-notification-inboxes .selected .count' // Beta
-	], await notifications.dom).textContent;
+	const latestCount = select('.js-notification-inboxes .selected .count', await notifications.dom).textContent;
 	const rghCount = getRefinedGitHubUnreadCount();
 
 	for (const statusEl of select.all('.notification-indicator .mail-status')) {
@@ -66,7 +72,7 @@ function createNotificationsDropdown() {
 	const participating = options.participating ? 'participating' : '';
 
 	for (const indicator of indicators) {
-		const dropdown = domify(`
+		const dropdown = doma(`
 			<details class="NPG-container details-overlay details-reset">
 				<summary>
 					<div class="NPG-opener js-menu-target"></div>
@@ -151,7 +157,7 @@ async function updateLoop() {
 }
 
 async function init() {
-	options = await new OptionsSync().getAll();
+	options = await window.optionsStorage.getAll();
 	await elementReady('.notification-indicator');
 	updateLoop();
 

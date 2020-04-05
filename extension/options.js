@@ -1,2 +1,1 @@
-/* globals OptionsSync */
-new OptionsSync().syncForm(document.querySelector('form'));
+window.optionsStorage.syncForm('form');
