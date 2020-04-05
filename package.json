@@ -3,8 +3,8 @@
   "scripts": {
     "test": "run-p lint build",
     "lint": "xo",
-    "build": "parcel build extension/manifest.json --out-dir distribution/ --no-minify --no-source-maps",
-    "watch": "parcel watch extension/manifest.json --out-dir distribution/ --no-minify --no-source-maps",
+    "build": "parcel build extension/manifest.json --out-dir distribution/ --no-minify --no-source-maps --no-cache",
+    "watch": "parcel watch extension/manifest.json --out-dir distribution/ --no-cache",
     "release": "run-s build update-version upload:*",
     "upload:amo": "cd distribution && webext submit",
     "upload:cws": "cd distribution && webstore upload --auto-publish",
@@ -36,5 +36,8 @@
     "select-dom": "^6.0.0",
     "webext-base-css": "^1.0.0",
     "webext-options-sync": "^1.2.2"
-  }
+  },
+  "browserslist": [
+    "last 1 Chrome version"
+  ]
 }
