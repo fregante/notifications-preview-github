@@ -23,6 +23,9 @@
     "xo": "^0.18.2"
   },
   "xo": {
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
     "ignores": [
       "extension/webext-options-sync.js"
     ],
