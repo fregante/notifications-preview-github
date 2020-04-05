@@ -3,15 +3,17 @@
   "scripts": {
     "test": "run-p lint build",
     "lint": "xo",
-    "build": "parcel build extension/manifest.json --out-dir distribution/ --no-minify --no-source-maps --no-cache",
-    "watch": "parcel watch extension/manifest.json --out-dir distribution/ --no-cache",
+    "build": "parcel build extension/manifest.json --experimental-scope-hoisting --no-cache --no-source-maps --no-minify && babel dist -d dist --no-comments",
+    "watch": "parcel watch extension/manifest.json --experimental-scope-hoisting --no-cache",
     "release": "run-s build update-version upload:*",
-    "upload:amo": "cd distribution && webext submit",
-    "upload:cws": "cd distribution && webstore upload --auto-publish",
-    "update-version": "dot-json --indent=2 distribution/manifest.json version $TRAVIS_TAG"
+    "upload:amo": "cd dist && webext submit",
+    "upload:cws": "cd dist && webstore upload --auto-publish",
+    "update-version": "dot-json --indent=2 dist/manifest.json version $TRAVIS_TAG"
   },
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
     "chrome-webstore-upload-cli": "^1.1.1",
     "dot-json": "^1.0.3",
     "npm-run-all": "^4.0.2",
@@ -38,6 +40,7 @@
     "webext-options-sync": "^1.2.2"
   },
   "browserslist": [
-    "last 1 Chrome version"
+    "last 1 Chrome version",
+    "last 1 Firefox version"
   ]
 }

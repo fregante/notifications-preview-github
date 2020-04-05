@@ -3,7 +3,6 @@ import delegate from 'delegate-it';
 import select from 'select-dom';
 import elementReady from 'element-ready';
 import postForm from './libs/post-form';
-import optionsStorage from './options-storage';
 import {empty, setTimeoutUntilVisible} from './libs/utils';
 
 let options;
@@ -157,7 +156,7 @@ async function updateLoop() {
 }
 
 async function init() {
-	options = await optionsStorage.getAll();
+	options = await window.optionsStorage.getAll();
 	await elementReady('.notification-indicator');
 	updateLoop();
 

@@ -1,3 +1,1 @@
-import optionsStorage from './options-storage';
-
-optionsStorage.syncForm('form');
+window.optionsStorage.syncForm('form');

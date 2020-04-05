@@ -25,6 +25,7 @@
       "github-notifications-preview.css"
     ],
     "js": [
+      "options-storage.js",
       "github-notifications-preview.js"
     ],
     "run_at": "document_start"
