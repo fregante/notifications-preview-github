@@ -8,7 +8,7 @@
     "release": "run-s build update-version upload:*",
     "upload:amo": "cd dist && webext submit",
     "upload:cws": "cd dist && webstore upload --auto-publish",
-    "update-version": "dot-json --indent=2 dist/manifest.json version $TRAVIS_TAG"
+    "version": "dot-json --indent=2 dist/manifest.json version"
   },
   "license": "MIT",
   "devDependencies": {
