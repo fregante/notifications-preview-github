@@ -1,8 +1,6 @@
 import doma from 'doma';
-import delegate from 'delegate-it';
 import select from 'select-dom';
 import elementReady from 'element-ready';
-import postForm from './libs/post-form';
 import {empty, setTimeoutUntilVisible} from './libs/utils';
 
 let options;
@@ -107,27 +105,6 @@ async function openDropdown({currentTarget: indicator}) {
 		empty(container);
 		container.append(...list);
 
-		delegate('.NPG-dropdown button', 'click', async event => {
-			event.preventDefault();
-			const {form} = event.delegateTarget;
-			await postForm(form);
-			const notification = form.closest('.js-notification');
-			if (notification) {
-				if (form.matches('.js-mark-notification-as-read, .js-mute-notification')) {
-					notification.classList.replace('unread', 'read');
-				} else if (form.matches('.js-mark-notification-as-unread')) {
-					notification.classList.replace('read', 'unread');
-				}
-
-				if (form.matches('.js-mute-notification')) {
-					notification.classList.add('muted', 'read');
-				} else if (form.matches('.js-unmute-notification')) {
-					notification.classList.remove('muted');
-				}
-			} else {
-				form.classList.add('mark-all-as-read-confirmed');
-			}
-		});
 
 		select('.NPG-opener', dropdown).click(); // Open modal
 	}

@@ -85,28 +85,11 @@
     max-width: 750px;
 }
 
-.NPG-dropdown.type-compact .list-group-item-name {
-    padding-right: 35px;
-}
-
-.NPG-dropdown.type-compact .boxed-group {
-    margin-bottom: 6px;
-}
-
-.NPG-dropdown.type-compact .boxed-group h3 {
-    padding-right: 50px; /* Avoids wrap with long repo names */
-}
-
 /* Hide extra content */
-.NPG-dropdown.type-compact .age,
-.NPG-dropdown.type-compact .AvatarStack,
 .NPG-dropdown.type-compact .flex-md-row-reverse { /* Beta */
     display: none !important;
 }
 
-/**
- * Beta
- */
 :root:root .NPG-dropdown.type-compact .js-active-navigation-container {
     width: max-content;
 }
