@@ -4,7 +4,7 @@
     "test": "run-p lint build",
     "lint": "xo",
     "build": "parcel build extension/manifest.json --experimental-scope-hoisting --no-cache --no-source-maps --no-minify && babel dist -d dist --no-comments",
-    "watch": "parcel watch extension/manifest.json --experimental-scope-hoisting --no-cache",
+    "watch": "parcel watch extension/manifest.json --no-cache --no-hmr",
     "release": "run-s build update-version upload:*",
     "upload:amo": "cd dist && webext submit",
     "upload:cws": "cd dist && webstore upload --auto-publish",
