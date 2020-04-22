@@ -1,12 +1,21 @@
 :root:root .NPG-dropdown {
     width: 750px;
-    border: none;
-    padding: 5px;
+    padding: 0;
+    margin: 0;
     color: rgb(36, 41, 46);
     right: -10px;
-    margin-top: 5px;
     z-index: 100;
 }
+.NPG-dropdown.npg-has-groups {
+    border: none;
+}
+
+/* This wrapping cannot be applied to the dropdown because it would clip the dropdown’s arrow */
+.NPG-dropdown > :first-child {
+    overflow: hidden;
+    border-radius: 4px; /* Matches GitHub’s */
+}
+
 
 .NPG-dropdown .boxed-group {
     margin-bottom: 20px;
@@ -86,7 +95,8 @@
 }
 
 /* Hide extra content */
-.NPG-dropdown.type-compact .flex-md-row-reverse { /* Beta */
+.NPG-dropdown .notification-list-item-hide-on-hover,
+.NPG-dropdown.type-compact .flex-md-row-reverse {
     display: none !important;
 }
 
@@ -109,7 +119,22 @@
     display: none !important;
 }
 
-.NPG-dropdown .notification-list-item-actions {
-    display: block !important;
-    position: relative !important;
+/* Hide actions. TODO: make them work instead */
+.NPG-dropdown .js-grouped-notifications-mark-all-read-button,
+:root:root .NPG-dropdown .notification-list-item-actions {
+    display: none !important;
+}
+
+/* Space out when grouped by repo */
+.NPG-dropdown .js-notifications-group {
+    margin: 5px !important;
+}
+/* Hide the repo’s name in notifications already grouped by repo */
+.NPG-dropdown .js-notifications-group [id^="notification_"] > :first-child {
+    display: none !important;
+}
+
+/* Align the non-compact information to the right */
+.NPG-dropdown.type-yes .notifications-list-item > :first-child {
+    width: 99%;
 }

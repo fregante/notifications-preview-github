@@ -105,6 +105,11 @@ async function openDropdown({currentTarget: indicator}) {
 		empty(container);
 		container.append(...list);
 
+		// Improve style when they're grouped by repo
+		container.classList.toggle(
+			'npg-has-groups',
+			select.exists('.js-notifications-group', container)
+		);
 
 		select('.NPG-opener', dropdown).click(); // Open modal
 	}
