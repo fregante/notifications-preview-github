@@ -49,7 +49,7 @@ function getRefinedGitHubUnreadCount() {
 
 // Is the dropdown open? Is it opening?
 function isOpen(el) {
-	return select.exists('.NPG-opener[aria-expanded="true"], .NPG-loading', el);
+	return select.exists('.NPG-container[open], .NPG-loading', el);
 }
 
 async function updateUnreadCount() {
