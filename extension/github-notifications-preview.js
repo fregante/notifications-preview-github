@@ -13,7 +13,7 @@ class Notifications {
 		try {
 			// Firefox bug requires location.origin
 			// https://github.com/sindresorhus/refined-github/issues/489
-			const url = new URL('notifications/beta', location.origin);
+			const url = new URL('notifications', location.origin);
 			if (options.participating) {
 				url.searchParams.set('query', 'is:unread reason:participating');
 			} else {
