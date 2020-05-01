@@ -1,4 +1,4 @@
-<img src="https://user-images.githubusercontent.com/1402241/45664093-aa09c900-bb3c-11e8-86c6-ad4a0246aef4.png" align="right" width="547" alt="screenshot">
+<img src="https://user-images.githubusercontent.com/1402241/80826726-0242f100-8be3-11ea-86be-6a8a2ed378c6.png" align="right" width="547" alt="screenshot">
 
 # Notifications Preview for GitHub
 
