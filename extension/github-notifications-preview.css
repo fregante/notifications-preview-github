@@ -110,6 +110,10 @@
     justify-content: space-between;
 }
 
+.NPG-dropdown .notifications-list-item > div {
+  flex: 1; /* expand to make whole area clickable */
+}
+
 .NPG-dropdown .d-flex.flex-column.flex-sm-row.flex-self-start.flex-items-center {
     /* Unread indicator and checkbox */
     display: none !important;
