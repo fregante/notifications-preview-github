@@ -114,6 +114,10 @@
   flex: 1; /* expand to make whole area clickable */
 }
 
+.NPG-dropdown.type-yes .notifications-list-item > :first-child {
+    padding-right: 8px;
+}
+
 .NPG-dropdown .d-flex.flex-column.flex-sm-row.flex-self-start.flex-items-center {
     /* Unread indicator and checkbox */
     display: none !important;
@@ -136,9 +140,4 @@
 /* Hide the repo’s name in notifications already grouped by repo */
 .NPG-dropdown .js-notifications-group [id^="notification_"] > :first-child {
     display: none !important;
-}
-
-/* Align the non-compact information to the right */
-.NPG-dropdown.type-yes .notifications-list-item > :first-child {
-    width: 99%;
 }
