@@ -1,6 +1,8 @@
 import doma from 'doma';
 import select from 'select-dom';
+import delegate from 'delegate-it';
 import elementReady from 'element-ready';
+import postForm from './libs/post-form';
 import {empty, setTimeoutUntilVisible} from './libs/utils';
 
 let options;
@@ -104,6 +106,35 @@ async function openDropdown({currentTarget: indicator}) {
 		const container = select('.NPG-dropdown', dropdown);
 		empty(container);
 		container.append(...list);
+
+		delegate('.NPG-dropdown button', 'click', async event => {
+			event.preventDefault();
+			const button = event.delegateTarget;
+			const form  = button.closest('form');
+			await postForm(form);
+
+			const notification = form.closest('.js-notifications-list-item');
+			const group = form.closest('.js-notifications-group');
+			const notifs = select.all('.js-notifications-list-item', group);
+			if (notification) {
+				// Mark as read
+				if (form.matches('[data-status="archived"]')) {
+					notification.classList.replace('notification-unread', 'notification-read');
+					notification.remove()
+				}
+
+				// Remove group if last notification
+				if (!select.all('.js-notifications-list-item', group).length) {
+          group.remove()
+				}
+			} else {
+				form.classList.add('mark-all-as-read-confirmed');
+				form.append(doma(`
+					<label>&nbsp;Marked ${notifs.length} notifications as read</label>
+				`));
+				select.all('.js-notifications-list-item', group).forEach(item => item.remove())
+			}
+		});
 
 		// Improve style when they're grouped by repo
 		container.classList.toggle(

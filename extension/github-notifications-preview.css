@@ -1,140 +1,176 @@
 :root:root .NPG-dropdown {
-    width: 750px;
-    padding: 0;
-    margin: 0;
-    color: rgb(36, 41, 46);
-    right: -10px;
-    z-index: 100;
+  width: 750px;
+  padding: 0;
+  margin: 0;
+  color: rgb(36, 41, 46);
+  right: -10px;
+  z-index: 100;
 }
+
 .NPG-dropdown.npg-has-groups {
-    border: none;
+  border: none;
 }
 
 /* This wrapping cannot be applied to the dropdown because it would clip the dropdown’s arrow */
 .NPG-dropdown > :first-child {
-    overflow: hidden;
-    border-radius: 4px; /* Matches GitHub’s */
+  overflow: hidden;
+  border-radius: 4px; /* Matches GitHub’s */
 }
 
 
 .NPG-dropdown .boxed-group {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .NPG-dropdown .boxed-group:last-child {
-    margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 /* Removes text outline */
 .NPG-dropdown .boxed-group .text-green {
-    outline: none;
+  outline: none;
 }
 
 /* Loading animation */
 .NPG-loading .octicon-bell {
-    transform-origin: top;
-    animation: npg-ding 0.5s infinite ease-out;
+  transform-origin: top;
+  animation: npg-ding 0.5s infinite ease-out;
 }
 
 @keyframes npg-ding {
-    25% {
-        transform: rotate(10deg);
-        animation-timing-function: ease-in-out;
-    }
-    75% {
-        transform: rotate(-10deg);
-        animation-timing-function: ease-in;
-    }
+  25% {
+    transform: rotate(10deg);
+    animation-timing-function: ease-in-out;
+  }
+  75% {
+    transform: rotate(-10deg);
+    animation-timing-function: ease-in;
+  }
 }
 
 /* Keep icon clickable when modal is open */
 .NPG-container[open] + .notification-indicator {
-    z-index: 101;
+  z-index: 101;
 }
 
 /* Disable native tooltip when it has unread notifications */
 .Header .notification-indicator[data-ga-click$=":unread"]::after {
-    display: none;
+  /*display: none;*/
 }
 
 /* Style the unread count */
 /* Needs high specificity */
 .notification-indicator .mail-status.unread:not(:empty) {
-    width: auto;
-    height: auto;
-    padding: 2px;
-    min-width: 1.5em;
+  width: auto;
+  height: auto;
+  padding: 2px;
+  min-width: 1.5em;
 
-    /* Position it so multiple digits don't go too far right */
-    left: 11px;
-    transform: translateX(-30%);
+  /* Position it so multiple digits don't go too far right */
+  left: 11px;
+  transform: translateX(-30%);
 
-    font-size: 10px;
-    font-weight: bold;
-    line-height: 0.7;
-    border-radius: 1em;
-    color: #24292f;
-    text-align: center;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 0.7;
+  border-radius: 1em;
+  color: #24292f;
+  text-align: center;
 }
 
 .participating .js-notifications-browser::before {
-    position: absolute;
-    top: -5px;
-    bottom: -5px;
-    left: 20px;
-    z-index: -1;
-    display: block;
-    width: 2px;
-    content: "";
-    background-color: #e6ebf1;
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  left: 20px;
+  z-index: -1;
+  display: block;
+  width: 2px;
+  content: "";
+  background-color: #e6ebf1;
 }
 
 :root:root .NPG-dropdown.type-compact {
-    width: auto;
-    max-width: 750px;
+  width: auto;
+  max-width: 750px;
 }
 
 /* Hide extra content */
 .NPG-dropdown .notification-list-item-hide-on-hover,
 .NPG-dropdown.type-compact .flex-md-row-reverse {
-    display: none !important;
+  display: none !important;
 }
 
 :root:root .NPG-dropdown.type-compact .js-active-navigation-container {
-    width: max-content;
+  width: max-content;
 }
 
 .NPG-dropdown .notifications-list-item {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between;
 }
 
 .NPG-dropdown .d-flex.flex-column.flex-sm-row.flex-self-start.flex-items-center {
-    /* Unread indicator and checkbox */
-    display: none !important;
+  /* Unread indicator and checkbox */
+  display: none !important;
 }
 
 .NPG-dropdown .js-notification-action:not(.notification-action-mark-archived) {
-    display: none !important;
+  /*display: none !important;*/
 }
 
 /* Hide actions. TODO: make them work instead */
 .NPG-dropdown .js-grouped-notifications-mark-all-read-button,
 :root:root .NPG-dropdown .notification-list-item-actions {
-    display: none !important;
+  /*display: none !important;*/
 }
 
 /* Space out when grouped by repo */
 .NPG-dropdown .js-notifications-group {
-    margin: 5px !important;
+  margin: 5px !important;
 }
+
 /* Hide the repo’s name in notifications already grouped by repo */
 .NPG-dropdown .js-notifications-group [id^="notification_"] > :first-child {
-    display: none !important;
+  display: none !important;
 }
 
 /* Align the non-compact information to the right */
 .NPG-dropdown.type-yes .notifications-list-item > :first-child {
-    width: 99%;
+  width: 99%;
+}
+
+.NPG-dropdown.type-compact .list-group-item-name {
+  padding-right: 35px;
+}
+
+.NPG-dropdown.type-compact .boxed-group {
+  margin-bottom: 6px;
+}
+
+.NPG-dropdown.type-compact .boxed-group h3 {
+  padding-right: 50px; /* Avoids wrap with long repo names */
+}
+
+.NPG-dropdown .notification-action-mark-read,
+.NPG-dropdown .notification-action-mark-unarchived,
+.NPG-dropdown .notification-action-subscribe,
+.NPG-dropdown .notification-action-unstar,
+.NPG-dropdown .notification-is-starred-icon,
+.NPG-dropdown .notification-unsubscribed .notification-action-unsubscribe {
+  display: none !important;
+}
+
+/* When marked as read show confirmation */
+.mark-all-as-read-confirmed button {
+  display: none;
+}
+
+.mark-all-as-read-confirmed label {
+  color: #373;
+  background-color: transparent;
+  border: none;
+  pointer-events: none;
+  margin-left: 1em;
 }
