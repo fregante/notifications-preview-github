@@ -19,7 +19,7 @@ class Notifications {
 			}
 
 			this.dom = fetch(url).then(r => r.text()).then(doma);
-		} catch (err) {/* Ignore network failures */}
+		} catch {/* Ignore network failures */}
 	}
 
 	async getList() {
@@ -33,6 +33,7 @@ class Notifications {
 				}
 			}
 		}
+
 		return this.list;
 	}
 }
@@ -42,26 +43,28 @@ function getRefinedGitHubUnreadCount() {
 	if (!element) {
 		return 0;
 	}
+
 	return Number(element.dataset.rghUnread);
 }
 
 // Is the dropdown open? Is it opening?
-function isOpen(el) {
-	return select.exists('.NPG-container[open], .NPG-loading', el);
+function isOpen(element) {
+	return select.exists('.NPG-container[open], .NPG-loading', element);
 }
 
 async function updateUnreadCount() {
-	const latestStatusEl = select('.notification-indicator .mail-status', await notifications.dom);
+	const latestStatusElement = select('.notification-indicator .mail-status', await notifications.dom);
 	const latestCount = select('.js-notification-inboxes .selected .count', await notifications.dom).textContent;
 	const rghCount = getRefinedGitHubUnreadCount();
 
-	for (const statusEl of select.all('.notification-indicator .mail-status')) {
-		if (options.previewCount && statusEl.textContent !== latestCount) {
-			statusEl.textContent = Number(latestCount) + rghCount || ''; // Don't show 0
+	for (const statusElement of select.all('.notification-indicator .mail-status')) {
+		if (options.previewCount && statusElement.textContent !== latestCount) {
+			statusElement.textContent = Number(latestCount) + rghCount || ''; // Don't show 0
 		}
-		statusEl.classList.toggle('unread', rghCount || latestStatusEl.classList.contains('unread'));
-		statusEl.parentNode.dataset.gaClick = latestStatusEl.parentNode.dataset.gaClick;
-		statusEl.parentNode.setAttribute('aria-label', latestStatusEl.parentNode.getAttribute('aria-label'));
+
+		statusElement.classList.toggle('unread', rghCount || latestStatusElement.classList.contains('unread'));
+		statusElement.parentNode.dataset.gaClick = latestStatusElement.parentNode.dataset.gaClick;
+		statusElement.parentNode.setAttribute('aria-label', latestStatusElement.parentNode.getAttribute('aria-label'));
 	}
 }
 
@@ -130,6 +133,7 @@ async function updateLoop() {
 		if (!notifications) {
 			notifications = latest;
 		}
+
 		await latest.dom;
 		notifications = latest;
 		updateUnreadCount();
