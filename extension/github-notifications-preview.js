@@ -110,7 +110,7 @@ async function openDropdown({currentTarget: indicator}) {
 		delegate('.NPG-dropdown button', 'click', async event => {
 			event.preventDefault();
 			const button = event.delegateTarget;
-			const form  = button.closest('form');
+			const form = button.closest('form');
 			await postForm(form);
 
 			const notification = form.closest('.js-notifications-list-item');
@@ -120,19 +120,19 @@ async function openDropdown({currentTarget: indicator}) {
 				// Mark as read
 				if (form.matches('[data-status="archived"]')) {
 					notification.classList.replace('notification-unread', 'notification-read');
-					notification.remove()
+					notification.remove();
 				}
 
 				// Remove group if last notification
-				if (!select.all('.js-notifications-list-item', group).length) {
-					group.remove()
+				if (select.all('.js-notifications-list-item', group).length === 0) {
+					group.remove();
 				}
 			} else {
 				form.classList.add('mark-all-as-read-confirmed');
 				form.append(doma(`
 					<label>&nbsp;Marked ${notifs.length} notifications as read</label>
 				`));
-				select.all('.js-notifications-list-item', group).forEach(item => item.remove())
+				select.all('.js-notifications-list-item', group).forEach(item => item.remove());
 			}
 		});
 
