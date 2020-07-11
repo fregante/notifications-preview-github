@@ -131,3 +131,37 @@
 .NPG-dropdown.type-yes .notifications-list-item > :first-child {
     width: 99%;
 }
+
+.NPG-dropdown.type-compact .list-group-item-name {
+  padding-right: 35px;
+}
+
+.NPG-dropdown.type-compact .boxed-group {
+  margin-bottom: 6px;
+}
+
+.NPG-dropdown.type-compact .boxed-group h3 {
+  padding-right: 50px; /* Avoids wrap with long repo names */
+}
+
+.NPG-dropdown .notification-action-mark-read,
+.NPG-dropdown .notification-action-mark-unarchived,
+.NPG-dropdown .notification-action-subscribe,
+.NPG-dropdown .notification-action-unstar,
+.NPG-dropdown .notification-is-starred-icon,
+.NPG-dropdown .notification-unsubscribed .notification-action-unsubscribe {
+  display: none !important;
+}
+
+/* When marked as read show confirmation */
+.mark-all-as-read-confirmed button {
+  display: none;
+}
+
+.mark-all-as-read-confirmed label {
+  color: #373;
+  background-color: transparent;
+  border: none;
+  pointer-events: none;
+  margin-left: 1em;
+}
