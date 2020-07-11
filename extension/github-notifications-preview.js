@@ -125,7 +125,7 @@ async function openDropdown({currentTarget: indicator}) {
 
 				// Remove group if last notification
 				if (!select.all('.js-notifications-list-item', group).length) {
-          group.remove()
+					group.remove()
 				}
 			} else {
 				form.classList.add('mark-all-as-read-confirmed');
