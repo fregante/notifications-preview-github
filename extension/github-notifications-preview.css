@@ -165,3 +165,16 @@
   pointer-events: none;
   margin-left: 1em;
 }
+
+/* Add a background to the buttons */
+.NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn {
+    background-color: #34343490 !important;
+}
+
+/* Ellipsis the text when actions are shown */
+.NPG-dropdown .notifications-list-item:hover .notification-list-item-link p.text-normal {
+    overflow: hidden;
+    max-width: 70%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
