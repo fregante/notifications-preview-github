@@ -107,7 +107,7 @@ async function openDropdown({currentTarget: indicator}) {
 		empty(container);
 		container.append(...list);
 
-		delegate('.NPG-dropdown button', 'click', async event => {
+		delegate(document, '.NPG-dropdown button', 'click', async event => {
 			event.preventDefault();
 			const button = event.delegateTarget;
 			const form = button.closest('form');
