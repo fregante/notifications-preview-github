@@ -168,7 +168,8 @@
 
 /* Add a background to the buttons */
 .NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn {
-    background-color: #34343490 !important;
+    background-color: #e1e4e8 !important;
+    z-index: 999 !important;
 }
 
 /* Ellipsis the text when actions are shown */
