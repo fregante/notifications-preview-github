@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 // Pulled from: https://github.com/sindresorhus/refined-github/blob/9723b391d58ff29be41950b9c6c2ceca04e6b107/source/libs/post-form.ts
-async function postForm(form) {
+export default async function postForm(form) {
 	const contentFetch = typeof window.content === 'object' ? window.content.fetch : window.fetch;
 
 	const response = await contentFetch(form.action, {

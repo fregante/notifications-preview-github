@@ -52,11 +52,6 @@
     z-index: 101;
 }
 
-/* Disable native tooltip when it has unread notifications */
-.Header .notification-indicator[data-ga-click$=":unread"]::after {
-    display: none;
-}
-
 /* Style the unread count */
 /* Needs high specificity */
 .notification-indicator .mail-status.unread:not(:empty) {
@@ -123,16 +118,6 @@
     display: none !important;
 }
 
-.NPG-dropdown .js-notification-action:not(.notification-action-mark-archived) {
-    display: none !important;
-}
-
-/* Hide actions. TODO: make them work instead */
-.NPG-dropdown .js-grouped-notifications-mark-all-read-button,
-:root:root .NPG-dropdown .notification-list-item-actions {
-    display: none !important;
-}
-
 /* Space out when grouped by repo */
 .NPG-dropdown .js-notifications-group {
     margin: 5px !important;
@@ -140,4 +125,57 @@
 /* Hide the repo’s name in notifications already grouped by repo */
 .NPG-dropdown .js-notifications-group [id^="notification_"] > :first-child {
     display: none !important;
+}
+
+/* Align the non-compact information to the right */
+.NPG-dropdown.type-yes .notifications-list-item > :first-child {
+    width: 99%;
+}
+
+.NPG-dropdown.type-compact .list-group-item-name {
+  padding-right: 35px;
+}
+
+.NPG-dropdown.type-compact .boxed-group {
+  margin-bottom: 6px;
+}
+
+.NPG-dropdown.type-compact .boxed-group h3 {
+  padding-right: 50px; /* Avoids wrap with long repo names */
+}
+
+.NPG-dropdown .notification-action-mark-read,
+.NPG-dropdown .notification-action-mark-unarchived,
+.NPG-dropdown .notification-action-subscribe,
+.NPG-dropdown .notification-action-unstar,
+.NPG-dropdown .notification-is-starred-icon,
+.NPG-dropdown .notification-unsubscribed .notification-action-unsubscribe {
+  display: none !important;
+}
+
+/* When marked as read show confirmation */
+.mark-all-as-read-confirmed button {
+  display: none;
+}
+
+.mark-all-as-read-confirmed label {
+  color: #373;
+  background-color: transparent;
+  border: none;
+  pointer-events: none;
+  margin-left: 1em;
+}
+
+/* Add a background to the buttons */
+.NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn {
+    background-color: #e1e4e8 !important;
+    z-index: 999 !important;
+}
+
+/* Ellipsis the text when actions are shown */
+.NPG-dropdown .notifications-list-item:hover .notification-list-item-link p.text-normal {
+    overflow: hidden;
+    max-width: 70%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
