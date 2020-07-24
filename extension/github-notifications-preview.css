@@ -147,7 +147,8 @@
 .NPG-dropdown .notification-action-mark-read,
 .NPG-dropdown .notification-action-mark-unarchived,
 .NPG-dropdown .notification-action-subscribe,
-.NPG-dropdown .notification-action-unstar,
+.NPG-dropdown .notification-unread:not(.notification-starred) .notification-action-unstar,
+.NPG-dropdown .notification-starred .notification-action-star,
 .NPG-dropdown .notification-is-starred-icon,
 .NPG-dropdown .notification-unsubscribed .notification-action-unsubscribe {
   display: none !important;
