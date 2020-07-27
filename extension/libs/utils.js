@@ -1,5 +1,5 @@
-export function empty(el) {
-	el.textContent = '';
+export function empty(element) {
+	element.textContent = '';
 }
 
 // Wait for the timeout, but don't run if tab is not visible
