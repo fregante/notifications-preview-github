@@ -145,8 +145,9 @@ async function openDropdown({currentTarget: indicator}) {
 			select.exists('.js-notifications-group', container)
 		);
 
+		let temp;
 		for (const header of select.all('.js-notifications-group h6')) {
-			let temp = header.innerText.trim();
+			temp = header.innerText.trim();
 			header.innerHTML = `<a class="text-inherit" href="${temp}">${temp}</a>`;
 		}
 
