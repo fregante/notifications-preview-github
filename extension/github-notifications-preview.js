@@ -145,10 +145,10 @@ async function openDropdown({currentTarget: indicator}) {
 			select.exists('.js-notifications-group', container)
 		);
 
-		let temp;
 		for (const header of select.all('.js-notifications-group h6')) {
-			temp = header.innerText.trim();
-			header.innerHTML = `<a class="text-inherit" href="${temp}">${temp}</a>`;
+			const link = doma('<a class="text-inherit"></a>');
+			link.href = '/' + header.textContent.trim();
+			wrap(header.firstChild, link);
 		}
 
 		select('.NPG-opener', dropdown).click(); // Open modal
