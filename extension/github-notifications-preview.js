@@ -145,6 +145,17 @@ async function openDropdown({currentTarget: indicator}) {
 			select.exists('.js-notifications-group', container)
 		);
 
+		const wrap = (target, wrapper) => {
+			target.before(wrapper);
+			wrapper.append(target);
+		};
+
+		for (const header of select.all('.js-notifications-group h6')) {
+			const link = doma.one('<a class="text-inherit"></a>');
+			link.href = '/' + header.textContent.trim();
+			wrap(header.firstChild, link);
+		}
+
 		select('.NPG-opener', dropdown).click(); // Open modal
 	}
 }
