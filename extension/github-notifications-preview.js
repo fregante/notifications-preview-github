@@ -151,7 +151,7 @@ async function openDropdown({currentTarget: indicator}) {
 		};
 
 		for (const header of select.all('.js-notifications-group h6')) {
-			const link = doma('<a class="text-inherit"></a>');
+			const link = doma.one('<a class="text-inherit"></a>');
 			link.href = '/' + header.textContent.trim();
 			wrap(header.firstChild, link);
 		}
