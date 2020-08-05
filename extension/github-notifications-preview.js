@@ -150,7 +150,8 @@ async function openDropdown({currentTarget: indicator}) {
 			wrapper.append(target);
 		};
 
-		let groupName, link;
+		let groupName;
+		let link;
 		for (const header of select.all('.js-notifications-group h6')) {
 			groupName = header.textContent.trim();
 			link = doma(`<a class="text-inherit" href="/${groupName}">${groupName}</a>`);
