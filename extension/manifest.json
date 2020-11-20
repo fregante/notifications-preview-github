@@ -31,6 +31,7 @@
     "run_at": "document_start"
   }],
   "background": {
+    "persistent": false,
     "scripts": [
       "options-storage.js"
     ]
