@@ -6,6 +6,12 @@
     right: -10px;
     z-index: 100;
 }
+
+[data-color-mode=dark]:root:root .NPG-dropdown {
+    color: unset;
+}
+
+
 .NPG-dropdown.npg-has-groups {
     border: none;
 }
@@ -172,6 +178,18 @@
 .NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn {
     background-color: #e1e4e8 !important;
     z-index: 999 !important;
+}
+
+[data-color-mode=dark] .NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn {
+    background: #2c394a !important;
+}
+
+[data-color-mode=dark] .NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn svg {
+    color: #f0f6fc !important;
+}
+
+[data-color-mode=dark] .NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn:hover {
+    background: #388bfd !important;
 }
 
 /* Ellipsis the text when actions are shown */
