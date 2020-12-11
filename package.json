@@ -35,6 +35,7 @@
     "delegate-it": "^2.0.0",
     "doma": "^3.0.1",
     "element-ready": "^4.1.1",
+    "push-form": "^0.5.0",
     "select-dom": "^6.0.2",
     "webext-base-css": "^1.1.0",
     "webext-options-sync": "^1.2.3"

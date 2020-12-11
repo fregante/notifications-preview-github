@@ -1,12 +1,15 @@
 import doma from 'doma';
 import select from 'select-dom';
+import pushForm from 'push-form';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
-import postForm from './libs/post-form';
 import {empty, setTimeoutUntilVisible} from './libs/utils';
 
 let options;
 let notifications;
+
+// Improves Firefox support
+pushForm.fetch = typeof window.content === 'object' ? window.content.fetch : window.fetch;
 
 class Notifications {
 	constructor() {
@@ -114,7 +117,10 @@ async function openDropdown({currentTarget: indicator}) {
 			event.preventDefault();
 			const button = event.delegateTarget;
 			const form = button.closest('form');
-			await postForm(form);
+			const response = await pushForm(form);
+			if (!response.ok) {
+				throw new Error(response.statusText);
+			}
 
 			const notification = form.closest('.js-notifications-list-item');
 			const group = form.closest('.js-notifications-group');
