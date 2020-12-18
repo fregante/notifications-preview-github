@@ -93,7 +93,7 @@ function createNotificationsDropdown() {
 				<summary>
 					<div className="NPG-opener js-menu-target"/>
 				</summary>
-				<details-menu class={`NPG-dropdown dropdown-menu dropdown-menu-sw notifications-list ${participating} type-${options.dropdown}`}/>
+				<details-menu className={`NPG-dropdown dropdown-menu dropdown-menu-sw notifications-list ${participating} type-${options.dropdown}`}/>
 			</details>
 		);
 
