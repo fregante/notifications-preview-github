@@ -89,11 +89,11 @@ function createNotificationsDropdown() {
 
 		indicator.parentElement.classList.add('position-relative');
 		indicator.parentElement.prepend(
-			<details class="NPG-container details-overlay details-reset" onClick={onClick}>
+			<details className="NPG-container details-overlay details-reset" onClick={onClick}>
 				<summary>
-					<div class="NPG-opener js-menu-target"/>
+					<div className="NPG-opener js-menu-target"/>
 				</summary>
-				<details-menu class={`NPG-dropdown dropdown-menu dropdown-menu-sw notifications-list ${participating} type-${options.dropdown}`} />
+				<details-menu class={`NPG-dropdown dropdown-menu dropdown-menu-sw notifications-list ${participating} type-${options.dropdown}`}/>
 			</details>
 		);
 
@@ -159,7 +159,7 @@ async function openDropdown({currentTarget: indicator}) {
 		for (const header of select.all('.js-notifications-group h6')) {
 			wrap(
 				header.firstChild,
-				<a class="text-inherit" href={'/' + header.textContent.trim()} />
+				<a className="text-inherit" href={'/' + header.textContent.trim()}/>
 			);
 		}
 
