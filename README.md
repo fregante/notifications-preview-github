@@ -6,8 +6,8 @@
 
 ## Install
 
-[link-cws]: https://chrome.google.com/webstore/detail/notifications-preview-for/kgilejfahkjidpaclkepbdoeioeohfmj "Version published on Chrome Web Store"
-[link-amo]: https://addons.mozilla.org/en-US/firefox/addon/notifications-preview-github/ "Version published on Mozilla Add-ons"
+[link-cws]: https://chrome.google.com/webstore/detail/notifications-preview-for/kgilejfahkjidpaclkepbdoeioeohfmj 'Version published on Chrome Web Store'
+[link-amo]: https://addons.mozilla.org/en-US/firefox/addon/notifications-preview-github/ 'Version published on Mozilla Add-ons'
 
 - [**Chrome** extension][link-cws] [<img valign="middle" src="https://img.shields.io/chrome-web-store/v/kgilejfahkjidpaclkepbdoeioeohfmj.svg?label=%20">][link-cws]
 - [**Firefox** add-on][link-amo] [<img valign="middle" src="https://img.shields.io/amo/v/notifications-preview-github.svg?label=%20">][link-amo]
