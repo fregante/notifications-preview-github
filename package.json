@@ -26,6 +26,7 @@
 	},
 	"dependencies": {
 		"delegate-it": "^2.0.2",
+		"dom-chef": "^4.2.2",
 		"doma": "^3.0.1",
 		"element-ready": "^4.1.1",
 		"push-form": "^0.8.0",

@@ -1,4 +1,5 @@
 import doma from 'doma';
+import React from 'dom-chef';
 import select from 'select-dom';
 import pushForm from 'push-form';
 import delegate from 'delegate-it';
@@ -78,25 +79,24 @@ function createNotificationsDropdown() {
 	const participating = options.participating ? 'participating' : '';
 
 	for (const indicator of indicators) {
-		const dropdown = doma(`
-			<details class="NPG-container details-overlay details-reset">
-				<summary>
-					<div class="NPG-opener js-menu-target"></div>
-				</summary>
-				<details-menu class="NPG-dropdown dropdown-menu dropdown-menu-sw notifications-list ${participating} type-${options.dropdown}">
-				</details-menu>
-			</details>
-		`);
-		indicator.parentElement.classList.add('position-relative');
-		indicator.parentElement.prepend(dropdown);
-
 		// Close dropdown if a link is clicked
 		// https://github.com/tanmayrajani/notifications-preview-github/issues/50
-		dropdown.addEventListener('click', event => {
+		const onClick = event => {
 			if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.target.closest('a[href]')) {
 				select('.modal-backdrop').click();
 			}
-		});
+		};
+
+		indicator.parentElement.classList.add('position-relative');
+		indicator.parentElement.prepend(
+			<details class="NPG-container details-overlay details-reset" onClick={onClick}>
+				<summary>
+					<div class="NPG-opener js-menu-target"/>
+				</summary>
+				<details-menu class={`NPG-dropdown dropdown-menu dropdown-menu-sw notifications-list ${participating} type-${options.dropdown}`} />
+			</details>
+		);
+
 		indicator.addEventListener('mouseenter', openDropdown);
 		indicator.addEventListener('click', visitNotificationsPage);
 	}
@@ -138,9 +138,9 @@ async function openDropdown({currentTarget: indicator}) {
 				}
 			} else {
 				form.classList.add('mark-all-as-read-confirmed');
-				form.append(doma(`
-					<label>&nbsp;Marked ${notifs.length} notifications as read</label>
-				`));
+				form.append(
+					<label>&nbsp;Marked {notifs.length} notifications as read</label>
+				);
 				select.all('.js-notifications-list-item', group).forEach(item => item.remove());
 			}
 		});
@@ -157,9 +157,10 @@ async function openDropdown({currentTarget: indicator}) {
 		};
 
 		for (const header of select.all('.js-notifications-group h6')) {
-			const link = doma.one('<a class="text-inherit"></a>');
-			link.href = '/' + header.textContent.trim();
-			wrap(header.firstChild, link);
+			wrap(
+				header.firstChild,
+				<a class="text-inherit" href={'/' + header.textContent.trim()} />
+			);
 		}
 
 		select('.NPG-opener', dropdown).click(); // Open modal
