@@ -26,7 +26,7 @@
 		],
 		"js": [
 			"options-storage.js",
-			"github-notifications-preview.js"
+			"github-notifications-preview.jsx"
 		],
 		"run_at": "document_start"
 	}],
