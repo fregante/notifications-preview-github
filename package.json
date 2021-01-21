@@ -43,6 +43,7 @@
 	"devDependencies": {
 		"@babel/cli": "^7.12.10",
 		"@babel/core": "^7.12.10",
+		"@parcel/config-webextension": "^2.0.0-nightly.2151",
 		"@parcel/transformer-webextension": "^2.0.0-nightly.2164",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"dot-json": "^1.2.1",
