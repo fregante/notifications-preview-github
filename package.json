@@ -2,7 +2,7 @@
 	"repository": "tanmayrajani/notifications-preview-github",
 	"license": "MIT",
 	"scripts": {
-		"build": "parcel build extension/manifest.json --no-cache --no-source-maps --no-minify && babel dist -d dist --no-comments",
+		"build": "parcel build extension/manifest.json --no-cache --no-source-maps --no-minify --detailed-report 0 && babel dist -d dist --no-comments",
 		"lint": "xo",
 		"release": "run-s build update-version upload:*",
 		"test": "run-p lint build",
