@@ -16,11 +16,11 @@
 		"last 1 Firefox version"
 	],
 	"xo": {
-		"extends": "xo-react",
 		"envs": [
 			"browser",
 			"webextensions"
 		],
+		"extends": "xo-react",
 		"ignores": [
 			"source/webext-options-sync.js"
 		],
@@ -34,25 +34,25 @@
 		"delegate-it": "^2.0.2",
 		"dom-chef": "^4.2.2",
 		"doma": "^3.0.1",
-		"element-ready": "^4.1.1",
+		"element-ready": "^5.0.0",
 		"push-form": "^0.8.0",
-		"select-dom": "^6.0.2",
-		"webext-base-css": "^1.2.0",
-		"webext-options-sync": "^2.0.0"
+		"select-dom": "^7.1.0",
+		"webext-base-css": "^1.3.1",
+		"webext-options-sync": "^2.0.1"
 	},
 	"devDependencies": {
 		"@babel/cli": "^7.12.10",
 		"@babel/core": "^7.12.10",
-		"@parcel/config-webextension": "^2.0.0-nightly.2151",
-		"@parcel/transformer-webextension": "^2.0.0-nightly.2164",
-		"chrome-webstore-upload-cli": "^1.2.0",
+		"@parcel/config-webextension": "^2.0.0-nightly.2182",
+		"@parcel/transformer-webextension": "^2.0.0-nightly.2182",
+		"chrome-webstore-upload-cli": "^1.2.1",
 		"dot-json": "^1.2.1",
 		"eslint-config-xo-react": "^0.23.0",
-		"eslint-plugin-react": "^7.21.5",
+		"eslint-plugin-react": "^7.22.0",
 		"eslint-plugin-react-hooks": "^4.2.0",
 		"npm-run-all": "^4.1.5",
-		"parcel": "^2.0.0-nightly.540",
-		"web-ext-submit": "^5.4.1",
-		"xo": "^0.36.1"
+		"parcel": "^2.0.0-nightly.558",
+		"web-ext-submit": "^5.5.0",
+		"xo": "^0.37.1"
 	}
 }

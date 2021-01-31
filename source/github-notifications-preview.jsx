@@ -4,7 +4,7 @@ import select from 'select-dom';
 import pushForm from 'push-form';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
-import {empty, setTimeoutUntilVisible} from './libs/utils';
+import {empty, setTimeoutUntilVisible} from './libs/utils.js';
 
 let options;
 let notifications;
