@@ -27,4 +27,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: notifications-preview-github
-          path: dist
+          path: distribution

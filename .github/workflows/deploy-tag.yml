@@ -24,7 +24,7 @@ jobs:
         npm run version -- $VER
     - uses: actions/upload-artifact@40fe781 # TODO: update when v2 leaves beta
       with:
-        path: dist
+        path: distribution
 
   deploy-to-chrome:
     needs: build
