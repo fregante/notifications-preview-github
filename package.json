@@ -17,9 +17,6 @@
 			"webextensions"
 		],
 		"extends": "xo-react",
-		"ignores": [
-			"source/webext-options-sync.js"
-		],
 		"settings": {
 			"react": {
 				"version": "16.13"
@@ -28,7 +25,7 @@
 	},
 	"dependencies": {
 		"delegate-it": "^2.0.2",
-		"dom-chef": "^4.2.2",
+		"dom-chef": "^5.0.0",
 		"doma": "^3.0.1",
 		"element-ready": "^5.0.0",
 		"push-form": "^0.8.0",
@@ -37,15 +34,15 @@
 		"webext-options-sync": "^2.0.1"
 	},
 	"devDependencies": {
-		"@babel/cli": "^7.12.10",
-		"@babel/core": "^7.12.10",
+		"@babel/cli": "^7.13.10",
+		"@babel/core": "^7.13.10",
 		"@parcel/config-webextension": "^2.0.0-nightly.2182",
 		"@parcel/transformer-webextension": "^2.0.0-nightly.2182",
-		"eslint-config-xo-react": "^0.23.0",
+		"eslint-config-xo-react": "^0.24.0",
 		"eslint-plugin-react": "^7.22.0",
 		"eslint-plugin-react-hooks": "^4.2.0",
 		"npm-run-all": "^4.1.5",
 		"parcel": "^2.0.0-nightly.558",
-		"xo": "^0.37.1"
+		"xo": "^0.38.2"
 	}
 }
