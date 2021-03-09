@@ -141,7 +141,9 @@ async function openDropdown({currentTarget: indicator}) {
 				form.append(
 					<label>&nbsp;Marked {notifs.length} notifications as read</label>
 				);
-				select.all('.js-notifications-list-item', group).forEach(item => item.remove());
+				for (const item of select.all('.js-notifications-list-item', group)) {
+					item.remove();
+				}
 			}
 		});
 

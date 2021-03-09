@@ -178,15 +178,15 @@
 	z-index: 999 !important;
 }
 
-[data-color-mode=dark] .NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn {
+[data-color-mode='dark'] .NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn {
 	background: #2c394a !important;
 }
 
-[data-color-mode=dark] .NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn svg {
+[data-color-mode='dark'] .NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn svg {
 	color: #f0f6fc !important;
 }
 
-[data-color-mode=dark] .NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn:hover {
+[data-color-mode='dark'] .NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn:hover {
 	background: #388bfd !important;
 }
 
