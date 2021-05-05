@@ -99,7 +99,7 @@ function createNotificationsDropdown() {
 
 		indicator.addEventListener('mouseenter', openDropdown);
 		if (options.closeOnMouseleave) {
-			document.querySelector('.NPG-dropdown').addEventListener('mouseleave', closeDropdown);
+			select('.NPG-dropdown').addEventListener('mouseleave', closeDropdown);
 		}
 
 		indicator.addEventListener('click', visitNotificationsPage);
@@ -174,7 +174,7 @@ async function openDropdown({currentTarget: indicator}) {
 }
 
 function closeDropdown() {
-	document.querySelector('.NPG-container[open]').removeAttribute('open');
+	select('.NPG-container[open]').removeAttribute('open');
 }
 
 // When the dropdown is open, GitHub's modal blocks all links outside the dropdown.
