@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: npm ci
-      - run: npm test
+      - run: npm run lint
 
   Build:
     runs-on: ubuntu-latest

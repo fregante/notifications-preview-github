@@ -1,15 +1,14 @@
 {
-	"repository": "tanmayrajani/notifications-preview-github",
-	"license": "MIT",
+	"private": true,
 	"scripts": {
-		"build": "parcel build source/manifest.json --no-source-maps --no-minify --dist-dir distribution --no-cache --detailed-report 0 && babel distribution -d distribution --no-comments",
+		"build": "parcel build source/manifest.json --dist-dir distribution --no-cache --no-content-hash --no-source-maps --detailed-report 0",
 		"lint": "xo",
-		"test": "run-p lint build",
+		"test": "npm run lint && npm run build",
 		"watch": "parcel watch source/manifest.json --dist-dir distribution --no-cache --no-hmr"
 	},
 	"browserslist": [
-		"last 1 Chrome version",
-		"last 1 Firefox version"
+		"Chrome 61",
+		"Firefox 55"
 	],
 	"xo": {
 		"envs": [
@@ -24,25 +23,24 @@
 		}
 	},
 	"dependencies": {
-		"delegate-it": "^2.0.2",
+		"delegate-it": "^3.0.0",
 		"dom-chef": "^5.0.0",
 		"doma": "^3.0.1",
-		"element-ready": "^5.0.0",
+		"element-ready": "^6.0.0",
 		"push-form": "^0.8.0",
-		"select-dom": "^7.1.0",
+		"select-dom": "^7.1.1",
 		"webext-base-css": "^1.3.1",
 		"webext-options-sync": "^2.0.1"
 	},
 	"devDependencies": {
-		"@babel/cli": "^7.13.10",
-		"@babel/core": "^7.13.10",
-		"@parcel/config-webextension": "^2.0.0-nightly.2182",
-		"@parcel/transformer-webextension": "^2.0.0-nightly.2182",
-		"eslint-config-xo-react": "^0.24.0",
-		"eslint-plugin-react": "^7.22.0",
+		"@parcel/config-webextension": "^2.0.0-nightly.2274",
+		"eslint-config-xo-react": "^0.25.0",
+		"eslint-plugin-react": "^7.23.2",
 		"eslint-plugin-react-hooks": "^4.2.0",
-		"npm-run-all": "^4.1.5",
-		"parcel": "^2.0.0-nightly.558",
-		"xo": "^0.38.2"
+		"parcel": "^2.0.0-nightly.650",
+		"xo": "^0.39.1"
+	},
+	"webExt": {
+		"sourceDir": "distribution"
 	}
 }
