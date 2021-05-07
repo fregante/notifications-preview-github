@@ -99,7 +99,13 @@ function createNotificationsDropdown() {
 
 		indicator.addEventListener('mouseenter', openDropdown);
 		if (options.closeOnMouseleave) {
-			select('.NPG-dropdown').addEventListener('mouseleave', closeDropdown);
+			let timer;
+			select('.NPG-dropdown').addEventListener('mouseleave', () => {
+				timer = setTimeout(closeDropdown, 1000);
+			});
+			select('.NPG-dropdown').addEventListener('mouseenter', () => {
+				clearTimeout(timer);
+			});
 		}
 
 		indicator.addEventListener('click', visitNotificationsPage);
