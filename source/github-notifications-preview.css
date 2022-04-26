@@ -172,6 +172,10 @@
 	margin-left: 1em;
 }
 
+.NPG-dropdown .notifications-list-item:hover .notification-list-item-actions {
+	display: flex !important;
+}
+
 /* Add a background to the buttons */
 .NPG-dropdown .notifications-list-item:hover .notification-list-item-actions .btn {
 	background-color: #e1e4e8 !important;
