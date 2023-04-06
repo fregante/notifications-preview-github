@@ -75,7 +75,7 @@ async function updateUnreadCount() {
 }
 
 function createNotificationsDropdown() {
-	const indicators = select.all('a.notification-indicator');
+	const indicators = select.all('notification-indicator a');
 	const participating = options.participating ? 'participating' : '';
 
 	for (const indicator of indicators) {
