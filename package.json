@@ -4,7 +4,7 @@
 		"build": "parcel build source/manifest.json --dist-dir distribution --no-cache --no-source-maps",
 		"lint": "xo",
 		"test": "npm run lint && npm run build",
-		"watch": "parcel watch source/manifest.json --dist-dir distribution --no-cache --no-hmr"
+		"start": "parcel watch source/manifest.json --dist-dir distribution --no-cache --no-hmr"
 	},
 	"browserslist": [
 		"Chrome 115",
@@ -20,6 +20,9 @@
 			"react": {
 				"version": "16.13"
 			}
+		},
+		"rules": {
+			"unicorn/prefer-top-level-await": "off"
 		}
 	},
 	"dependencies": {
