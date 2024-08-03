@@ -4,6 +4,7 @@ window.optionsStorage = new OptionsSync({
 	defaults: {
 		previewCount: true,
 		dropdown: 'compact',
-		participating: false
+		participating: false,
+		closeOnMouseleave: false
 	}
 });

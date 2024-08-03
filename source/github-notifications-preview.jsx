@@ -98,6 +98,16 @@ function createNotificationsDropdown() {
 		);
 
 		indicator.addEventListener('mouseenter', openDropdown);
+		if (options.closeOnMouseleave) {
+			let timer;
+			select('.NPG-dropdown').addEventListener('mouseleave', () => {
+				timer = setTimeout(closeDropdown, 1000);
+			});
+			select('.NPG-dropdown').addEventListener('mouseenter', () => {
+				clearTimeout(timer);
+			});
+		}
+
 		indicator.addEventListener('click', visitNotificationsPage);
 	}
 }
@@ -167,6 +177,10 @@ async function openDropdown({currentTarget: indicator}) {
 
 		select('.NPG-opener', dropdown).click(); // Open modal
 	}
+}
+
+function closeDropdown() {
+	select('.NPG-container[open]').removeAttribute('open');
 }
 
 // When the dropdown is open, GitHub's modal blocks all links outside the dropdown.
