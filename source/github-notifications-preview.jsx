@@ -1,10 +1,11 @@
 import doma from 'doma';
 import React from 'dom-chef';
-import select from 'select-dom';
+import {$, $$, elementExists} from 'select-dom';
 import pushForm from 'push-form';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import {empty, setTimeoutUntilVisible} from './libs/utils.js';
+import optionsStorage from './options-storage.js';
 
 let options;
 let notifications;
@@ -30,11 +31,11 @@ class Notifications {
 
 	async getList() {
 		if (!this.list) {
-			this.list = select.all('.notifications-list .boxed-group, .js-active-navigation-container', await this.dom);
+			this.list = $$('.notifications-list .boxed-group, .js-active-navigation-container', await this.dom);
 
 			// Change tooltip direction
 			for (const group of this.list) {
-				for (const {classList} of select.all('.tooltipped-s', group)) {
+				for (const {classList} of $$('.tooltipped-s', group)) {
 					classList.replace('tooltipped-s', 'tooltipped-n');
 				}
 			}
@@ -45,7 +46,7 @@ class Notifications {
 }
 
 function getRefinedGitHubUnreadCount() {
-	const element = select('[data-rgh-unread]');
+	const element = $('[data-rgh-unread]');
 	if (!element) {
 		return 0;
 	}
@@ -55,15 +56,15 @@ function getRefinedGitHubUnreadCount() {
 
 // Is the dropdown open? Is it opening?
 function isOpen(element) {
-	return select.exists('.NPG-container[open], .NPG-loading', element);
+	return elementExists('.NPG-container[open], .NPG-loading', element);
 }
 
 async function updateUnreadCount() {
-	const latestStatusElement = select('.notification-indicator .mail-status', await notifications.dom);
-	const latestCount = select('.js-notification-inboxes .selected .count', await notifications.dom).textContent;
+	const latestStatusElement = $('.notification-indicator .mail-status', await notifications.dom);
+	const latestCount = $('.js-notification-inboxes .selected .count', await notifications.dom).textContent;
 	const rghCount = getRefinedGitHubUnreadCount();
 
-	for (const statusElement of select.all('.notification-indicator .mail-status')) {
+	for (const statusElement of $$('.notification-indicator .mail-status')) {
 		if (options.previewCount && statusElement.textContent !== latestCount) {
 			statusElement.textContent = Number(latestCount) + rghCount || ''; // Don't show 0
 		}
@@ -75,7 +76,7 @@ async function updateUnreadCount() {
 }
 
 function createNotificationsDropdown() {
-	const indicators = select.all('notification-indicator a');
+	const indicators = $$('notification-indicator a');
 	const participating = options.participating ? 'participating' : '';
 
 	for (const indicator of indicators) {
@@ -83,27 +84,27 @@ function createNotificationsDropdown() {
 		// https://github.com/tanmayrajani/notifications-preview-github/issues/50
 		const onClick = event => {
 			if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.target.closest('a[href]')) {
-				select('.modal-backdrop').click();
+				$('.modal-backdrop').click();
 			}
 		};
 
 		indicator.parentElement.classList.add('position-relative');
 		indicator.parentElement.prepend(
-			<details className="NPG-container details-overlay details-reset" onClick={onClick}>
+			<details className='NPG-container details-overlay details-reset' onClick={onClick}>
 				<summary>
-					<div className="NPG-opener js-menu-target"/>
+					<div className='NPG-opener js-menu-target'/>
 				</summary>
 				<details-menu className={`NPG-dropdown dropdown-menu dropdown-menu-sw notifications-list ${participating} type-${options.dropdown}`}/>
-			</details>
+			</details>,
 		);
 
 		indicator.addEventListener('mouseenter', openDropdown);
 		if (options.closeOnMouseleave) {
 			let timer;
-			select('.NPG-dropdown').addEventListener('mouseleave', () => {
+			$('.NPG-dropdown').addEventListener('mouseleave', () => {
 				timer = setTimeout(closeDropdown, 1000);
 			});
-			select('.NPG-dropdown').addEventListener('mouseenter', () => {
+			$('.NPG-dropdown').addEventListener('mouseenter', () => {
 				clearTimeout(timer);
 			});
 		}
@@ -119,11 +120,11 @@ async function openDropdown({currentTarget: indicator}) {
 	indicator.classList.remove('NPG-loading');
 
 	if (!isOpen(dropdown) && list.length > 0) {
-		const container = select('.NPG-dropdown', dropdown);
+		const container = $('.NPG-dropdown', dropdown);
 		empty(container);
 		container.append(...list);
 
-		delegate(document, '.NPG-dropdown button', 'click', async event => {
+		delegate('.NPG-dropdown button', 'click', async event => {
 			event.preventDefault();
 			const button = event.delegateTarget;
 			const form = button.closest('form');
@@ -134,7 +135,7 @@ async function openDropdown({currentTarget: indicator}) {
 
 			const notification = form.closest('.js-notifications-list-item');
 			const group = form.closest('.js-notifications-group');
-			const notifs = select.all('.js-notifications-list-item', group);
+			const notifs = $$('.js-notifications-list-item', group);
 			if (notification) {
 				// Mark as read
 				if (form.matches('[data-status="archived"]')) {
@@ -143,15 +144,15 @@ async function openDropdown({currentTarget: indicator}) {
 				}
 
 				// Remove group if last notification
-				if (select.all('.js-notifications-list-item', group).length === 0) {
+				if ($$('.js-notifications-list-item', group).length === 0) {
 					group.remove();
 				}
 			} else {
 				form.classList.add('mark-all-as-read-confirmed');
 				form.append(
-					<label>&nbsp;Marked {notifs.length} notifications as read</label>
+					<label>&nbsp;Marked {notifs.length} notifications as read</label>,
 				);
-				for (const item of select.all('.js-notifications-list-item', group)) {
+				for (const item of $$('.js-notifications-list-item', group)) {
 					item.remove();
 				}
 			}
@@ -160,7 +161,7 @@ async function openDropdown({currentTarget: indicator}) {
 		// Improve style when they're grouped by repo
 		container.classList.toggle(
 			'npg-has-groups',
-			select.exists('.js-notifications-group', container)
+			elementExists('.js-notifications-group', container),
 		);
 
 		const wrap = (target, wrapper) => {
@@ -168,19 +169,19 @@ async function openDropdown({currentTarget: indicator}) {
 			wrapper.append(target);
 		};
 
-		for (const header of select.all('.js-notifications-group h6')) {
+		for (const header of $$('.js-notifications-group h6')) {
 			wrap(
 				header.firstChild,
-				<a className="text-inherit" href={'/' + header.textContent.trim()}/>
+				<a className='text-inherit' href={'/' + header.textContent.trim()}/>,
 			);
 		}
 
-		select('.NPG-opener', dropdown).click(); // Open modal
+		$('.NPG-opener', dropdown).click(); // Open modal
 	}
 }
 
 function closeDropdown() {
-	select('.NPG-container[open]').removeAttribute('open');
+	$('.NPG-container[open]').removeAttribute('open');
 }
 
 // When the dropdown is open, GitHub's modal blocks all links outside the dropdown.
@@ -195,9 +196,7 @@ async function updateLoop() {
 	if (!isOpen()) {
 		const latest = new Notifications();
 		// On the first run, set it asap so they can be awaited
-		if (!notifications) {
-			notifications = latest;
-		}
+		notifications ||= latest;
 
 		await latest.dom;
 		notifications = latest;
@@ -208,7 +207,7 @@ async function updateLoop() {
 }
 
 async function init() {
-	options = await window.optionsStorage.getAll();
+	options = await optionsStorage.getAll();
 	await elementReady('.notification-indicator');
 	updateLoop();
 
