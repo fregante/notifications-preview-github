@@ -5,7 +5,7 @@ import pushForm from 'push-form';
 import delegate from 'delegate-it';
 import elementReady from 'element-ready';
 import {empty, setTimeoutUntilVisible} from './libs/utils.js';
-import optionsStorage from './options-storage.js'
+import optionsStorage from './options-storage.js';
 
 let options;
 let notifications;
@@ -124,7 +124,7 @@ async function openDropdown({currentTarget: indicator}) {
 		empty(container);
 		container.append(...list);
 
-		delegate(document, '.NPG-dropdown button', 'click', async event => {
+		delegate('.NPG-dropdown button', 'click', async event => {
 			event.preventDefault();
 			const button = event.delegateTarget;
 			const form = button.closest('form');

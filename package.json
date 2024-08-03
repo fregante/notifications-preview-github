@@ -3,6 +3,7 @@
 	"scripts": {
 		"build": "parcel build source/manifest.json --dist-dir distribution --no-cache --no-source-maps",
 		"lint": "xo",
+		"fix": "xo --fix",
 		"test": "npm run lint && npm run build",
 		"start": "parcel watch source/manifest.json --dist-dir distribution --no-cache --no-hmr"
 	},

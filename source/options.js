@@ -1,3 +1,3 @@
-import optionsStorage from './options-storage.js'
+import optionsStorage from './options-storage.js';
 
 optionsStorage.syncForm('form');

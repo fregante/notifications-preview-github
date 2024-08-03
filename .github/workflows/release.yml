@@ -1,6 +1,6 @@
 env:
   DIRECTORY: distribution
-  PROJECT_NAME: extension
+  PROJECT_NAME: notifications-preview-github
 
 # FILE GENERATED WITH: npx ghat fregante/ghatemplates/webext
 # SOURCE: https://github.com/fregante/ghatemplates
