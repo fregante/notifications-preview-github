@@ -3,11 +3,11 @@
 	"homepage_url": "https://github.com/tanmayrajani/notifications-preview-github",
 	"version": "0.0.0",
 	"manifest_version": 2,
-	"minimum_chrome_version": "61",
+	"minimum_chrome_version": "115",
 	"applications": {
 		"gecko": {
 			"id": "notifications-preview-github@tanmayrajani.github.io",
-			"strict_min_version": "55.0"
+			"strict_min_version": "115.0"
 		}
 	},
 	"permissions": [
