@@ -30,6 +30,9 @@
 		"run_at": "document_start"
 	}],
 	"background": {
+		"scripts": [
+			"options-storage.js"
+		],
 		"service_worker": "options-storage.js",
 		"type": "module"
 	},
