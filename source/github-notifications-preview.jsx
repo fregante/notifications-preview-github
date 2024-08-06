@@ -84,7 +84,7 @@ function createNotificationsDropdown() {
 		// https://github.com/tanmayrajani/notifications-preview-github/issues/50
 		const onClick = event => {
 			if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.target.closest('a[href]')) {
-				$('.modal-backdrop').click();
+				closeDropdown();
 			}
 		};
 
