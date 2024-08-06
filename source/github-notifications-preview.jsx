@@ -181,7 +181,7 @@ async function openDropdown({currentTarget: indicator}) {
 }
 
 function closeDropdown() {
-	$('.NPG-container[open]').removeAttribute('open');
+	$('details.NPG-container[open] > summary').click();
 }
 
 // When the dropdown is open, GitHub's modal blocks all links outside the dropdown.
