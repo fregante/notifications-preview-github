@@ -84,7 +84,7 @@ function createNotificationsDropdown() {
 		// https://github.com/tanmayrajani/notifications-preview-github/issues/50
 		const onClick = event => {
 			if (!event.metaKey && !event.ctrlKey && !event.shiftKey && event.target.closest('a[href]')) {
-				$('.modal-backdrop').click();
+				closeDropdown();
 			}
 		};
 
@@ -181,7 +181,7 @@ async function openDropdown({currentTarget: indicator}) {
 }
 
 function closeDropdown() {
-	$('.NPG-container[open]').removeAttribute('open');
+	$('details.NPG-container[open] > summary').click();
 }
 
 // When the dropdown is open, GitHub's modal blocks all links outside the dropdown.
