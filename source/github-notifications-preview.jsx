@@ -123,44 +123,44 @@ async function openDropdown({currentTarget: indicator}) {
 		const container = $('.NPG-dropdown', dropdown);
 		empty(container);
 		const dropdownHeader = (
-            <div
-                style={{
-                    backgroundColor: 'var(--bgColor-muted, var(--color-canvas-subtle))',
-                }}
-            >
-                <div
-                    style={{
-                        cursor: 'pointer',
-                        width: 'fit-content',
-                        marginLeft: 'auto',
-                        padding: '4px 10px',
-                        color: 'var(--fgColor-accent, var(--color-accent-fg))',
-                    }}
-                    onClick={() => {
-                        for (const form of $$(
-                            ".NPG-dropdown .js-notifications-list-item form[action='/notifications/beta/archive']",
-                        )) {
-                            form.querySelector('button[type=submit]').click();
-                        }
-                    }}
-                >
-                    <svg
-                        className="octicon octicon-checklist"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width={16}
-                        height={16}
-                        viewBox="0 0 16 16"
-                        role="img"
-                        aria-hidden="true"
-                    >
-                        <path d="M2.5 1.75v11.5c0 .138.112.25.25.25h3.17a.75.75 0 0 1 0 1.5H2.75A1.75 1.75 0 0 1 1 13.25V1.75C1 .784 1.784 0 2.75 0h8.5C12.216 0 13 .784 13 1.75v7.736a.75.75 0 0 1-1.5 0V1.75a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25Zm13.274 9.537v-.001l-4.557 4.45a.75.75 0 0 1-1.055-.008l-1.943-1.95a.75.75 0 0 1 1.062-1.058l1.419 1.425 4.026-3.932a.75.75 0 1 1 1.048 1.074ZM4.75 4h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM4 7.75A.75.75 0 0 1 4.75 7h2a.75.75 0 0 1 0 1.5h-2A.75.75 0 0 1 4 7.75Z" />
-                    </svg>
+			<div
+				style={{
+					backgroundColor: 'var(--bgColor-muted, var(--color-canvas-subtle))',
+				}}
+			>
+				<div
+					style={{
+						cursor: 'pointer',
+						width: 'fit-content',
+						marginLeft: 'auto',
+						padding: '4px 10px',
+						color: 'var(--fgColor-accent, var(--color-accent-fg))',
+					}}
+					onClick={() => {
+						for (const form of $$(
+							'.NPG-dropdown .js-notifications-list-item form[action=\'/notifications/beta/archive\']',
+						)) {
+							form.querySelector('button[type=submit]').click();
+						}
+					}}
+				>
+					<svg
+						className='octicon octicon-checklist'
+						xmlns='http://www.w3.org/2000/svg'
+						width={16}
+						height={16}
+						viewBox='0 0 16 16'
+						role='img'
+						aria-hidden='true'
+					>
+						<path d='M2.5 1.75v11.5c0 .138.112.25.25.25h3.17a.75.75 0 0 1 0 1.5H2.75A1.75 1.75 0 0 1 1 13.25V1.75C1 .784 1.784 0 2.75 0h8.5C12.216 0 13 .784 13 1.75v7.736a.75.75 0 0 1-1.5 0V1.75a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25Zm13.274 9.537v-.001l-4.557 4.45a.75.75 0 0 1-1.055-.008l-1.943-1.95a.75.75 0 0 1 1.062-1.058l1.419 1.425 4.026-3.932a.75.75 0 1 1 1.048 1.074ZM4.75 4h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM4 7.75A.75.75 0 0 1 4.75 7h2a.75.75 0 0 1 0 1.5h-2A.75.75 0 0 1 4 7.75Z'/>
+					</svg>
                     &nbsp;&nbsp;
-                    <span>Mark all as read</span>
-                </div>
-            </div>
-        );
-		container.append(dropdownHeader)
+					<span>Mark all as read</span>
+				</div>
+			</div>
+		);
+		container.append(dropdownHeader);
 		container.append(...list);
 
 		delegate('.NPG-dropdown button', 'click', async event => {
@@ -176,17 +176,17 @@ async function openDropdown({currentTarget: indicator}) {
 			const group = form.closest('.js-notifications-group');
 			const notifs = $$('.js-notifications-list-item', group);
 			if (notification) {
-                // Mark as read
-                if (form.matches('[data-status="archived"]')) {
-                    notification.classList.replace('notification-unread', 'notification-read');
-                    notification.remove();
-                }
+				// Mark as read
+				if (form.matches('[data-status="archived"]')) {
+					notification.classList.replace('notification-unread', 'notification-read');
+					notification.remove();
+				}
 
-                // Remove group if last notification
-                if ($$('.js-notifications-list-item', group).length === 0) {
-                    group?.remove();
-                }
-            } else {
+				// Remove group if last notification
+				if ($$('.js-notifications-list-item', group).length === 0) {
+					group?.remove();
+				}
+			} else {
 				form.classList.add('mark-all-as-read-confirmed');
 				form.append(
 					<label>&nbsp;Marked {notifs.length} notifications as read</label>,
@@ -196,12 +196,12 @@ async function openDropdown({currentTarget: indicator}) {
 				}
 			}
 
-            // all notifications are read, remove the header
-            if ($$('.js-notifications-list-item, .js-notifications-group').length === 0) {
-                dropdownHeader.remove();
+			// All notifications are read, remove the header
+			if ($$('.js-notifications-list-item, .js-notifications-group').length === 0) {
+				dropdownHeader.remove();
 				closeDropdown();
-            }
-        });
+			}
+		});
 
 		// Improve style when they're grouped by repo
 		container.classList.toggle(
