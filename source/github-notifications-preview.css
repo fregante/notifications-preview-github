@@ -206,3 +206,7 @@
 #AppHeader-notifications-button {
 	z-index: 81;
 }
+
+#AppHeader-notifications-button > svg::before {
+	display: var(--notifications-icon-indicator-display, "block");
+  }

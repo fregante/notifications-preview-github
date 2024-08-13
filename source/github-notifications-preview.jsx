@@ -59,10 +59,18 @@ function isOpen(element) {
 	return elementExists('.NPG-container[open], .NPG-loading', element);
 }
 
+function updateNotificationsIndicatorStatus(show) {
+	$("#AppHeader-notifications-button > svg").style.setProperty(
+	  "--notifications-icon-indicator-display",
+	  show ? "block" : "none"
+	)
+  }
+
 async function updateUnreadCount() {
 	const latestStatusElement = $('.notification-indicator .mail-status', await notifications.dom);
-	const latestCount = $('.js-notification-inboxes .selected .count', await notifications.dom).textContent;
+	const latestCount = $('.js-notification-inboxes .selected .count', await notifications.dom)?.textContent ?? '';
 	const rghCount = getRefinedGitHubUnreadCount();
+	updateNotificationsIndicatorStatus(latestCount && (Number(latestCount) + rghCount > 0))
 
 	for (const statusElement of $$('.notification-indicator .mail-status')) {
 		if (options.previewCount && statusElement.textContent !== latestCount) {
