@@ -201,3 +201,8 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
+
+/* make the button to visit notifications page z-index higher than dropdown overlay */
+#AppHeader-notifications-button {
+	z-index: 81;
+}
