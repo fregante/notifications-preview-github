@@ -211,7 +211,9 @@ async function openDropdown({currentTarget: indicator}) {
 
 			// All notifications are read, remove the header
 			if ($$('.js-notifications-list-item, .js-notifications-group').length === 0) {
-				if (options.markAllAsRead) dropdownHeader.remove();
+				if (options.markAllAsRead) {
+					dropdownHeader.remove();
+				}
 				closeDropdown();
 			}
 		});
