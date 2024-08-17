@@ -214,6 +214,7 @@ async function openDropdown({currentTarget: indicator}) {
 				if (options.markAllAsRead) {
 					dropdownHeader.remove();
 				}
+
 				closeDropdown();
 			}
 		});
