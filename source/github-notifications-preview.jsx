@@ -130,6 +130,7 @@ async function openDropdown({currentTarget: indicator}) {
 	if (!isOpen(dropdown) && list.length > 0) {
 		const container = $('.NPG-dropdown', dropdown);
 		empty(container);
+
 		const dropdownHeader = (
 			<div
 				style={{
@@ -168,7 +169,11 @@ async function openDropdown({currentTarget: indicator}) {
 				</div>
 			</div>
 		);
-		container.append(dropdownHeader);
+
+		if (options.markAllAsRead) {
+			container.append(dropdownHeader);
+		}
+
 		container.append(...list);
 
 		delegate('.NPG-dropdown button', 'click', async event => {
@@ -206,7 +211,10 @@ async function openDropdown({currentTarget: indicator}) {
 
 			// All notifications are read, remove the header
 			if ($$('.js-notifications-list-item, .js-notifications-group').length === 0) {
-				dropdownHeader.remove();
+				if (options.markAllAsRead) {
+					dropdownHeader.remove();
+				}
+
 				closeDropdown();
 			}
 		});
