@@ -207,6 +207,6 @@
 	z-index: 81;
 }
 
-#AppHeader-notifications-button > svg::before {
+#AppHeader-notifications-button::before {
 	display: var(--notifications-icon-indicator-display, "block");
   }
