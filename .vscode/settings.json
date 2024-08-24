@@ -1,0 +1,9 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["package.json"],
+      // modify by https://json.schemastore.org/chrome-manifest
+      "url": ".vscode/manifest-schema.json"
+    }
+  ]
+}
