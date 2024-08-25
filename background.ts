@@ -1,1 +1,1 @@
-export { extensionOptions } from '~libs/options-storage';
+export {extensionOptions} from '~libs/options-storage';
