@@ -78,7 +78,7 @@ function isOpen(element?: HTMLElement) {
 }
 
 function updateNotificationsIndicatorStatus(show) {
-    $('#AppHeader-notifications-button > svg').style.setProperty(
+    $('#AppHeader-notifications-button').style.setProperty(
         '--notifications-icon-indicator-display',
         show ? 'block' : 'none',
     );
@@ -89,7 +89,7 @@ async function updateUnreadCount() {
     const latestCount =
         $('.js-notification-inboxes .selected .count', await notifications.dom)?.textContent ?? '';
     const rghCount = getRefinedGitHubUnreadCount();
-    updateNotificationsIndicatorStatus(latestCount && Number(latestCount) + rghCount > 0);
+    updateNotificationsIndicatorStatus(!!latestCount && Number(latestCount) + rghCount > 0);
 
     for (const statusElement of $$('.notification-indicator .mail-status')) {
         if (options.previewCount && statusElement.textContent !== latestCount) {
