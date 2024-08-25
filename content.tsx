@@ -78,7 +78,7 @@ function isOpen(element?: HTMLElement) {
 }
 
 function updateNotificationsIndicatorStatus(show) {
-    $('#AppHeader-notifications-button').style.setProperty(
+    $('#AppHeader-notifications-button')?.style.setProperty(
         '--notifications-icon-indicator-display',
         show ? 'block' : 'none',
     );
@@ -86,6 +86,8 @@ function updateNotificationsIndicatorStatus(show) {
 
 async function updateUnreadCount() {
     const latestStatusElement = $('.notification-indicator .mail-status', await notifications.dom);
+    if (!latestStatusElement) return;
+
     const latestCount =
         $('.js-notification-inboxes .selected .count', await notifications.dom)?.textContent ?? '';
     const rghCount = getRefinedGitHubUnreadCount();
@@ -103,15 +105,19 @@ async function updateUnreadCount() {
         const statusElementParent = statusElement.parentNode as HTMLDivElement;
         const latestStatusElementParent = latestStatusElement.parentNode as HTMLDivElement;
         statusElementParent.dataset.gaClick = latestStatusElementParent.dataset.gaClick;
-        statusElementParent.setAttribute(
-            'aria-label',
-            latestStatusElementParent.getAttribute('aria-label'),
-        );
+        const ariaLabel = latestStatusElementParent.getAttribute('aria-label');
+        if (ariaLabel) {
+            statusElementParent.setAttribute('aria-label', ariaLabel);
+        }
     }
 }
 
 function createNotificationsDropdown() {
     const indicators = $$('notification-indicator a');
+    if (indicators.length === 0) {
+        return;
+    }
+
     const participating = options.participating ? 'participating' : '';
 
     for (const indicator of indicators) {
@@ -128,8 +134,8 @@ function createNotificationsDropdown() {
             }
         };
 
-        indicator.parentElement.classList.add('position-relative');
-        indicator.parentElement.prepend(
+        indicator.parentElement?.classList.add('position-relative');
+        indicator.parentElement?.prepend(
             <details className="NPG-container details-overlay details-reset" onClick={onClick}>
                 <summary>
                     <div className="NPG-opener js-menu-target" />
@@ -144,10 +150,10 @@ function createNotificationsDropdown() {
         indicator.addEventListener('mouseenter', openDropdown);
         if (options.closeOnMouseleave) {
             let timer;
-            $('.NPG-dropdown').addEventListener('mouseleave', () => {
+            $('.NPG-dropdown')?.addEventListener('mouseleave', () => {
                 timer = setTimeout(closeDropdown, 1000);
             });
-            $('.NPG-dropdown').addEventListener('mouseenter', () => {
+            $('.NPG-dropdown')?.addEventListener('mouseenter', () => {
                 clearTimeout(timer);
             });
         }
@@ -164,6 +170,11 @@ async function openDropdown({ currentTarget: indicator }) {
 
     if (!isOpen(dropdown) && list.length > 0) {
         const container = $('.NPG-dropdown', dropdown);
+
+        if (!container) {
+            return;
+        }
+
         empty(container);
 
         const dropdownHeader = (
@@ -184,7 +195,7 @@ async function openDropdown({ currentTarget: indicator }) {
                         for (const form of $$(
                             ".NPG-dropdown .js-notifications-list-item form[action='/notifications/beta/archive']",
                         )) {
-                            form.querySelector<HTMLButtonElement>('button[type=submit]').click();
+                            form.querySelector<HTMLButtonElement>('button[type=submit]')?.click();
                         }
                     }}
                 >
@@ -215,6 +226,10 @@ async function openDropdown({ currentTarget: indicator }) {
             event.preventDefault();
             const button = event.delegateTarget;
             const form = button.closest('form');
+            if (!form) {
+                return;
+            }
+
             const response = await pushForm(form);
             if (!response.ok) {
                 throw new Error(response.statusText);
@@ -222,6 +237,9 @@ async function openDropdown({ currentTarget: indicator }) {
 
             const notification = form.closest('.js-notifications-list-item');
             const group = form.closest('.js-notifications-group');
+            if (!group) {
+                return;
+            }
             const notifs = $$('.js-notifications-list-item', group);
             if (notification) {
                 // Mark as read
@@ -266,16 +284,16 @@ async function openDropdown({ currentTarget: indicator }) {
         for (const header of $$('.js-notifications-group h6')) {
             wrap(
                 header.firstChild,
-                <a className="text-inherit" href={'/' + header.textContent.trim()} />,
+                <a className="text-inherit" href={'/' + header.textContent?.trim()} />,
             );
         }
 
-        $('.NPG-opener', dropdown).click(); // Open modal
+        $('.NPG-opener', dropdown)?.click(); // Open modal
     }
 }
 
 function closeDropdown() {
-    $('details.NPG-container[open] > summary').click();
+    $('details.NPG-container[open] > summary')?.click();
 }
 
 // When the dropdown is open, GitHub's modal blocks all links outside the dropdown.
