@@ -60,7 +60,7 @@ function isOpen(element) {
 }
 
 function updateNotificationsIndicatorStatus(show) {
-	$('#AppHeader-notifications-button > svg').style.setProperty(
+	$('#AppHeader-notifications-button').style.setProperty(
 		'--notifications-icon-indicator-display',
 		show ? 'block' : 'none',
 	);
