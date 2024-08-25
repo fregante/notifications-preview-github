@@ -1,3 +1,5 @@
+import './content.css';
+
 import delegate from 'delegate-it';
 import React, { h } from 'dom-chef';
 import doma from 'doma';
