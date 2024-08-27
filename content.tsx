@@ -266,6 +266,7 @@ async function openDropdown({ currentTarget: indicator }) {
                 }
 
                 closeDropdown();
+                updateNotificationsIndicatorStatus(false);
             }
         });
 
