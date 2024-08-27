@@ -68,7 +68,10 @@ function updateNotificationsIndicatorStatus(show) {
 
 async function updateUnreadCount() {
 	const latestStatusElement = $('.notification-indicator .mail-status', await notifications.dom);
-	const latestCount = $('.js-notification-inboxes .selected .count', await notifications.dom)?.textContent ?? '';
+	const latestCount
+        = $('.js-notification-inboxes .selected .count', await notifications.dom)?.textContent
+        ?? $('.js-notification-inboxes .Counter', await notifications.dom)?.textContent
+        ?? '';
 	const rghCount = getRefinedGitHubUnreadCount();
 	updateNotificationsIndicatorStatus(latestCount && (Number(latestCount) + rghCount > 0));
 
