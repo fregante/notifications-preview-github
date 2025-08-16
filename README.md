@@ -1,3 +1,7 @@
+## UNMAINTAINED
+
+Refer to https://github.com/fregante/notifications-preview-github/issues/163
+
 # Notifications Preview for GitHub
 
 > Browser extension - Preview your notifications without leaving the page
